@@ -24,17 +24,6 @@ public class ZipcodeLinkedList {
     }
 
     /**
-     * Add a new node after the head with the given content to the linked list
-     * @param key key of the node
-     * @param value value of the node
-     */
-    public void addToHead(String key, String value){
-        Node newNode = new Node (key, value, head);
-        head = newNode;
-        count++;
-    }
-
-    /**
      * Show to the contents of the linked list starting from the head
      * Reference: https://www.cs.cmu.edu/~adamchik/15-121/lectures/Linked%20Lists/linked%20lists.html
      */

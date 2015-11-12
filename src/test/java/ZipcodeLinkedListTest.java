@@ -44,4 +44,19 @@ public class ZipcodeLinkedListTest {
         // Check that newNode should not be null
         assertNotNull(newNode);
     }
+
+    @Test
+    public void addingOneElementShouldIncreaseCountByOne(){
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        // Count should be zero for a new empty linked list
+        assertEquals(0, list.count);
+        list.addToHead("Paris", "P456Q57");
+        // Count should be 1 after adding a node to the linked list
+        assertEquals(1, list.count);
+        // Add another two nodes
+        list.addToHead("Paris", "P456Q57");
+        list.addToHead("Madrid", "LKJ6375");
+        // Count should be 3
+        assertEquals(3, list.count);
+    }
 }

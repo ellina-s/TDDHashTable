@@ -29,6 +29,7 @@ public class ZipcodeLinkedList {
     public void addToHead(String key, String value){
         Node newNode = new Node (key, value, head);
         head = newNode;
+        count++;
     }
 
     /**

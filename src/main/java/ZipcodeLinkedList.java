@@ -73,6 +73,14 @@ public class ZipcodeLinkedList {
     }
 
     /**
+     * Return the size of the linked list
+     * @return size, i.e. number of nodes in the linked list
+     */
+    public int size(){
+        return count;
+    }
+
+    /**
      * A class for a node of a linked list
      */
     public class Node{

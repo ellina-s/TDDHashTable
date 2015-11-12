@@ -134,4 +134,22 @@ public class ZipcodeLinkedListTest {
         assertEquals(zipcode3, list.tail.value);
 
     }
+
+    @Test
+    public void sizeOfTheLinkedListTest(){
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        assertEquals(0, list.size());
+
+        // Add a node
+        String city1 = "Bangkok";
+        String zipcode1 = "BK78621";
+        list.addNode(city1, zipcode1);
+        assertEquals(1, list.size());
+
+        // Add another node
+        String city2 = "Manila";
+        String zipcode2 = "M845E63";
+        list.addNode(city2, zipcode2);
+        assertEquals(2, list.size());
+    }
 }

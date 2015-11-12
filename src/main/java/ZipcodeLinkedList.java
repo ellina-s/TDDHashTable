@@ -11,6 +11,9 @@ public class ZipcodeLinkedList {
     public Node tail;
     public int count;
 
+    private static final int CITY = 0;
+    private static final int ZIPCODE = 1;
+
     /**
      * Constructor
      * Note: Initializing field variables is a good programming style,
@@ -78,6 +81,25 @@ public class ZipcodeLinkedList {
      */
     public int size(){
         return count;
+    }
+
+    /**
+     * Retrieve contents of a node at the given index
+     * @param index index (from 1 to the size of the Linked List) of the node to be retrieved
+     * @return city name and zipcode in a String array, at indexes 0 and 1 respectively
+     */
+    public String[] getNodeAtIndex(int index){
+        String[] data = new String[2];
+        Node pointer = head;
+        int stop = index - 1;
+        for(int i = 0; i<stop; i++){
+            if(pointer.next != null){
+                pointer = pointer.next;
+            }
+        }
+        data[CITY] = pointer.key;
+        data[ZIPCODE] = pointer.value;
+        return data;
     }
 
     /**

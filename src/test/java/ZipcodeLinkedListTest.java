@@ -10,6 +10,9 @@ import static org.junit.Assert.*;
  */
 public class ZipcodeLinkedListTest {
 
+    static final int CITY = 0;
+    static final int ZIPCODE = 1;
+
     @Test
     public void emptyListShouldHaveNullHead(){
         ZipcodeLinkedList list = new ZipcodeLinkedList();
@@ -151,5 +154,36 @@ public class ZipcodeLinkedListTest {
         String zipcode2 = "M845E63";
         list.addNode(city2, zipcode2);
         assertEquals(2, list.size());
+    }
+
+    @Test
+    public void retrieveNodeByIndexTest(){
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        // Add a few nodes
+        list.addNode("Paris", "P456Q57");
+        list.addNode("Atlanta", "158FL86");
+        list.addNode("Madrid", "LKJ6375");
+        list.addNode("Rio", "5478135");
+
+        // retrieve contents of the node (city name and zipcode)
+        String[] locationA = list.getNodeAtIndex(4);
+        // verify city name and zipcode
+        assertEquals("Rio", locationA[CITY]);
+        assertEquals("5478135", locationA[ZIPCODE]);
+
+        String[] locationB = list.getNodeAtIndex(2);
+        // verify city name and zipcode
+        assertEquals("Atlanta", locationB[CITY]);
+        assertEquals("158FL86", locationB[ZIPCODE]);
+
+        String[] locationC = list.getNodeAtIndex(1);
+        // verify city name and zipcode
+        assertEquals("Paris", locationC[CITY]);
+        assertEquals("P456Q57", locationC[ZIPCODE]);
+
+        String[] locationD = list.getNodeAtIndex(3);
+        // verify city name and zipcode
+        assertEquals("Madrid", locationD[CITY]);
+        assertEquals("LKJ6375", locationD[ZIPCODE]);
     }
 }

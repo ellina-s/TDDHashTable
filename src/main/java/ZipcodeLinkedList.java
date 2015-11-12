@@ -24,6 +24,19 @@ public class ZipcodeLinkedList {
     }
 
     /**
+     * Check if the linked list is empty.
+     * @return If it's empty, return True. Otherwise, return False.
+     */
+    public boolean isEmpty(){
+        if(head == null){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    /**
      * Show to the contents of the linked list starting from the head
      * Reference: https://www.cs.cmu.edu/~adamchik/15-121/lectures/Linked%20Lists/linked%20lists.html
      */

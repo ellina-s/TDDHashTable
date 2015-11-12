@@ -29,6 +29,13 @@ public class ZipcodeLinkedListTest {
     }
 
     @Test
+    public void newLinkedListShouldBeEmpty(){
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        boolean isEmpty = list.isEmpty();
+        assertEquals(true, isEmpty);
+    }
+
+    @Test
     public void addingOneElementShouldIncreaseCountByOne(){
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         // Count should be zero for a new empty linked list

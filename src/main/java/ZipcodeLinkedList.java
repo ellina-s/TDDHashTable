@@ -22,14 +22,31 @@ public class ZipcodeLinkedList {
     }
 
     /**
+     * Add a new node after the head with the given content to the linked list
+     * @param key key of the node
+     * @param value value of the node
+     */
+    public void addToHead(String key, String value){
+        Node newNode = new Node (key, value, head);
+        head = newNode;
+    }
+
+    /**
      * A class for a node of a linked list
      */
     public class Node{
 
+        public String key;
+        public String value;
+        public Node next;
+
         /**
          * Constructor for the Node
          */
-        public Node(){
+        public Node(String key, String value, Node next){
+            this.key = key;
+            this.value = value;
+            this.next = next;
         }
     }
 }

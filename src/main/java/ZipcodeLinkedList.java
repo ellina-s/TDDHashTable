@@ -8,6 +8,7 @@ package main.java;
 public class ZipcodeLinkedList {
 
     public Node head;
+    public Node tail;
     public int count;
 
     /**
@@ -18,6 +19,7 @@ public class ZipcodeLinkedList {
      */
     public ZipcodeLinkedList(){
         head = null;
+        tail = null;
         count = 0;
     }
 
@@ -42,6 +44,30 @@ public class ZipcodeLinkedList {
             System.out.println(pointer.key + " " + pointer.value);
             pointer = pointer.next;
         }
+    }
+
+    /**
+     * Add a node to the end of the linked list.
+     * Increase the count of the nodes by one.
+     * Adjust the head to point to the first element in the list.
+     * Adjust the tail on every element added.
+     * @param key key of the node
+     * @param value value of the node
+     */
+    public void addNode(String key, String value){
+        Node newNode = new Node(key, value, null);
+        if(count == 0 && tail == null && head == null){
+            // Adjust head and tail to the first node added to the linked list.
+            tail = newNode;
+            head = newNode;
+        }
+        else{
+            if(tail.next == null){
+                tail.next = newNode;
+                tail = newNode;
+            }
+        }
+        count++;
     }
 
     /**

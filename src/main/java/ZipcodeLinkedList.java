@@ -33,6 +33,18 @@ public class ZipcodeLinkedList {
     }
 
     /**
+     * Show to the contents of the linked list starting from the head
+     * Reference: https://www.cs.cmu.edu/~adamchik/15-121/lectures/Linked%20Lists/linked%20lists.html
+     */
+    public void showContentsOfTheLinkedList(){
+        Node pointer = head;
+        while(pointer != null){
+            System.out.println(pointer.key + " " + pointer.value);
+            pointer = pointer.next;
+        }
+    }
+
+    /**
      * A class for a node of a linked list
      */
     public class Node{

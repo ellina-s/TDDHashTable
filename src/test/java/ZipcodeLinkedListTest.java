@@ -54,9 +54,20 @@ public class ZipcodeLinkedListTest {
         // Count should be 1 after adding a node to the linked list
         assertEquals(1, list.count);
         // Add another two nodes
-        list.addToHead("Paris", "P456Q57");
+        list.addToHead("Atlanta", "158FL86");
         list.addToHead("Madrid", "LKJ6375");
         // Count should be 3
         assertEquals(3, list.count);
+    }
+
+    @Test
+    public void showTheContentsOfTheLinkedListByTraversingIt(){
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        // Add a few nodes
+        list.addToHead("Paris", "P456Q57");
+        list.addToHead("Atlanta", "158FL86");
+        list.addToHead("Madrid", "LKJ6375");
+        // Show the structure of the linked list
+        list.showContentsOfTheLinkedList();
     }
 }

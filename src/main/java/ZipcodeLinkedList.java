@@ -88,18 +88,23 @@ public class ZipcodeLinkedList {
      * @param index index (from 1 to the size of the Linked List) of the node to be retrieved
      * @return city name and zipcode in a String array, at indexes 0 and 1 respectively
      */
-    public String[] getNodeAtIndex(int index){
-        String[] data = new String[2];
-        Node pointer = head;
-        int stop = index - 1;
-        for(int i = 0; i<stop; i++){
-            if(pointer.next != null){
-                pointer = pointer.next;
-            }
+    public String[] getNodeAtIndex(int index) throws EmptyLinkedListException{
+        if(isEmpty() == true){
+            throw new EmptyLinkedListException("The linked list is empty. Index " + index);
         }
-        data[CITY] = pointer.key;
-        data[ZIPCODE] = pointer.value;
-        return data;
+        else{
+            String[] data = new String[2];
+            Node pointer = head;
+            int stop = index - 1;
+            for(int i = 0; i<stop; i++){
+                if(pointer.next != null){
+                    pointer = pointer.next;
+                }
+            }
+            data[CITY] = pointer.key;
+            data[ZIPCODE] = pointer.value;
+            return data;
+        }
     }
 
     /**

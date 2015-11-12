@@ -1,5 +1,6 @@
 package test.java;
 
+import main.java.EmptyLinkedListException;
 import main.java.ZipcodeLinkedList;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -157,7 +158,7 @@ public class ZipcodeLinkedListTest {
     }
 
     @Test
-    public void retrieveNodeByIndexTest(){
+    public void retrieveNodeByIndexTest() throws EmptyLinkedListException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         // Add a few nodes
         list.addNode("Paris", "P456Q57");
@@ -165,25 +166,39 @@ public class ZipcodeLinkedListTest {
         list.addNode("Madrid", "LKJ6375");
         list.addNode("Rio", "5478135");
 
-        // retrieve contents of the node (city name and zipcode)
         String[] locationA = list.getNodeAtIndex(4);
-        // verify city name and zipcode
         assertEquals("Rio", locationA[CITY]);
         assertEquals("5478135", locationA[ZIPCODE]);
 
         String[] locationB = list.getNodeAtIndex(2);
-        // verify city name and zipcode
         assertEquals("Atlanta", locationB[CITY]);
         assertEquals("158FL86", locationB[ZIPCODE]);
 
         String[] locationC = list.getNodeAtIndex(1);
-        // verify city name and zipcode
         assertEquals("Paris", locationC[CITY]);
         assertEquals("P456Q57", locationC[ZIPCODE]);
 
         String[] locationD = list.getNodeAtIndex(3);
-        // verify city name and zipcode
         assertEquals("Madrid", locationD[CITY]);
         assertEquals("LKJ6375", locationD[ZIPCODE]);
     }
+
+    @Test (expected = EmptyLinkedListException.class)
+    public void gettingNodeFromEmptyListThrowsExceptionCaseA() throws EmptyLinkedListException{
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        String[] location = list.getNodeAtIndex(1);
+    }
+
+    @Test (expected = EmptyLinkedListException.class)
+    public void gettingNodeFromEmptyListThrowsExceptionCaseB() throws EmptyLinkedListException{
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        String[] location = list.getNodeAtIndex(0);
+    }
+
+    @Test (expected = EmptyLinkedListException.class)
+    public void gettingNodeFromEmptyListThrowsExceptionCaseC() throws EmptyLinkedListException{
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        String[] location = list.getNodeAtIndex(-1);
+    }
+
 }

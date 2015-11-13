@@ -236,4 +236,23 @@ public class ZipcodeLinkedListTest {
         list.addNode("Deli", "5783Z6D");
         String[] data = list.getNodeAtIndex(-9846858);
     }
+
+    @Test
+    public void deletingLinkedListShouldRemoveAllNodes() throws EmptyLinkedListException{
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        list.addNode("Rio", "5478135");
+        list.addNode("Madrid", "LKJ6375");
+        list.addNode("Mexico", "M58RP8D");
+        list.deleteLinkedList();
+        assertNull(list.head);
+        assertNull(list.tail);
+        assertEquals(0, list.count);
+        assertEquals(true, list.isEmpty());
+    }
+
+    @Test (expected = EmptyLinkedListException.class)
+    public void deletingEmptyListShouldThrowException() throws EmptyLinkedListException{
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        list.deleteLinkedList();
+    }
 }

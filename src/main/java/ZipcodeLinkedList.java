@@ -113,6 +113,20 @@ public class ZipcodeLinkedList {
     }
 
     /**
+     * Delete all nodes in the linked list (by setting its head and tail to zero.
+     * Also, the counter is set to zero to reflect the fact that there are no nodes any more).
+     * @throws EmptyLinkedListException
+     */
+    public void deleteLinkedList() throws EmptyLinkedListException{
+        if(isEmpty() == true){
+            throw new EmptyLinkedListException("There are no node to delete in the linked list, because it is empty.");
+        }
+        head = null;
+        tail = null;
+        count = 0;
+    }
+
+    /**
      * A class for a node of a linked list
      */
     public class Node{

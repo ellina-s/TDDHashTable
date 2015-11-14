@@ -126,6 +126,13 @@ public class ZipcodeLinkedList {
         count = 0;
     }
 
+    public void deleteNodeAtIndex(int index) throws EmptyLinkedListException{
+        if( isEmpty() == true){
+            throw new EmptyLinkedListException("Cannot delete a node in an empty list.");
+        }
+
+    }
+
     /**
      * A class for a node of a linked list
      */

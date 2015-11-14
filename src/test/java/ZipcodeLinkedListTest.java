@@ -255,4 +255,10 @@ public class ZipcodeLinkedListTest {
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         list.deleteLinkedList();
     }
+
+    @Test (expected = EmptyLinkedListException.class)
+    public void shouldNotBeAbleToDeleteANodeFromEmptyList() throws EmptyLinkedListException{
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        list.deleteNodeAtIndex(1);
+    }
 }

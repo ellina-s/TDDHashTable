@@ -126,9 +126,17 @@ public class ZipcodeLinkedList {
         count = 0;
     }
 
-    public void deleteNodeAtIndex(int index) throws EmptyLinkedListException{
+    /**
+     * Delete a node at the given index
+     * @param index index of the node to be deleted, where 1 is the first node
+     * @throws EmptyLinkedListException
+     */
+    public void deleteNodeAtIndex(int index) throws EmptyLinkedListException, InvalidIndexException{
         if( isEmpty() == true){
             throw new EmptyLinkedListException("Cannot delete a node in an empty list.");
+        }
+        else if(index <= 0 || index > count){
+            throw new InvalidIndexException("Requested index "+index+" is invalid");
         }
 
     }

@@ -257,8 +257,44 @@ public class ZipcodeLinkedListTest {
     }
 
     @Test (expected = EmptyLinkedListException.class)
-    public void shouldNotBeAbleToDeleteANodeFromEmptyList() throws EmptyLinkedListException{
+    public void shouldNotBeAbleToDeleteANodeFromEmptyList() throws EmptyLinkedListException, InvalidIndexException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         list.deleteNodeAtIndex(1);
+    }
+
+    @Test (expected = InvalidIndexException.class)
+    public void deletingNodeAtIndexZeroShouldThrowException() throws EmptyLinkedListException, InvalidIndexException{
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        list.addNode("London", "L84765F2");
+        list.deleteNodeAtIndex(0);
+    }
+
+    @Test (expected = InvalidIndexException.class)
+    public void deletingNegativeIndexShouldThrowException() throws EmptyLinkedListException, InvalidIndexException{
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        list.addNode("London", "L84765F2");
+        list.deleteNodeAtIndex(-1);
+    }
+
+    @Test (expected = InvalidIndexException.class)
+    public void deletingLargeNegativeIndexShouldThrowException() throws EmptyLinkedListException, InvalidIndexException{
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        list.addNode("Tokyo", "Y6E88941");
+        list.deleteNodeAtIndex(-99135483);
+    }
+
+    @Test (expected = InvalidIndexException.class)
+    public void deletingIndexLargerThanSizeOfLinkedListShouldThrowException() throws EmptyLinkedListException, InvalidIndexException{
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        list.addNode("Tokyo", "Y6E88941");
+        list.deleteNodeAtIndex(2);
+    }
+
+    @Test (expected = InvalidIndexException.class)
+    public void deletingIndexMuchLargerThanSizeOfLinkedListShouldThrowException() throws EmptyLinkedListException, InvalidIndexException{
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        list.addNode("Tokyo", "Y6E88941");
+        list.addNode("Sydney", "E16V832R");
+        list.deleteNodeAtIndex(998746889);
     }
 }

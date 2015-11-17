@@ -138,7 +138,35 @@ public class ZipcodeLinkedList {
         else if(index <= 0 || index > count){
             throw new InvalidIndexException("Requested index "+index+" is invalid");
         }
+        else{
+            Node pointer = head;
+            int stop = index - 1;
+            for(int i = 0; i<stop; i++){
+                if(pointer.next != null){
+                    System.out.println("i: " + i);
+                    System.out.println(pointer.key + " " + pointer.value);
+                    pointer = pointer.next;
+                }
+            }
+            System.out.println("Deleting " + pointer.key + " " + pointer.value);
+            if(pointer.next == null){
+                System.out.println("This is a terminal node");
+            }
+        }
 
+    }
+
+    public void showElementAtIndex(int index){
+        Node pointer = head;
+        int stop = index - 1;
+        for(int i = 0; i<stop; i++){
+            if(pointer.next != null){
+                System.out.println("i: " + i);
+                System.out.println(pointer.key + " " + pointer.value);
+                pointer = pointer.next;
+            }
+        }
+        System.out.println("Showing " + pointer.key + " " + pointer.value);
     }
 
     /**

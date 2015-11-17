@@ -297,4 +297,15 @@ public class ZipcodeLinkedListTest {
         list.addNode("Sydney", "E16V832R");
         list.deleteNodeAtIndex(998746889);
     }
+
+    @Test
+    public void deletingANode() throws EmptyLinkedListException, InvalidIndexException{
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        list.addNode("Tokyo", "Y6E88941");
+        list.addNode("Sydney", "E16V832R");
+        list.addNode("Manila", "VK58F285");
+        list.showElementAtIndex(3);
+        list.showElementAtIndex(2);
+        list.showElementAtIndex(1);
+    }
 }

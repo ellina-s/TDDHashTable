@@ -156,17 +156,29 @@ public class ZipcodeLinkedList {
 
     }
 
-    public void showElementAtIndex(int index){
-        Node pointer = head;
-        int stop = index - 1;
-        for(int i = 0; i<stop; i++){
-            if(pointer.next != null){
-                System.out.println("i: " + i);
-                System.out.println(pointer.key + " " + pointer.value);
-                pointer = pointer.next;
-            }
+    /**
+     * Show content of a node at the given index by printing it to console
+     * @param index an index of the node to be shown, where 1 is an index of the first node
+     */
+    public void showElementAtIndex(int index) throws EmptyLinkedListException, InvalidIndexException{
+        if( isEmpty() == true){
+            throw new EmptyLinkedListException("Cannot show a node from an empty list.");
         }
-        System.out.println("Showing " + pointer.key + " " + pointer.value);
+        else if(index <= 0 || index > count){
+            throw new InvalidIndexException("Requested index "+index+" is invalid");
+        }
+        else{
+            Node pointer = head;
+            int stop = index - 1;
+            for(int i = 0; i<stop; i++){
+                if(pointer.next != null){
+                    //System.out.println("i: " + i);
+                    //System.out.println(pointer.key + " " + pointer.value);
+                    pointer = pointer.next;
+                }
+            }
+            System.out.println("Showing " + pointer.key + " " + pointer.value);
+        }
     }
 
     /**

@@ -299,13 +299,73 @@ public class ZipcodeLinkedListTest {
     }
 
     @Test
-    public void deletingANode() throws EmptyLinkedListException, InvalidIndexException{
+    public void showingANodeUnderValidIndex() throws EmptyLinkedListException, InvalidIndexException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         list.addNode("Tokyo", "Y6E88941");
         list.addNode("Sydney", "E16V832R");
         list.addNode("Manila", "VK58F285");
         list.showElementAtIndex(3);
         list.showElementAtIndex(2);
+        list.showElementAtIndex(1);
+    }
+
+    @Test (expected = EmptyLinkedListException.class)
+    public void showNodeInEmptyLinkedListShouldThrowExceptionCaseA() throws EmptyLinkedListException, InvalidIndexException{
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        list.showElementAtIndex(1);
+    }
+
+    @Test (expected = EmptyLinkedListException.class)
+    public void showNodeInEmptyLinkedListShouldThrowExceptionCaseB() throws EmptyLinkedListException,InvalidIndexException {
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        list.showElementAtIndex(0);
+    }
+
+    @Test (expected = EmptyLinkedListException.class)
+    public void showNodeInEmptyLinkedListShouldThrowExceptionCaseC() throws EmptyLinkedListException, InvalidIndexException{
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        list.showElementAtIndex(-1);
+    }
+
+    @Test (expected = InvalidIndexException.class)
+    public void showNodeUnderInvalidIndexCaseA() throws EmptyLinkedListException, InvalidIndexException{
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        list.addNode("New York", "NY16462");
+        list.showElementAtIndex(2);
+    }
+
+    @Test (expected = InvalidIndexException.class)
+    public void showNodeUnderInvalidIndexCaseB() throws EmptyLinkedListException, InvalidIndexException{
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        list.addNode("New York", "NY16462");
+        list.showElementAtIndex(0);
+    }
+
+    @Test (expected = InvalidIndexException.class)
+    public void showNodeUnderInvalidIndexCaseC() throws EmptyLinkedListException, InvalidIndexException{
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        list.addNode("New York", "NY16462");
+        list.showElementAtIndex(-1);
+    }
+
+    @Test (expected = InvalidIndexException.class)
+    public void showNodeUnderInvalidIndexCaseD() throws EmptyLinkedListException, InvalidIndexException{
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        list.addNode("New York", "NY16462");
+        list.showElementAtIndex(-999787465);
+    }
+
+    @Test (expected = InvalidIndexException.class)
+    public void showNodeUnderInvalidIndexCaseE() throws EmptyLinkedListException, InvalidIndexException{
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        list.addNode("New York", "NY16462");
+        list.showElementAtIndex(999787485);
+    }
+
+    @Test
+    public void showNodeUnderValidIndex() throws EmptyLinkedListException, InvalidIndexException{
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        list.addNode("New York", "NY16462");
         list.showElementAtIndex(1);
     }
 }

@@ -4,6 +4,8 @@ import main.java.EmptyLinkedListException;
 import main.java.InvalidIndexException;
 import main.java.ZipcodeLinkedList;
 import org.junit.Test;
+import sun.invoke.empty.Empty;
+
 import static org.junit.Assert.*;
 
 /**
@@ -367,5 +369,27 @@ public class ZipcodeLinkedListTest {
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         list.addNode("New York", "NY16462");
         list.showNodeAtIndex(1);
+    }
+
+    @Test
+    public void deleteHeadNodeShouldUpdateHead() throws EmptyLinkedListException, InvalidIndexException{
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        list.addNode("Rome", "G48687F2");
+        list.addNode("Oslo", "4758G7KX");
+        list.addNode("Mexico", "89H6RT5B");
+        list.addNode("Beijing", "45QX8765");
+        assertEquals("Rome", list.head.key);
+        assertEquals("G48687F2", list.head.value);
+        list.deleteNodeAtIndex(1); // delete Rome
+        assertEquals("Oslo", list.head.key);
+        assertEquals("4758G7KX", list.head.value);
+        list.deleteNodeAtIndex(1); // delete Oslo
+        assertEquals("Mexico", list.head.key);
+        assertEquals("89H6RT5B", list.head.value);
+        list.deleteNodeAtIndex(1); // delete Mexico
+        assertEquals("Beijing", list.head.key);
+        assertEquals("45QX8765", list.head.value);
+        list.deleteNodeAtIndex(1); // delete Beijing
+        assertNull(list.head);
     }
 }

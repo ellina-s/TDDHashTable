@@ -473,4 +473,65 @@ public class ZipcodeLinkedListTest {
         assertEquals(0, list.count);
         assertTrue(list.isEmpty());
     }
+
+    @Test
+    public void deletingNodeByCityShouldMaintainHead(){
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        list.addNode("Calgary", "C7G5F8");
+        list.addNode("Toronto", "T4G5W6");
+        list.addNode("Winnipeg", "W3G8M7");
+        list.deleteCity("Calgary");
+        assertEquals("Toronto", list.head.key);
+        assertEquals("T4G5W6", list.head.value);
+        list.deleteCity("Toronto");
+        assertEquals("Winnipeg", list.head.key);
+        assertEquals("W3G8M7", list.head.value);
+    }
+
+    @Test
+    public void deletingANodeByCityShouldMaintainOrderOfNodes(){
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        list.addNode("Calgary", "C7G5F8");
+        list.addNode("Toronto", "T4G5W6");
+        list.addNode("Winnipeg", "W3G8M7");
+
+        list.deleteCity("Toronto");
+        assertEquals("Calgary", list.head.key);
+        assertEquals("C7G5F8", list.head.value);
+        assertEquals("Winnipeg", list.head.next.key);
+        assertEquals("W3G8M7", list.head.next.value);
+
+        list.deleteCity("Winnipeg");
+        assertEquals("Calgary", list.head.key);
+        assertEquals("C7G5F8", list.head.value);
+        assertNull(list.head.next);
+
+        list.deleteCity("Calgary");
+        assertNull(list.head);
+    }
+
+    @Test
+    public void deletingNodeByCityShouldMaintainTail(){
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        list.addNode("Calgary", "C7G5F8");
+        list.addNode("Toronto", "T4G5W6");
+        list.addNode("Winnipeg", "W3G8M7");
+
+        assertEquals("Winnipeg", list.tail.key);
+        assertEquals("W3G8M7", list.tail.value);
+        list.deleteCity("Winnipeg");
+        assertEquals("Toronto", list.tail.key);
+        assertEquals("T4G5W6", list.tail.value);
+        assertNull(list.tail.next);
+        assertEquals("Toronto", list.head.next.key);
+        assertEquals("T4G5W6", list.head.next.value);
+
+        list.deleteCity("Toronto");
+        assertEquals("Calgary", list.tail.key);
+        assertEquals("C7G5F8", list.tail.value);
+        assertNull(list.tail.next);
+        assertNull(list.head.next);
+        assertEquals("Calgary", list.head.key);
+        assertEquals("C7G5F8", list.head.value);
+    }
 }

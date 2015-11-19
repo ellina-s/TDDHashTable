@@ -189,6 +189,38 @@ public class ZipcodeLinkedList {
     }
 
     /**
+     * Delete a node with the given city name
+     * @param targetCity name of the city whose node will be deleted from the linked
+    list
+     */
+    public void deleteCity(String targetCity){
+        Node pointer = head;
+        Node previousNode = null;
+        while(pointer != null){
+            if(pointer.key == targetCity){
+                System.out.println("Found target city " + pointer.key);
+
+                if(pointer.key == head.key){
+                    System.out.println("This is a head. Deleting it...");
+                    head = head.next;
+                    return;
+                }
+
+                System.out.println("Deleting " + pointer.key + " " + pointer.value);
+                previousNode.next = pointer.next;
+
+                if(pointer.next == null) {
+                    System.out.println("This is a terminal node");
+                    tail = previousNode;
+                    System.out.println("After deleting tail is " + tail.key + " " + tail.value);
+                }
+            }
+            previousNode = pointer;
+            pointer = pointer.next;
+        }
+    }
+
+    /**
      * A class for a node of a linked list
      */
     public class Node{

@@ -193,7 +193,11 @@ public class ZipcodeLinkedList {
      * @param targetCity name of the city whose node will be deleted from the linked
     list
      */
-    public void deleteCity(String targetCity){
+    public void deleteCity(String targetCity) throws EmptyLinkedListException{
+        if(isEmpty() == true){
+            throw new EmptyLinkedListException("Cannot delete a node from an empty list.");
+        }
+
         Node pointer = head;
         Node previousNode = null;
         while(pointer != null){

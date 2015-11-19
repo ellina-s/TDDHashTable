@@ -475,7 +475,7 @@ public class ZipcodeLinkedListTest {
     }
 
     @Test
-    public void deletingNodeByCityShouldMaintainHead(){
+    public void deletingNodeByCityShouldMaintainHead() throws EmptyLinkedListException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         list.addNode("Calgary", "C7G5F8");
         list.addNode("Toronto", "T4G5W6");
@@ -489,7 +489,7 @@ public class ZipcodeLinkedListTest {
     }
 
     @Test
-    public void deletingANodeByCityShouldMaintainOrderOfNodes(){
+    public void deletingANodeByCityShouldMaintainOrderOfNodes() throws EmptyLinkedListException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         list.addNode("Calgary", "C7G5F8");
         list.addNode("Toronto", "T4G5W6");
@@ -511,7 +511,7 @@ public class ZipcodeLinkedListTest {
     }
 
     @Test
-    public void deletingNodeByCityShouldMaintainTail(){
+    public void deletingNodeByCityShouldMaintainTail() throws EmptyLinkedListException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         list.addNode("Calgary", "C7G5F8");
         list.addNode("Toronto", "T4G5W6");
@@ -533,5 +533,21 @@ public class ZipcodeLinkedListTest {
         assertNull(list.head.next);
         assertEquals("Calgary", list.head.key);
         assertEquals("C7G5F8", list.head.value);
+    }
+
+    @Test (expected = EmptyLinkedListException.class)
+    public void deletingNodeByCityFromEmptyLinkedListShouldThrowException() throws EmptyLinkedListException{
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        list.deleteCity("City");
+    }
+
+    @Test (expected = EmptyLinkedListException.class)
+    public void deletingNodeByCityFromNowEmptyLinkedListShouldThrowException() throws EmptyLinkedListException{
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        list.addNode("Calgary", "C7G5F8");
+        list.addNode("Toronto", "T4G5W6");
+        list.deleteCity("Calgary");
+        list.deleteCity("Toronto");
+        list.deleteCity("Victoria");
     }
 }

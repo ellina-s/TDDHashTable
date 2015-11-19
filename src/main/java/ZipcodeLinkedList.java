@@ -207,11 +207,13 @@ public class ZipcodeLinkedList {
                 if(pointer.key == head.key){
                     System.out.println("This is a head. Deleting it...");
                     head = head.next;
+                    count--;
                     return;
                 }
 
                 System.out.println("Deleting " + pointer.key + " " + pointer.value);
                 previousNode.next = pointer.next;
+                count--;
 
                 if(pointer.next == null) {
                     System.out.println("This is a terminal node");

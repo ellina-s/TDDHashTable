@@ -550,4 +550,23 @@ public class ZipcodeLinkedListTest {
         list.deleteCity("Toronto");
         list.deleteCity("Victoria");
     }
+
+    @Test
+    public void deletingNodeByCityShouldDecreaseCountByOne() throws EmptyLinkedListException{
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        list.addNode("Kelowna", "K6F1P8");
+        list.addNode("Toronto", "T4G5W6");
+        list.addNode("Victoria", "V7R8L6");
+        assertEquals(3, list.count);
+        assertFalse(list.isEmpty());
+        list.deleteCity("Kelowna");
+        assertEquals(2, list.count);
+        assertFalse(list.isEmpty());
+        list.deleteCity("Toronto");
+        assertEquals(1, list.count);
+        assertFalse(list.isEmpty());
+        list.deleteCity("Victoria");
+        assertEquals(0, list.count);
+        assertTrue(list.isEmpty());
+    }
 }

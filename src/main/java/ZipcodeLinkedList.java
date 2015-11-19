@@ -136,17 +136,28 @@ public class ZipcodeLinkedList {
         else if(index <= 0 || index > count){
             throw new InvalidIndexException("Requested index "+index+" is invalid");
         }
+        else if(1 == index){
+            System.out.println("Deleting head: "+ head.key + " " + head.value);
+            head = head.next;
+            return;
+        }
         else{
             Node pointer = head;
+            Node previous = null;
             int stop = index - 1;
             for(int i = 0; i<stop; i++){
                 if(pointer.next != null){
+                    previous = pointer;
                     pointer = pointer.next;
                 }
             }
             System.out.println("Deleting " + pointer.key + " " + pointer.value);
+            System.out.println("Before deleting tail is " + tail.key + " " + tail.value);
+            previous.next = pointer.next;
             if(pointer.next == null){
                 System.out.println("This is a terminal node");
+                tail = previous;
+                System.out.println("After deleting tail is " + tail.key + " " + tail.value);
             }
         }
 

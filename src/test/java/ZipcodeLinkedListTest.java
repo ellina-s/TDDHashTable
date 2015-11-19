@@ -372,7 +372,7 @@ public class ZipcodeLinkedListTest {
     }
 
     @Test
-    public void deleteHeadNodeShouldUpdateHead() throws EmptyLinkedListException, InvalidIndexException{
+    public void deletingHeadNodeShouldUpdateHead() throws EmptyLinkedListException, InvalidIndexException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         list.addNode("Rome", "G48687F2");
         list.addNode("Oslo", "4758G7KX");
@@ -391,5 +391,59 @@ public class ZipcodeLinkedListTest {
         assertEquals("45QX8765", list.head.value);
         list.deleteNodeAtIndex(1); // delete Beijing
         assertNull(list.head);
+    }
+
+    @Test
+    public void deletingANodeBetweenOtherNodesShouldMaintainNodesOrder() throws EmptyLinkedListException, InvalidIndexException{
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        list.addNode("Rome", "G48687F2");
+        list.addNode("Oslo", "4758G7KX");
+        list.addNode("Mexico", "89H6RT5B");
+        list.addNode("Beijing", "45QX8765");
+        assertEquals("Oslo", list.head.next.key);
+        assertEquals("4758G7KX", list.head.next.value);
+        list.deleteNodeAtIndex(2); // Delete Oslo
+        assertEquals("Rome", list.head.key);
+        assertEquals("G48687F2", list.head.value);
+        assertEquals("Mexico", list.head.next.key);
+        assertEquals("89H6RT5B", list.head.next.value);
+        assertEquals("Beijing", list.head.next.next.key);
+        assertEquals("45QX8765", list.head.next.next.value);
+        assertEquals("Beijing", list.tail.key);
+        assertEquals("45QX8765", list.tail.value);
+        list.deleteNodeAtIndex(2); // Delete Mexico
+        assertEquals("Rome", list.head.key);
+        assertEquals("G48687F2", list.head.value);
+        assertEquals("Beijing", list.head.next.key);
+        assertEquals("45QX8765", list.head.next.value);
+        assertEquals("Beijing", list.tail.key);
+        assertEquals("45QX8765", list.tail.value);
+        list.deleteNodeAtIndex(2); // Delete Beijing
+        assertEquals("Rome", list.head.key);
+        assertEquals("G48687F2", list.head.value);
+        assertEquals("Rome", list.tail.key);
+        assertEquals("G48687F2", list.tail.value);
+        assertNull(list.head.next);
+    }
+
+    @Test
+    public void deletingTailShouldRemapTail() throws EmptyLinkedListException, InvalidIndexException{
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        list.addNode("Singapore", "S671058D");
+        list.addNode("Toronto", "T4G5W6");
+        list.addNode("Casablanca", "C6251490");
+        assertEquals("Casablanca", list.tail.key);
+        assertEquals("C6251490", list.tail.value);
+        list.deleteNodeAtIndex(3); // Delete Casablanca
+        assertEquals("Singapore", list.head.key);
+        assertEquals("S671058D", list.head.value);
+        assertEquals("Toronto", list.tail.key);
+        assertEquals("T4G5W6", list.tail.value);
+        list.deleteNodeAtIndex(2); // Delete Toronto
+        assertEquals("Singapore", list.head.key);
+        assertEquals("S671058D", list.head.value);
+        assertNull(list.head.next);
+        assertEquals("Singapore", list.tail.key);
+        assertEquals("S671058D", list.tail.value);
     }
 }

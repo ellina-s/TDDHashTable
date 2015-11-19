@@ -446,4 +446,31 @@ public class ZipcodeLinkedListTest {
         assertEquals("Singapore", list.tail.key);
         assertEquals("S671058D", list.tail.value);
     }
+
+    @Test
+    public void deletingANodeShouldDecreaseCountByOne() throws EmptyLinkedListException, InvalidIndexException{
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        list.addNode("Rome", "G48687F2");
+        list.addNode("Oslo", "4758G7KX");
+        list.addNode("Mexico", "89H6RT5B");
+        list.addNode("Beijing", "45QX8765");
+
+        assertEquals(4, list.count);
+        assertFalse(list.isEmpty());
+        list.deleteNodeAtIndex(4);
+        assertEquals(3, list.count);
+        assertFalse(list.isEmpty());
+
+        list.deleteNodeAtIndex(1);
+        assertEquals(2, list.count);
+        assertFalse(list.isEmpty());
+
+        list.deleteNodeAtIndex(2);
+        assertEquals(1, list.count);
+        assertFalse(list.isEmpty());
+
+        list.deleteNodeAtIndex(1);
+        assertEquals(0, list.count);
+        assertTrue(list.isEmpty());
+    }
 }

@@ -139,6 +139,7 @@ public class ZipcodeLinkedList {
         else if(1 == index){
             System.out.println("Deleting head: "+ head.key + " " + head.value);
             head = head.next;
+            count--;
             return;
         }
         else{
@@ -154,6 +155,7 @@ public class ZipcodeLinkedList {
             System.out.println("Deleting " + pointer.key + " " + pointer.value);
             System.out.println("Before deleting tail is " + tail.key + " " + tail.value);
             previous.next = pointer.next;
+            count--;
             if(pointer.next == null){
                 System.out.println("This is a terminal node");
                 tail = previous;

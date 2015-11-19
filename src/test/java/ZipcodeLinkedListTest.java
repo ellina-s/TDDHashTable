@@ -2,6 +2,7 @@ package test.java;
 
 import main.java.EmptyLinkedListException;
 import main.java.InvalidIndexException;
+import main.java.ItemNotFoundException;
 import main.java.ZipcodeLinkedList;
 import org.junit.Test;
 import sun.invoke.empty.Empty;
@@ -475,7 +476,7 @@ public class ZipcodeLinkedListTest {
     }
 
     @Test
-    public void deletingNodeByCityShouldMaintainHead() throws EmptyLinkedListException{
+    public void deletingNodeByCityShouldMaintainHead() throws EmptyLinkedListException, ItemNotFoundException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         list.addNode("Calgary", "C7G5F8");
         list.addNode("Toronto", "T4G5W6");
@@ -489,7 +490,7 @@ public class ZipcodeLinkedListTest {
     }
 
     @Test
-    public void deletingANodeByCityShouldMaintainOrderOfNodes() throws EmptyLinkedListException{
+    public void deletingANodeByCityShouldMaintainOrderOfNodes() throws EmptyLinkedListException, ItemNotFoundException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         list.addNode("Calgary", "C7G5F8");
         list.addNode("Toronto", "T4G5W6");
@@ -511,7 +512,7 @@ public class ZipcodeLinkedListTest {
     }
 
     @Test
-    public void deletingNodeByCityShouldMaintainTail() throws EmptyLinkedListException{
+    public void deletingNodeByCityShouldMaintainTail() throws EmptyLinkedListException, ItemNotFoundException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         list.addNode("Calgary", "C7G5F8");
         list.addNode("Toronto", "T4G5W6");
@@ -536,23 +537,24 @@ public class ZipcodeLinkedListTest {
     }
 
     @Test (expected = EmptyLinkedListException.class)
-    public void deletingNodeByCityFromEmptyLinkedListShouldThrowException() throws EmptyLinkedListException{
+    public void deletingNodeByCityFromEmptyLinkedListShouldThrowException() throws EmptyLinkedListException, ItemNotFoundException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         list.deleteCity("City");
     }
 
     @Test (expected = EmptyLinkedListException.class)
-    public void deletingNodeByCityFromNowEmptyLinkedListShouldThrowException() throws EmptyLinkedListException{
+    public void deletingNodeByCityFromNowEmptyLinkedListShouldThrowException() throws EmptyLinkedListException, ItemNotFoundException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         list.addNode("Calgary", "C7G5F8");
         list.addNode("Toronto", "T4G5W6");
         list.deleteCity("Calgary");
         list.deleteCity("Toronto");
+        // Attempt to delete a node from the linked list that is empty now
         list.deleteCity("Victoria");
     }
 
     @Test
-    public void deletingNodeByCityShouldDecreaseCountByOne() throws EmptyLinkedListException{
+    public void deletingNodeByCityShouldDecreaseCountByOne() throws EmptyLinkedListException, ItemNotFoundException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         list.addNode("Kelowna", "K6F1P8");
         list.addNode("Toronto", "T4G5W6");
@@ -568,5 +570,25 @@ public class ZipcodeLinkedListTest {
         list.deleteCity("Victoria");
         assertEquals(0, list.count);
         assertTrue(list.isEmpty());
+    }
+
+    @Test (expected = ItemNotFoundException.class)
+    public void deletingCityThatIsNotFoundShouldThrowException() throws EmptyLinkedListException, ItemNotFoundException{
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        list.addNode("Sydney", "S6B88N37");
+        list.addNode("Seattle", "S39T5NB4");
+        list.addNode("Portland", "P739N6C");
+        list.deleteCity("Victoria");
+    }
+
+    @Test (expected = ItemNotFoundException.class)
+    public void deletingCityThatWasDeletedShouldThrowException() throws EmptyLinkedListException, ItemNotFoundException{
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        list.addNode("Sydney", "S6B88N37");
+        list.addNode("Portland", "P739N6C");
+        list.addNode("Seattle", "S39T5NB4");
+        list.deleteCity("Portland");
+        // Attempt to delete the same city again
+        list.deleteCity("Portland");
     }
 }

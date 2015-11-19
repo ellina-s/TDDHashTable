@@ -193,7 +193,7 @@ public class ZipcodeLinkedList {
      * @param targetCity name of the city whose node will be deleted from the linked
     list
      */
-    public void deleteCity(String targetCity) throws EmptyLinkedListException{
+    public void deleteCity(String targetCity) throws EmptyLinkedListException, ItemNotFoundException{
         if(isEmpty() == true){
             throw new EmptyLinkedListException("Cannot delete a node from an empty list.");
         }
@@ -220,10 +220,12 @@ public class ZipcodeLinkedList {
                     tail = previousNode;
                     System.out.println("After deleting tail is " + tail.key + " " + tail.value);
                 }
+                return;
             }
             previousNode = pointer;
             pointer = pointer.next;
         }
+        throw new ItemNotFoundException("The target city is not found.");
     }
 
     /**

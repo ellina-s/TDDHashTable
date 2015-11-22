@@ -90,7 +90,7 @@ public class ZipcodeLinkedList {
      */
     public String[] getNodeAtIndex(int index) throws EmptyLinkedListException, InvalidIndexException{
         if(isEmpty() == true){
-            throw new EmptyLinkedListException("The linked list is empty. Requested ndex " + index);
+            throw new EmptyLinkedListException("The linked list is empty. Requested index " + index);
         }
         else if(index <= 0 || index > count){
             throw new InvalidIndexException("Requested index "+index+" is invalid");
@@ -226,6 +226,19 @@ public class ZipcodeLinkedList {
             pointer = pointer.next;
         }
         throw new ItemNotFoundException("The target city is not found.");
+    }
+
+    /**
+     * Get an index of a given city
+     * @param city the city whose index is retrieved
+     * @return index of the city
+     */
+    public String getCityIndex(String city) throws EmptyLinkedListException{
+        if(isEmpty() == true){
+            throw new EmptyLinkedListException("There is no data to be retrieved from an empty linked list");
+        }
+        String dummyReturn = "dummyZipcode";
+        return dummyReturn;
     }
 
     /**

@@ -591,4 +591,21 @@ public class ZipcodeLinkedListTest {
         // Attempt to delete the same city again
         list.deleteCity("Portland");
     }
+
+    @Test (expected = EmptyLinkedListException.class)
+    public void gettingCityIndexFromEmptyListShouldThrowException() throws EmptyLinkedListException{
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        assertTrue(list.isEmpty());
+        list.getCityIndex("city");
+    }
+
+    @Test (expected = EmptyLinkedListException.class)
+    public void gettingCityIndexFromNowEmptyListShouldThrowException() throws EmptyLinkedListException, ItemNotFoundException{
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        list.addNode("Portland", "P739N6C");
+        assertFalse(list.isEmpty());
+        list.deleteCity("Portland");
+        assertTrue(list.isEmpty());
+        list.getCityIndex("Portland");
+    }
 }

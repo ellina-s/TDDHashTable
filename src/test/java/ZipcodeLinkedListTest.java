@@ -593,7 +593,7 @@ public class ZipcodeLinkedListTest {
     }
 
     @Test (expected = EmptyLinkedListException.class)
-    public void gettingCityIndexFromEmptyListShouldThrowException() throws EmptyLinkedListException{
+    public void gettingCityIndexFromEmptyListShouldThrowException() throws EmptyLinkedListException, ItemNotFoundException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         assertTrue(list.isEmpty());
         list.getCityIndex("city");
@@ -607,5 +607,37 @@ public class ZipcodeLinkedListTest {
         list.deleteCity("Portland");
         assertTrue(list.isEmpty());
         list.getCityIndex("Portland");
+    }
+
+    @Test
+    public void gettingZipcodesOfCitiesInTheListShouldRetrieveThoseZipcodes() throws EmptyLinkedListException, ItemNotFoundException{
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        list.addNode("Shanghai", "T168V58");
+        list.addNode("Dubai", "846M5BV");
+        list.addNode("Sydney", "S438V8N");
+        String zipcodeA = list.getCityIndex("Shanghai");
+        assertEquals("T168V58", zipcodeA);
+        String zipcodeB = list.getCityIndex("Dubai");
+        assertEquals("846M5BV", zipcodeB);
+        String zipcodeC = list.getCityIndex("Sydney");
+        assertEquals("S438V8N", zipcodeC);
+    }
+
+    @Test (expected = ItemNotFoundException.class)
+    public void gettingZipcodeOfCityNotInTheListShouldThrowException() throws EmptyLinkedListException, ItemNotFoundException{
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        list.addNode("Shanghai", "T168V58");
+        list.addNode("Dubai", "846M5BV");
+        list.addNode("Sydney", "S438V8N");
+        String zipcode = list.getCityIndex("Rio");
+    }
+
+    @Test (expected = ItemNotFoundException.class)
+    public void gettingZipcodeOfDeletedCityShouldThrowException() throws EmptyLinkedListException, ItemNotFoundException{
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        list.addNode("Dubai", "846M5BV");
+        list.addNode("Sydney", "S438V8N");
+        list.deleteCity("Sydney");
+        String zipcode = list.getCityIndex("Sydney");
     }
 }

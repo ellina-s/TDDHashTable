@@ -233,12 +233,19 @@ public class ZipcodeLinkedList {
      * @param city the city whose index is retrieved
      * @return index of the city
      */
-    public String getCityIndex(String city) throws EmptyLinkedListException{
+    public String getCityIndex(String city) throws EmptyLinkedListException, ItemNotFoundException{
         if(isEmpty() == true){
-            throw new EmptyLinkedListException("There is no data to be retrieved from an empty linked list");
+            throw new EmptyLinkedListException("There are no cities in an empty linked list.");
         }
-        String dummyReturn = "dummyZipcode";
-        return dummyReturn;
+        Node pointer = head;
+        while(pointer != null){
+            if(pointer.key == city){
+                System.out.println("Found the city of " + pointer.key + " with zipcode: " + pointer.value);
+                return pointer.value;
+            }
+            pointer = pointer.next;
+        }
+        throw new ItemNotFoundException(city + " not found in the linked list.");
     }
 
     /**

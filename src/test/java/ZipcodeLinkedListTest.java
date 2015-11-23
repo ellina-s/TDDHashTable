@@ -5,7 +5,6 @@ import main.java.InvalidIndexException;
 import main.java.ItemNotFoundException;
 import main.java.ZipcodeLinkedList;
 import org.junit.Test;
-import sun.invoke.empty.Empty;
 
 import static org.junit.Assert.*;
 
@@ -596,7 +595,7 @@ public class ZipcodeLinkedListTest {
     public void gettingCityIndexFromEmptyListShouldThrowException() throws EmptyLinkedListException, ItemNotFoundException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         assertTrue(list.isEmpty());
-        list.getCityIndex("city");
+        String zipcode = list.getCityIndex("city");
     }
 
     @Test (expected = EmptyLinkedListException.class)
@@ -606,7 +605,7 @@ public class ZipcodeLinkedListTest {
         assertFalse(list.isEmpty());
         list.deleteCity("Portland");
         assertTrue(list.isEmpty());
-        list.getCityIndex("Portland");
+        String zipcode = list.getCityIndex("Portland");
     }
 
     @Test

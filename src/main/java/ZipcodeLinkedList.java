@@ -45,10 +45,12 @@ public class ZipcodeLinkedList {
      */
     public void showContentsOfTheLinkedList(){
         Node pointer = head;
+        System.out.println("This linked list contains:");
         while(pointer != null){
-            System.out.println(pointer.key + " " + pointer.value);
+            System.out.println("City: " + pointer.key + ", Zipcode: " + pointer.value);
             pointer = pointer.next;
         }
+        System.out.println("The end.");
     }
 
     /**
@@ -90,10 +92,10 @@ public class ZipcodeLinkedList {
      */
     public String[] getNodeAtIndex(int index) throws EmptyLinkedListException, InvalidIndexException{
         if(isEmpty() == true){
-            throw new EmptyLinkedListException("The linked list is empty. Requested index " + index);
+            throw new EmptyLinkedListException("There are no nodes in an empty linked list.");
         }
         else if(index <= 0 || index > count){
-            throw new InvalidIndexException("Requested index "+index+" is invalid");
+            throw new InvalidIndexException("Requested index "+index+" is invalid.");
         }
         else{
             String[] data = new String[2];
@@ -117,7 +119,7 @@ public class ZipcodeLinkedList {
      */
     public void deleteLinkedList() throws EmptyLinkedListException{
         if(isEmpty() == true){
-            throw new EmptyLinkedListException("There are no node to delete in the linked list, because it is empty.");
+            throw new EmptyLinkedListException("Cannot delete an empty linked list.");
         }
         head = null;
         tail = null;
@@ -131,13 +133,13 @@ public class ZipcodeLinkedList {
      */
     public void deleteNodeAtIndex(int index) throws EmptyLinkedListException, InvalidIndexException{
         if( isEmpty() == true){
-            throw new EmptyLinkedListException("Cannot delete a node in an empty list.");
+            throw new EmptyLinkedListException("Cannot delete a node from an empty linked list.");
         }
         else if(index <= 0 || index > count){
             throw new InvalidIndexException("Requested index "+index+" is invalid");
         }
         else if(1 == index){
-            System.out.println("Deleting head: "+ head.key + " " + head.value);
+            System.out.println("Deleting (head): " + head.key + " " + head.value);
             head = head.next;
             count--;
             return;
@@ -153,13 +155,11 @@ public class ZipcodeLinkedList {
                 }
             }
             System.out.println("Deleting " + pointer.key + " " + pointer.value);
-            System.out.println("Before deleting tail is " + tail.key + " " + tail.value);
             previous.next = pointer.next;
             count--;
             if(pointer.next == null){
-                System.out.println("This is a terminal node");
                 tail = previous;
-                System.out.println("After deleting tail is " + tail.key + " " + tail.value);
+                System.out.println("Updating the tail. The new tail is " + tail.key + " " + tail.value);
             }
         }
 
@@ -171,7 +171,7 @@ public class ZipcodeLinkedList {
      */
     public void showNodeAtIndex(int index) throws EmptyLinkedListException, InvalidIndexException{
         if( isEmpty() == true){
-            throw new EmptyLinkedListException("Cannot show a node from an empty list.");
+            throw new EmptyLinkedListException("Cannot display a node from an empty list.");
         }
         else if(index <= 0 || index > count){
             throw new InvalidIndexException("Requested index "+index+" is invalid");
@@ -184,7 +184,7 @@ public class ZipcodeLinkedList {
                     pointer = pointer.next;
                 }
             }
-            System.out.println("Showing " + pointer.key + " " + pointer.value);
+            System.out.println("City: " + pointer.key + ", Zipcode: " + pointer.value);
         }
     }
 
@@ -202,10 +202,9 @@ public class ZipcodeLinkedList {
         Node previousNode = null;
         while(pointer != null){
             if(pointer.key == targetCity){
-                System.out.println("Found target city " + pointer.key);
 
                 if(pointer.key == head.key){
-                    System.out.println("This is a head. Deleting it...");
+                    System.out.println("Deleting (head) " + pointer.key + " " + pointer.value);
                     head = head.next;
                     count--;
                     return;
@@ -216,16 +215,15 @@ public class ZipcodeLinkedList {
                 count--;
 
                 if(pointer.next == null) {
-                    System.out.println("This is a terminal node");
                     tail = previousNode;
-                    System.out.println("After deleting tail is " + tail.key + " " + tail.value);
+                    System.out.println("Updating the tail. The new tail is " + tail.key + " " + tail.value);
                 }
                 return;
             }
             previousNode = pointer;
             pointer = pointer.next;
         }
-        throw new ItemNotFoundException("The target city is not found.");
+        throw new ItemNotFoundException(targetCity + " is not found, and cannot be deleted.");
     }
 
     /**
@@ -245,7 +243,7 @@ public class ZipcodeLinkedList {
             }
             pointer = pointer.next;
         }
-        throw new ItemNotFoundException(city + " not found in the linked list.");
+        throw new ItemNotFoundException(city + " is not found in the linked list.");
     }
 
     /**

@@ -69,6 +69,12 @@ public class ZipcodeLinkedListTest {
     }
 
     @Test
+    public void showContentsOfEmptyLinkedList(){
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        list.showContentsOfTheLinkedList();
+    }
+
+    @Test
     public void addingNodeToEmptyListShouldPointHeadAndTailToThatNode(){
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         String city = "Bangkok";

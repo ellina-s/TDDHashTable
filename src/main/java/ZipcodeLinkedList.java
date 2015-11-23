@@ -44,6 +44,10 @@ public class ZipcodeLinkedList {
      * Reference: https://www.cs.cmu.edu/~adamchik/15-121/lectures/Linked%20Lists/linked%20lists.html
      */
     public void showContentsOfTheLinkedList(){
+        if(isEmpty() == true){
+            System.out.println("This linked list is empty.");
+            return;
+        }
         Node pointer = head;
         System.out.println("This linked list contains:");
         while(pointer != null){

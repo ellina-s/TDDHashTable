@@ -66,6 +66,18 @@ public class ZipcodeLinkedList {
      * @param value value of the node
      */
     public void addNode(String key, String value){
+        if(key == null && value == null){
+            System.out.print("Key and value cannot be null.");
+            throw new NullPointerException("Key and value of a node cannot be null.");
+        }
+        if(key == null){
+            System.out.print("Key cannot be null.");
+            throw new NullPointerException("Key of a node cannot be null.");
+        }
+        if(value == null){
+            System.out.print("Value cannot be null.");
+            throw new NullPointerException("Value of a node cannot be null.");
+        }
         Node newNode = new Node(key, value, null);
         if(count == 0 && tail == null && head == null){
             // Adjust head and tail to the first node added to the linked list.

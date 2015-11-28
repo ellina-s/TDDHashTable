@@ -773,4 +773,22 @@ public class ZipcodeLinkedListTest {
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         list.deleteCity("");
     }
+
+    @Test (expected = NullPointerException.class)
+    public void passingNullKeyToAddNodeShouldThrowException(){
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        list.addNode(null, "value");
+    }
+
+    @Test (expected = NullPointerException.class)
+    public void passingNullValueToAddNodeShouldThrowException(){
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        list.addNode("key", null);
+    }
+
+    @Test (expected = NullPointerException.class)
+    public void passingNullForBothKeyAndValueShouldThrowException(){
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        list.addNode(null, null);
+    }
 }

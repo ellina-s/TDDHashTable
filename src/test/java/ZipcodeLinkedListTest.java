@@ -1,9 +1,6 @@
 package test.java;
 
-import main.java.EmptyLinkedListException;
-import main.java.InvalidIndexException;
-import main.java.ItemNotFoundException;
-import main.java.ZipcodeLinkedList;
+import main.java.*;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -647,13 +644,13 @@ public class ZipcodeLinkedListTest {
     }
 
     @Test
-    public void checkingForDuplicatesInEmptyListShouldReturnFalse(){
+    public void checkingForDuplicatesInEmptyListShouldReturnFalse() throws EmptyStringException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         assertFalse(list.checkForDuplicatesOf("Dublin"));
     }
 
     @Test
-    public void checkingForDuplicatesAfterDeletingAllNodesShouldReturnFalse() throws EmptyLinkedListException, ItemNotFoundException{
+    public void checkingForDuplicatesAfterDeletingAllNodesShouldReturnFalse() throws EmptyLinkedListException, ItemNotFoundException, EmptyStringException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         list.addNode("Dublin", "D84Y685");
         list.addNode("Madrid", "M7138G2");
@@ -666,7 +663,7 @@ public class ZipcodeLinkedListTest {
     }
 
     @Test
-    public void checkingForDuplicatesInDeletedListShouldReturnFalse() throws EmptyLinkedListException{
+    public void checkingForDuplicatesInDeletedListShouldReturnFalse() throws EmptyLinkedListException, EmptyStringException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         list.addNode("Dublin", "D84Y685");
         list.addNode("Madrid", "M7138G2");
@@ -677,7 +674,7 @@ public class ZipcodeLinkedListTest {
     }
 
     @Test
-    public void checkingForExistingDuplicateShouldReturnTrue(){
+    public void checkingForExistingDuplicateShouldReturnTrue() throws EmptyStringException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         list.addNode("Madrid", "M7138G2");
         list.addNode("Dublin", "D84Y685");
@@ -686,7 +683,7 @@ public class ZipcodeLinkedListTest {
     }
 
     @Test
-    public void checkingForNonExistingDuplicateShouldReturnFalse(){
+    public void checkingForNonExistingDuplicateShouldReturnFalse() throws EmptyStringException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         list.addNode("Madrid", "M7138G2");
         list.addNode("Dublin", "D84Y685");
@@ -695,11 +692,11 @@ public class ZipcodeLinkedListTest {
     }
 
     @Test
-    public void checkingForDuplicatesTest() throws EmptyLinkedListException, ItemNotFoundException{
+    public void checkingForDuplicatesTest() throws EmptyLinkedListException, ItemNotFoundException, EmptyStringException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
-        list.addNode("Miami", "");
-        list.addNode("Los Angeles", "");
-        list.addNode("Fenix", "");
+        list.addNode("Miami", "338415");
+        list.addNode("Los Angeles", "915324");
+        list.addNode("Fenix", "708174");
         assertTrue(list.checkForDuplicatesOf("Los Angeles"));
         assertTrue(list.checkForDuplicatesOf("Fenix"));
         assertTrue(list.checkForDuplicatesOf("Miami"));
@@ -709,5 +706,33 @@ public class ZipcodeLinkedListTest {
         assertFalse(list.checkForDuplicatesOf("Fenix"));
         list.deleteCity("Los Angeles");
         assertFalse(list.checkForDuplicatesOf("Los Angeles"));
+    }
+
+    @Test (expected = NullPointerException.class)
+    public void passingNullToDuplicatesCheckShouldRaiseException() throws EmptyStringException{
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        boolean status = list.checkForDuplicatesOf(null);
+    }
+
+    @Test (expected = EmptyStringException.class)
+    public void passingEmptyStringToDuplicatesCheckShouldRaiseException() throws EmptyStringException{
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        boolean status = list.checkForDuplicatesOf("");
+    }
+
+    @Test (expected = EmptyStringException.class)
+    public void passingEmptyStringToDuplicatesCheckInNonEmptyListShouldThrowException() throws EmptyStringException{
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        list.addNode("Madrid", "M7138G2");
+        list.addNode("Dublin", "D84Y685");
+        boolean status = list.checkForDuplicatesOf("");
+    }
+
+    @Test (expected = NullPointerException.class)
+    public void passingNullStringToDuplicatesCheckInNonEmptyListShouldThrowException() throws EmptyStringException{
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        list.addNode("Madrid", "M7138G2");
+        list.addNode("Dublin", "D84Y685");
+        boolean status = list.checkForDuplicatesOf(null);
     }
 }

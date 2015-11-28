@@ -256,7 +256,13 @@ public class ZipcodeLinkedList {
      * @return True if the city is in the list (any first occurence in the list). Otherwise, false.
      * Return false if the linked list is empty.
      */
-    public boolean checkForDuplicatesOf(String city){
+    public boolean checkForDuplicatesOf(String city) throws NullPointerException, EmptyStringException{
+        if(city == null){
+            throw new NullPointerException("The name of the city cannot be null.");
+        }
+        if(city == ""){
+            throw new EmptyStringException("Invalid argument: empty string");
+        }
         if(isEmpty()){
             System.out.println("There are no duplicates in an empty linked list.");
             return false;

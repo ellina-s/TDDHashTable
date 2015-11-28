@@ -235,7 +235,13 @@ public class ZipcodeLinkedList {
      * @param city the city whose index is retrieved
      * @return index of the city
      */
-    public String getCityIndex(String city) throws EmptyLinkedListException, ItemNotFoundException{
+    public String getCityIndex(String city) throws EmptyLinkedListException, ItemNotFoundException, EmptyStringException{
+        if(city == null){
+            throw  new NullPointerException("The name of the city cannot be null.");
+        }
+        if(city == ""){
+            throw new EmptyStringException("Invalid argument: empty string");
+        }
         if(isEmpty() == true){
             throw new EmptyLinkedListException("There are no cities in an empty linked list.");
         }

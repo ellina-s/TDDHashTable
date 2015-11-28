@@ -595,14 +595,14 @@ public class ZipcodeLinkedListTest {
     }
 
     @Test (expected = EmptyLinkedListException.class)
-    public void gettingCityIndexFromEmptyListShouldThrowException() throws EmptyLinkedListException, ItemNotFoundException{
+    public void gettingCityIndexFromEmptyListShouldThrowException() throws EmptyLinkedListException, ItemNotFoundException, EmptyStringException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         assertTrue(list.isEmpty());
         String zipcode = list.getCityIndex("city");
     }
 
     @Test (expected = EmptyLinkedListException.class)
-    public void gettingCityIndexFromNowEmptyListShouldThrowException() throws EmptyLinkedListException, ItemNotFoundException{
+    public void gettingCityIndexFromNowEmptyListShouldThrowException() throws EmptyLinkedListException, ItemNotFoundException, EmptyStringException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         list.addNode("Portland", "P739N6C");
         assertFalse(list.isEmpty());
@@ -612,7 +612,7 @@ public class ZipcodeLinkedListTest {
     }
 
     @Test
-    public void gettingZipcodesOfCitiesInTheListShouldRetrieveThoseZipcodes() throws EmptyLinkedListException, ItemNotFoundException{
+    public void gettingZipcodesOfCitiesInTheListShouldRetrieveThoseZipcodes() throws EmptyLinkedListException, ItemNotFoundException, EmptyStringException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         list.addNode("Shanghai", "T168V58");
         list.addNode("Dubai", "846M5BV");
@@ -626,7 +626,7 @@ public class ZipcodeLinkedListTest {
     }
 
     @Test (expected = ItemNotFoundException.class)
-    public void gettingZipcodeOfCityNotInTheListShouldThrowException() throws EmptyLinkedListException, ItemNotFoundException{
+    public void gettingZipcodeOfCityNotInTheListShouldThrowException() throws EmptyLinkedListException, ItemNotFoundException, EmptyStringException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         list.addNode("Shanghai", "T168V58");
         list.addNode("Dubai", "846M5BV");
@@ -635,7 +635,7 @@ public class ZipcodeLinkedListTest {
     }
 
     @Test (expected = ItemNotFoundException.class)
-    public void gettingZipcodeOfDeletedCityShouldThrowException() throws EmptyLinkedListException, ItemNotFoundException{
+    public void gettingZipcodeOfDeletedCityShouldThrowException() throws EmptyLinkedListException, ItemNotFoundException, EmptyStringException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         list.addNode("Dubai", "846M5BV");
         list.addNode("Sydney", "S438V8N");
@@ -734,5 +734,31 @@ public class ZipcodeLinkedListTest {
         list.addNode("Madrid", "M7138G2");
         list.addNode("Dublin", "D84Y685");
         boolean status = list.checkForDuplicatesOf(null);
+    }
+
+    @Test (expected = NullPointerException.class)
+    public void passingNullToGetCityIndexShouldRaiseException() throws EmptyLinkedListException, ItemNotFoundException, EmptyStringException{
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        String zipcode = list.getCityIndex(null);
+    }
+
+    @Test (expected = EmptyStringException.class)
+    public void passingEmptyStringToGetCityIndexShouldRaiseException() throws EmptyLinkedListException, ItemNotFoundException, EmptyStringException{
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        String zipcode = list.getCityIndex("");
+    }
+
+    @Test (expected = NullPointerException.class)
+    public void passingNullToGetCityIndexInNonEmptyListShouldRaiseException() throws EmptyLinkedListException, ItemNotFoundException, EmptyStringException{
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        list.addNode("London", "L874Y25");
+        String zipcode = list.getCityIndex(null);
+    }
+
+    @Test (expected = EmptyStringException.class)
+    public void passingEmptyStringToGetCityIndexInNonEmptyListShouldRaiseException() throws EmptyLinkedListException, ItemNotFoundException, EmptyStringException{
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        list.addNode("London", "L874Y25");
+        String zipcode = list.getCityIndex("");
     }
 }

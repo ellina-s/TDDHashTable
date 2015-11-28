@@ -257,12 +257,21 @@ public class ZipcodeLinkedList {
      * Return false if the linked list is empty.
      */
     public boolean checkForDuplicatesOf(String city){
-        boolean dummyReturn = false;
         if(isEmpty()){
+            System.out.println("There are no duplicates in an empty linked list.");
             return false;
         }
         else{
-            return dummyReturn;
+            Node pointer = head;
+            while(pointer != null){
+                if(pointer.key == city){
+                    System.out.println("Found a duplicate: " + pointer.key);
+                    return true;
+                }
+                pointer = pointer.next;
+            }
+            System.out.println("No duplicates of " + city + " are found.");
+            return false;
         }
     }
 

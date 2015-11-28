@@ -675,4 +675,39 @@ public class ZipcodeLinkedListTest {
         assertFalse(list.checkForDuplicatesOf("Madrid"));
         assertFalse(list.checkForDuplicatesOf("Dublin"));
     }
+
+    @Test
+    public void checkingForExistingDuplicateShouldReturnTrue(){
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        list.addNode("Madrid", "M7138G2");
+        list.addNode("Dublin", "D84Y685");
+        assertTrue(list.checkForDuplicatesOf("Madrid"));
+        assertTrue(list.checkForDuplicatesOf("Dublin"));
+    }
+
+    @Test
+    public void checkingForNonExistingDuplicateShouldReturnFalse(){
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        list.addNode("Madrid", "M7138G2");
+        list.addNode("Dublin", "D84Y685");
+        assertFalse(list.checkForDuplicatesOf("Rio"));
+        assertFalse(list.checkForDuplicatesOf("Miami"));
+    }
+
+    @Test
+    public void checkingForDuplicatesTest() throws EmptyLinkedListException, ItemNotFoundException{
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        list.addNode("Miami", "");
+        list.addNode("Los Angeles", "");
+        list.addNode("Fenix", "");
+        assertTrue(list.checkForDuplicatesOf("Los Angeles"));
+        assertTrue(list.checkForDuplicatesOf("Fenix"));
+        assertTrue(list.checkForDuplicatesOf("Miami"));
+        list.deleteCity("Miami");
+        assertFalse(list.checkForDuplicatesOf("Miami"));
+        list.deleteCity("Fenix");
+        assertFalse(list.checkForDuplicatesOf("Fenix"));
+        list.deleteCity("Los Angeles");
+        assertFalse(list.checkForDuplicatesOf("Los Angeles"));
+    }
 }

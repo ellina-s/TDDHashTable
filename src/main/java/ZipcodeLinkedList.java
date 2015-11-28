@@ -197,7 +197,13 @@ public class ZipcodeLinkedList {
      * @param targetCity name of the city whose node will be deleted from the linked
     list
      */
-    public void deleteCity(String targetCity) throws EmptyLinkedListException, ItemNotFoundException{
+    public void deleteCity(String targetCity) throws EmptyLinkedListException, ItemNotFoundException, EmptyStringException{
+        if(targetCity == null){
+            throw new NullPointerException("The name of the city cannot be null.");
+        }
+        if(targetCity == ""){
+            throw new EmptyStringException("Invalid argument: empty string");
+        }
         if(isEmpty() == true){
             throw new EmptyLinkedListException("Cannot delete a node from an empty list.");
         }

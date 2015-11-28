@@ -251,6 +251,22 @@ public class ZipcodeLinkedList {
     }
 
     /**
+     * Check if the given city is already in the linked list.
+     * @param city the name of the city
+     * @return True if the city is in the list (any first occurence in the list). Otherwise, false.
+     * Return false if the linked list is empty.
+     */
+    public boolean checkForDuplicatesOf(String city){
+        boolean dummyReturn = false;
+        if(isEmpty()){
+            return false;
+        }
+        else{
+            return dummyReturn;
+        }
+    }
+
+    /**
      * A class for a node of a linked list
      */
     public class Node{

@@ -645,4 +645,34 @@ public class ZipcodeLinkedListTest {
         list.deleteCity("Sydney");
         String zipcode = list.getCityIndex("Sydney");
     }
+
+    @Test
+    public void checkingForDuplicatesInEmptyListShouldReturnFalse(){
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        assertFalse(list.checkForDuplicatesOf("Dublin"));
+    }
+
+    @Test
+    public void checkingForDuplicatesAfterDeletingAllNodesShouldReturnFalse() throws EmptyLinkedListException, ItemNotFoundException{
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        list.addNode("Dublin", "D84Y685");
+        list.addNode("Madrid", "M7138G2");
+        assertFalse(list.isEmpty());
+        list.deleteCity("Dublin");
+        list.deleteCity("Madrid");
+        assertTrue(list.isEmpty());
+        assertFalse(list.checkForDuplicatesOf("Dublin"));
+        assertFalse(list.checkForDuplicatesOf("Madrid"));
+    }
+
+    @Test
+    public void checkingForDuplicatesInDeletedListShouldReturnFalse() throws EmptyLinkedListException{
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        list.addNode("Dublin", "D84Y685");
+        list.addNode("Madrid", "M7138G2");
+        list.deleteLinkedList();
+        assertTrue(list.isEmpty());
+        assertFalse(list.checkForDuplicatesOf("Madrid"));
+        assertFalse(list.checkForDuplicatesOf("Dublin"));
+    }
 }

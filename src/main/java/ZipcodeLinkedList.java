@@ -65,7 +65,7 @@ public class ZipcodeLinkedList {
      * @param key key of the node
      * @param value value of the node
      */
-    public void addNode(String key, String value){
+    public void addNode(String key, String value) throws EmptyStringException{
         if(key == null && value == null){
             System.out.print("Key and value cannot be null.");
             throw new NullPointerException("Key and value of a node cannot be null.");
@@ -77,6 +77,15 @@ public class ZipcodeLinkedList {
         if(value == null){
             System.out.print("Value cannot be null.");
             throw new NullPointerException("Value of a node cannot be null.");
+        }
+        if(key == "" && value == ""){
+            throw new EmptyStringException("Key and value of a node cannot be empty.");
+        }
+        if(key == ""){
+            throw new EmptyStringException("Key of a node cannot be empty.");
+        }
+        if(value == ""){
+            throw new EmptyStringException("Value of a node cannot be empty.");
         }
         Node newNode = new Node(key, value, null);
         if(count == 0 && tail == null && head == null){
@@ -249,11 +258,11 @@ public class ZipcodeLinkedList {
     }
 
     /**
-     * Get an index of a given city
-     * @param city the city whose index is retrieved
-     * @return index of the city
+     * Get an zipcode of a given city
+     * @param city the city whose zipcode is retrieved
+     * @return zipcode of the city
      */
-    public String getCityIndex(String city) throws EmptyLinkedListException, ItemNotFoundException, EmptyStringException{
+    public String getCityZipcode(String city) throws EmptyLinkedListException, ItemNotFoundException, EmptyStringException{
         if(city == null){
             throw  new NullPointerException("The name of the city cannot be null.");
         }

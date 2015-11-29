@@ -40,7 +40,7 @@ public class ZipcodeLinkedListTest {
     }
 
     @Test
-    public void addingOneElementShouldIncreaseCountByOne(){
+    public void addingOneElementShouldIncreaseCountByOne() throws EmptyStringException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         // Count should be zero for a new empty linked list
         assertEquals(0, list.count);
@@ -55,7 +55,7 @@ public class ZipcodeLinkedListTest {
     }
 
     @Test
-    public void showTheContentsOfTheLinkedListByTraversingIt(){
+    public void showTheContentsOfTheLinkedListByTraversingIt() throws EmptyStringException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         // Add a few nodes
         list.addNode("Paris", "P456Q57");
@@ -72,7 +72,7 @@ public class ZipcodeLinkedListTest {
     }
 
     @Test
-    public void addingNodeToEmptyListShouldPointHeadAndTailToThatNode(){
+    public void addingNodeToEmptyListShouldPointHeadAndTailToThatNode() throws EmptyStringException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         String city = "Bangkok";
         String zipcode = "BK78621";
@@ -91,7 +91,7 @@ public class ZipcodeLinkedListTest {
     }
 
     @Test
-    public void addingNodeToNonEmptyLinkedListShouldMaintainHeadAndTail(){
+    public void addingNodeToNonEmptyLinkedListShouldMaintainHeadAndTail() throws EmptyStringException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         // Add the first node
         String city1 = "Bangkok";
@@ -115,7 +115,7 @@ public class ZipcodeLinkedListTest {
     }
 
     @Test
-    public void addingNodeToLinkedListWithTwoNodesShouldMaintainHeadAndTail(){
+    public void addingNodeToLinkedListWithTwoNodesShouldMaintainHeadAndTail() throws EmptyStringException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         // Add the first node
         String city1 = "Bangkok";
@@ -146,7 +146,7 @@ public class ZipcodeLinkedListTest {
     }
 
     @Test
-    public void sizeOfTheLinkedListTest(){
+    public void sizeOfTheLinkedListTest() throws EmptyStringException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         assertEquals(0, list.size());
 
@@ -164,7 +164,7 @@ public class ZipcodeLinkedListTest {
     }
 
     @Test
-    public void retrieveNodeByIndexTest() throws EmptyLinkedListException, InvalidIndexException{
+    public void retrieveNodeByIndexTest() throws EmptyLinkedListException, InvalidIndexException, EmptyStringException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         // Add a few nodes
         list.addNode("Paris", "P456Q57");
@@ -208,42 +208,42 @@ public class ZipcodeLinkedListTest {
     }
 
     @Test (expected = InvalidIndexException.class)
-    public void zeroIndexShouldThrowException() throws InvalidIndexException, EmptyLinkedListException{
+    public void zeroIndexShouldThrowException() throws InvalidIndexException, EmptyLinkedListException, EmptyStringException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         list.addNode("Mexico", "M58RP8D");
         String[] data = list.getNodeAtIndex(0);
     }
 
     @Test (expected = InvalidIndexException.class)
-    public void indexLargerThanSizeOfLinkedListShouldThrowException() throws InvalidIndexException, EmptyLinkedListException{
+    public void indexLargerThanSizeOfLinkedListShouldThrowException() throws InvalidIndexException, EmptyLinkedListException, EmptyStringException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         list.addNode("Mexico", "M58RP8D");
         String[] data = list.getNodeAtIndex(2);
     }
 
     @Test (expected = InvalidIndexException.class)
-    public void indexMuchLargerThanSizeOfLinkedListShouldThrowException() throws InvalidIndexException, EmptyLinkedListException{
+    public void indexMuchLargerThanSizeOfLinkedListShouldThrowException() throws InvalidIndexException, EmptyLinkedListException, EmptyStringException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         list.addNode("Mexico", "M58RP8D");
         String[] data = list.getNodeAtIndex(574169820);
     }
 
     @Test (expected = InvalidIndexException.class)
-    public void negativeIndexShouldThrowException() throws InvalidIndexException, EmptyLinkedListException{
+    public void negativeIndexShouldThrowException() throws InvalidIndexException, EmptyLinkedListException, EmptyStringException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         list.addNode("Deli", "5783Z6D");
         String[] data = list.getNodeAtIndex(-1);
     }
 
     @Test (expected = InvalidIndexException.class)
-    public void largeNegativeIndexShouldThrowException() throws InvalidIndexException, EmptyLinkedListException{
+    public void largeNegativeIndexShouldThrowException() throws InvalidIndexException, EmptyLinkedListException, EmptyStringException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         list.addNode("Deli", "5783Z6D");
         String[] data = list.getNodeAtIndex(-9846858);
     }
 
     @Test
-    public void deletingLinkedListShouldRemoveAllNodes() throws EmptyLinkedListException{
+    public void deletingLinkedListShouldRemoveAllNodes() throws EmptyLinkedListException, EmptyStringException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         list.addNode("Rio", "5478135");
         list.addNode("Madrid", "LKJ6375");
@@ -268,35 +268,35 @@ public class ZipcodeLinkedListTest {
     }
 
     @Test (expected = InvalidIndexException.class)
-    public void deletingNodeAtIndexZeroShouldThrowException() throws EmptyLinkedListException, InvalidIndexException{
+    public void deletingNodeAtIndexZeroShouldThrowException() throws EmptyLinkedListException, InvalidIndexException, EmptyStringException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         list.addNode("London", "L84765F2");
         list.deleteNodeAtIndex(0);
     }
 
     @Test (expected = InvalidIndexException.class)
-    public void deletingNegativeIndexShouldThrowException() throws EmptyLinkedListException, InvalidIndexException{
+    public void deletingNegativeIndexShouldThrowException() throws EmptyLinkedListException, InvalidIndexException, EmptyStringException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         list.addNode("London", "L84765F2");
         list.deleteNodeAtIndex(-1);
     }
 
     @Test (expected = InvalidIndexException.class)
-    public void deletingLargeNegativeIndexShouldThrowException() throws EmptyLinkedListException, InvalidIndexException{
+    public void deletingLargeNegativeIndexShouldThrowException() throws EmptyLinkedListException, InvalidIndexException, EmptyStringException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         list.addNode("Tokyo", "Y6E88941");
         list.deleteNodeAtIndex(-99135483);
     }
 
     @Test (expected = InvalidIndexException.class)
-    public void deletingIndexLargerThanSizeOfLinkedListShouldThrowException() throws EmptyLinkedListException, InvalidIndexException{
+    public void deletingIndexLargerThanSizeOfLinkedListShouldThrowException() throws EmptyLinkedListException, InvalidIndexException, EmptyStringException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         list.addNode("Tokyo", "Y6E88941");
         list.deleteNodeAtIndex(2);
     }
 
     @Test (expected = InvalidIndexException.class)
-    public void deletingIndexMuchLargerThanSizeOfLinkedListShouldThrowException() throws EmptyLinkedListException, InvalidIndexException{
+    public void deletingIndexMuchLargerThanSizeOfLinkedListShouldThrowException() throws EmptyLinkedListException, InvalidIndexException, EmptyStringException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         list.addNode("Tokyo", "Y6E88941");
         list.addNode("Sydney", "E16V832R");
@@ -304,7 +304,7 @@ public class ZipcodeLinkedListTest {
     }
 
     @Test
-    public void showingANodeUnderValidIndex() throws EmptyLinkedListException, InvalidIndexException{
+    public void showingANodeUnderValidIndex() throws EmptyLinkedListException, InvalidIndexException, EmptyStringException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         list.addNode("Tokyo", "Y6E88941");
         list.addNode("Sydney", "E16V832R");
@@ -333,49 +333,49 @@ public class ZipcodeLinkedListTest {
     }
 
     @Test (expected = InvalidIndexException.class)
-    public void showNodeUnderInvalidIndexCaseA() throws EmptyLinkedListException, InvalidIndexException{
+    public void showNodeUnderInvalidIndexCaseA() throws EmptyLinkedListException, InvalidIndexException, EmptyStringException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         list.addNode("New York", "NY16462");
         list.showNodeAtIndex(2);
     }
 
     @Test (expected = InvalidIndexException.class)
-    public void showNodeUnderInvalidIndexCaseB() throws EmptyLinkedListException, InvalidIndexException{
+    public void showNodeUnderInvalidIndexCaseB() throws EmptyLinkedListException, InvalidIndexException, EmptyStringException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         list.addNode("New York", "NY16462");
         list.showNodeAtIndex(0);
     }
 
     @Test (expected = InvalidIndexException.class)
-    public void showNodeUnderInvalidIndexCaseC() throws EmptyLinkedListException, InvalidIndexException{
+    public void showNodeUnderInvalidIndexCaseC() throws EmptyLinkedListException, InvalidIndexException, EmptyStringException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         list.addNode("New York", "NY16462");
         list.showNodeAtIndex(-1);
     }
 
     @Test (expected = InvalidIndexException.class)
-    public void showNodeUnderInvalidIndexCaseD() throws EmptyLinkedListException, InvalidIndexException{
+    public void showNodeUnderInvalidIndexCaseD() throws EmptyLinkedListException, InvalidIndexException, EmptyStringException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         list.addNode("New York", "NY16462");
         list.showNodeAtIndex(-999787465);
     }
 
     @Test (expected = InvalidIndexException.class)
-    public void showNodeUnderInvalidIndexCaseE() throws EmptyLinkedListException, InvalidIndexException{
+    public void showNodeUnderInvalidIndexCaseE() throws EmptyLinkedListException, InvalidIndexException, EmptyStringException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         list.addNode("New York", "NY16462");
         list.showNodeAtIndex(999787485);
     }
 
     @Test
-    public void showNodeUnderValidIndex() throws EmptyLinkedListException, InvalidIndexException{
+    public void showNodeUnderValidIndex() throws EmptyLinkedListException, InvalidIndexException, EmptyStringException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         list.addNode("New York", "NY16462");
         list.showNodeAtIndex(1);
     }
 
     @Test
-    public void deletingHeadNodeShouldUpdateHead() throws EmptyLinkedListException, InvalidIndexException{
+    public void deletingHeadNodeShouldUpdateHead() throws EmptyLinkedListException, InvalidIndexException, EmptyStringException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         list.addNode("Rome", "G48687F2");
         list.addNode("Oslo", "4758G7KX");
@@ -397,7 +397,7 @@ public class ZipcodeLinkedListTest {
     }
 
     @Test
-    public void deletingANodeBetweenOtherNodesShouldMaintainNodesOrder() throws EmptyLinkedListException, InvalidIndexException{
+    public void deletingANodeBetweenOtherNodesShouldMaintainNodesOrder() throws EmptyLinkedListException, InvalidIndexException, EmptyStringException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         list.addNode("Rome", "G48687F2");
         list.addNode("Oslo", "4758G7KX");
@@ -430,7 +430,7 @@ public class ZipcodeLinkedListTest {
     }
 
     @Test
-    public void deletingTailShouldRemapTail() throws EmptyLinkedListException, InvalidIndexException{
+    public void deletingTailShouldRemapTail() throws EmptyLinkedListException, InvalidIndexException, EmptyStringException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         list.addNode("Singapore", "S671058D");
         list.addNode("Toronto", "T4G5W6");
@@ -451,7 +451,7 @@ public class ZipcodeLinkedListTest {
     }
 
     @Test
-    public void deletingANodeShouldDecreaseCountByOne() throws EmptyLinkedListException, InvalidIndexException{
+    public void deletingANodeShouldDecreaseCountByOne() throws EmptyLinkedListException, InvalidIndexException, EmptyStringException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         list.addNode("Rome", "G48687F2");
         list.addNode("Oslo", "4758G7KX");
@@ -598,7 +598,7 @@ public class ZipcodeLinkedListTest {
     public void gettingCityIndexFromEmptyListShouldThrowException() throws EmptyLinkedListException, ItemNotFoundException, EmptyStringException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         assertTrue(list.isEmpty());
-        String zipcode = list.getCityIndex("city");
+        String zipcode = list.getCityZipcode("city");
     }
 
     @Test (expected = EmptyLinkedListException.class)
@@ -608,7 +608,7 @@ public class ZipcodeLinkedListTest {
         assertFalse(list.isEmpty());
         list.deleteCity("Portland");
         assertTrue(list.isEmpty());
-        String zipcode = list.getCityIndex("Portland");
+        String zipcode = list.getCityZipcode("Portland");
     }
 
     @Test
@@ -617,11 +617,11 @@ public class ZipcodeLinkedListTest {
         list.addNode("Shanghai", "T168V58");
         list.addNode("Dubai", "846M5BV");
         list.addNode("Sydney", "S438V8N");
-        String zipcodeA = list.getCityIndex("Shanghai");
+        String zipcodeA = list.getCityZipcode("Shanghai");
         assertEquals("T168V58", zipcodeA);
-        String zipcodeB = list.getCityIndex("Dubai");
+        String zipcodeB = list.getCityZipcode("Dubai");
         assertEquals("846M5BV", zipcodeB);
-        String zipcodeC = list.getCityIndex("Sydney");
+        String zipcodeC = list.getCityZipcode("Sydney");
         assertEquals("S438V8N", zipcodeC);
     }
 
@@ -631,7 +631,7 @@ public class ZipcodeLinkedListTest {
         list.addNode("Shanghai", "T168V58");
         list.addNode("Dubai", "846M5BV");
         list.addNode("Sydney", "S438V8N");
-        String zipcode = list.getCityIndex("Rio");
+        String zipcode = list.getCityZipcode("Rio");
     }
 
     @Test (expected = ItemNotFoundException.class)
@@ -640,7 +640,7 @@ public class ZipcodeLinkedListTest {
         list.addNode("Dubai", "846M5BV");
         list.addNode("Sydney", "S438V8N");
         list.deleteCity("Sydney");
-        String zipcode = list.getCityIndex("Sydney");
+        String zipcode = list.getCityZipcode("Sydney");
     }
 
     @Test
@@ -739,27 +739,27 @@ public class ZipcodeLinkedListTest {
     @Test (expected = NullPointerException.class)
     public void passingNullToGetCityIndexShouldRaiseException() throws EmptyLinkedListException, ItemNotFoundException, EmptyStringException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
-        String zipcode = list.getCityIndex(null);
+        String zipcode = list.getCityZipcode(null);
     }
 
     @Test (expected = EmptyStringException.class)
     public void passingEmptyStringToGetCityIndexShouldRaiseException() throws EmptyLinkedListException, ItemNotFoundException, EmptyStringException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
-        String zipcode = list.getCityIndex("");
+        String zipcode = list.getCityZipcode("");
     }
 
     @Test (expected = NullPointerException.class)
     public void passingNullToGetCityIndexInNonEmptyListShouldRaiseException() throws EmptyLinkedListException, ItemNotFoundException, EmptyStringException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         list.addNode("London", "L874Y25");
-        String zipcode = list.getCityIndex(null);
+        String zipcode = list.getCityZipcode(null);
     }
 
     @Test (expected = EmptyStringException.class)
     public void passingEmptyStringToGetCityIndexInNonEmptyListShouldRaiseException() throws EmptyLinkedListException, ItemNotFoundException, EmptyStringException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         list.addNode("London", "L874Y25");
-        String zipcode = list.getCityIndex("");
+        String zipcode = list.getCityZipcode("");
     }
 
     @Test (expected = NullPointerException.class)
@@ -775,20 +775,39 @@ public class ZipcodeLinkedListTest {
     }
 
     @Test (expected = NullPointerException.class)
-    public void passingNullKeyToAddNodeShouldThrowException(){
+    public void passingNullKeyToAddNodeShouldThrowException() throws EmptyStringException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         list.addNode(null, "value");
     }
 
     @Test (expected = NullPointerException.class)
-    public void passingNullValueToAddNodeShouldThrowException(){
+    public void passingNullValueToAddNodeShouldThrowException() throws EmptyStringException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         list.addNode("key", null);
     }
 
     @Test (expected = NullPointerException.class)
-    public void passingNullForBothKeyAndValueShouldThrowException(){
+    public void passingNullForBothKeyAndValueShouldThrowException() throws EmptyStringException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         list.addNode(null, null);
     }
+
+    @Test (expected = EmptyStringException.class)
+    public void passingEmptyKeyToAddNodeShouldThrowException() throws EmptyStringException{
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        list.addNode("", "value");
+    }
+
+    @Test (expected = EmptyStringException.class)
+    public void passingEmptyValueToAddNodeShouldThrowException()throws EmptyStringException{
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        list.addNode("key", "");
+    }
+
+    @Test (expected = EmptyStringException.class)
+    public void passingEmptyValueAndKeyToAddNodeShouldThrowException()throws EmptyStringException{
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        list.addNode("", "");
+    }
+
 }

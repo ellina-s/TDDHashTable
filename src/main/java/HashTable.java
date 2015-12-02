@@ -35,4 +35,18 @@ public class HashTable {
     public int size(){
         return size;
     }
+
+    /**
+     * Convert a string to a sum of ASCII values of its characters.
+     * @param key an input string
+     * @return an integer sum of ASCII values of all characters in the key
+     */
+    public int convertToAscii(String key){
+        int keyIntegerEquivalent = 0;
+        int length = key.length();
+        for(int i = 0; i<length; i++){
+            keyIntegerEquivalent += (int) key.charAt(i);
+        }
+        return keyIntegerEquivalent;
+    }
 }

@@ -49,4 +49,38 @@ public class HashTable {
         }
         return keyIntegerEquivalent;
     }
+
+    /**
+     * Insert an item in a hash table
+     * @param key key of the item
+     * @param value value of the item
+     * @throws EmptyStringException
+     * @throws NullPointerException
+     */
+    public void insert(String key, String value) throws EmptyStringException, NullPointerException{
+        if(key == "" || value == ""){
+            throw new EmptyStringException("Key and value cannot be empty.");
+        }
+        if(key == null || value == null){
+            System.out.println("Key and value cannot be null.");
+            throw new NullPointerException("Key and value cannot be null.");
+        }
+        return;
+    }
+
+    /**
+     * Compute a hash key of the provided key
+     * by (1) computing an ASCII value of the key,
+     * and (2) computing a reminder of the division by the size of a hash table.
+     * A hash key is used as an index into a hash table.
+     * @param key key of an item
+     * @return hash key corresponding to the given key
+     */
+    public int hash(String key){
+        /*
+        int hashKey = convertToAscii(key) % size;
+        System.out.println("Hash key of " + key + ": " + hashKey);
+        return hashKey; */
+        return convertToAscii(key) % size;
+    }
 }

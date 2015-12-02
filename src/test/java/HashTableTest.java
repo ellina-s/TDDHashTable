@@ -1,5 +1,6 @@
 package test.java;
 
+import main.java.EmptyStringException;
 import main.java.HashTable;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -41,5 +42,51 @@ public class HashTableTest {
         int asciiEquivalent = ASCII_UPPERCASE_M + ASCII_LOWERCASE_E +ASCII_LOWERCASE_X +
                 ASCII_LOWERCASE_I + ASCII_LOWERCASE_C + ASCII_LOWERCASE_O;
         assertEquals(asciiEquivalent, hashTable.convertToAscii(key));
+    }
+
+    @Test (expected = EmptyStringException.class)
+    public void insertingEmptyKeyAndValueShouldThrowException() throws EmptyStringException{
+        HashTable hashTable = new HashTable();
+        hashTable.insert("", "");
+    }
+
+    @Test (expected = EmptyStringException.class)
+    public void insertingEmptyKeyShouldThrowException() throws EmptyStringException{
+        HashTable hashTable = new HashTable();
+        hashTable.insert("", "zipcode");
+    }
+
+    @Test (expected = EmptyStringException.class)
+    public void insertingEmptyValueShouldThrowException() throws EmptyStringException{
+        HashTable hashTable = new HashTable();
+        hashTable.insert("key", "");
+    }
+
+    @Test (expected = NullPointerException.class)
+    public void insertingNullKeyAndValueShouldThrowException() throws EmptyStringException{
+        HashTable hashTable = new HashTable();
+        hashTable.insert(null, null);
+    }
+
+    @Test (expected = NullPointerException.class)
+    public void insertingNullKeyShouldThrowException() throws EmptyStringException{
+        HashTable hashTable = new HashTable();
+        hashTable.insert(null, "zipcode");
+    }
+
+    @Test (expected = NullPointerException.class)
+    public void insertingNullValueShouldThrowException() throws EmptyStringException{
+        HashTable hashTable = new HashTable();
+        hashTable.insert("key", null);
+    }
+
+    @Test
+    public void hashFunctionTest(){
+        HashTable hashTable = new HashTable();
+        String key = "Mexico";
+        int asciiEquivalent = ASCII_UPPERCASE_M + ASCII_LOWERCASE_E +ASCII_LOWERCASE_X +
+                ASCII_LOWERCASE_I + ASCII_LOWERCASE_C + ASCII_LOWERCASE_O;
+        int hashKey = asciiEquivalent % NUM_SLOTS;
+        assertEquals(hashKey, hashTable.hash(key));
     }
 }

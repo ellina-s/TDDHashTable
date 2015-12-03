@@ -2,6 +2,8 @@ package test.java;
 
 import main.java.*;
 import org.junit.Test;
+import sun.invoke.empty.Empty;
+
 import static org.junit.Assert.*;
 
 /**
@@ -118,13 +120,15 @@ public class HashTableTest {
 
         int hashKey1 = hashTable.hash(key1);
         int hashKey2 = hashTable.hash(key2);
+        // Check that their hash keys are the same
+        assertEquals(hashKey1, hashKey2);
 
         // Check that both cities are inserted in the hash table
         assertEquals(zipcode1, hashTable.hashTable[hashKey1].getCityZipcode(key1));
         assertEquals(zipcode2, hashTable.hashTable[hashKey2].getCityZipcode(key2));
     }
 
-    @Test
+    @Test (expected = DuplicateItemException.class)
     public void insertingTheSameItemInHashTableShouldRaiseException() throws EmptyStringException, DuplicateItemException{
         HashTable hashTable = new HashTable();
         String key = "Almaty";
@@ -132,7 +136,6 @@ public class HashTableTest {
         hashTable.insert(key, zipcode);
         // Attempt to insert a duplicate
         hashTable.insert(key, zipcode);
-        fail();
     }
 
     @Test (expected = DuplicateItemException.class)
@@ -153,5 +156,45 @@ public class HashTableTest {
         String key3 = "Almaty";
         String zipcode3 = "A506791";
         hashTable.insert(key3, zipcode3);
+    }
+
+    @Test
+    public void hashTableShouldIndicateItIsNotEmptyAfterAddingItemToIt() throws EmptyStringException, DuplicateItemException{
+        HashTable hashTable = new HashTable();
+        assertTrue(hashTable.isEmpty());
+        hashTable.insert("Toronto", "T3K8V1");
+        assertFalse(hashTable.isEmpty());
+    }
+
+    @Test
+    public void insertingItemsInDifferentSlotsShouldMaintainNonEmptyStatusOfHashTable() throws EmptyStringException, DuplicateItemException{
+        HashTable hashTable = new HashTable();
+        assertTrue(hashTable.isEmpty());
+        // Insert two items with different hash keys
+        hashTable.insert("Toronto", "T3K8V1");
+        assertFalse(hashTable.isEmpty());
+        hashTable.insert("Tokyo", "6748J45");
+        // Check that their hash keys are different (i.e. the items are in different slots)
+        assertNotEquals(hashTable.hash("Toronto"), hashTable.hash("Tokyo"));
+        // Check that the table is not empty at this point
+        assertFalse(hashTable.isEmpty());
+    }
+
+    @Test
+    public void insertingCollidingItemsInTheSameSlotShouldMaintainNonEmptyStatusOfHashTable() throws EmptyStringException, DuplicateItemException{
+        HashTable hashTable = new HashTable();
+        assertTrue(hashTable.isEmpty());
+        // Insert a city
+        String key1 = "Almaty";
+        String zipcode1 = "A506791";
+        hashTable.insert(key1, zipcode1);
+        // Insert another city with the same hash key as Almaty, e.g. Toronto
+        String key2 = "Toronto";
+        String zipcode2 = "T3K8V1";
+        hashTable.insert(key2, zipcode2);
+        // Check that their hash keys are the same
+        assertEquals(hashTable.hash("Almaty"), hashTable.hash("Toronto"));
+        // Check that the table is not empty at this point
+        assertFalse(hashTable.isEmpty());
     }
 }

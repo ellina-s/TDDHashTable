@@ -72,6 +72,9 @@ public class HashTable {
             System.out.println("This slot is null. Initializing a linked list and adding a node...");
             hashTable[hashKey] = new ZipcodeLinkedList();
             hashTable[hashKey].addNode(key, value);
+            if(isEmpty == true){
+                isEmpty = false;
+            }
         }
         else{
             System.out.println("This slot is not empty. Checking for duplicates...");

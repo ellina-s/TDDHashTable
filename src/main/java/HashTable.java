@@ -9,6 +9,7 @@ public class HashTable {
 
     private int size;
     private boolean isEmpty;
+    public ZipcodeLinkedList[] hashTable;
 
     private static final int NUM_SLOTS = 47;
 
@@ -18,6 +19,7 @@ public class HashTable {
     public HashTable(){
         size = NUM_SLOTS;
         isEmpty = true;
+        hashTable = new ZipcodeLinkedList[size];
     }
 
     /**
@@ -57,13 +59,28 @@ public class HashTable {
      * @throws EmptyStringException
      * @throws NullPointerException
      */
-    public void insert(String key, String value) throws EmptyStringException, NullPointerException{
+    public void insert(String key, String value) throws EmptyStringException, NullPointerException, DuplicateItemException{
         if(key == "" || value == ""){
             throw new EmptyStringException("Key and value cannot be empty.");
         }
         if(key == null || value == null){
             System.out.println("Key and value cannot be null.");
             throw new NullPointerException("Key and value cannot be null.");
+        }
+        int hashKey = hash(key);
+        if(hashTable[hashKey] == null){
+            System.out.println("This slot is null. Initializing a linked list and adding a node...");
+            hashTable[hashKey] = new ZipcodeLinkedList();
+            hashTable[hashKey].addNode(key, value);
+        }
+        else{
+            System.out.println("This slot is not empty. Checking for duplicates...");
+            if( hashTable[hashKey].checkForDuplicatesOf(key) == false){
+                hashTable[hashKey].addNode(key, value);
+            }
+            else{
+                throw new DuplicateItemException("Duplicate item is detected. Cannot insert a duplicate.");
+            }
         }
         return;
     }
@@ -77,10 +94,6 @@ public class HashTable {
      * @return hash key corresponding to the given key
      */
     public int hash(String key){
-        /*
-        int hashKey = convertToAscii(key) % size;
-        System.out.println("Hash key of " + key + ": " + hashKey);
-        return hashKey; */
         return convertToAscii(key) % size;
     }
 }

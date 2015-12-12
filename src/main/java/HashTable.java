@@ -89,6 +89,45 @@ public class HashTable {
     }
 
     /**
+     * Search for a given city and return its zipcode.
+     * @param city name of the city
+     * @return a zipcode of the given city
+     * @throws EmptyHashTableException is thrown if a hash table is empty.
+     * @throws ItemNotFoundException is thrown if the city is not found.
+     * @throws EmptyStringException is thrown is the city parameter is empty.
+     */
+    public String search(String city) throws EmptyHashTableException, ItemNotFoundException, EmptyStringException, EmptyLinkedListException{
+        if(city == ""){
+            throw new EmptyStringException("City name cannot be empty.");
+        }
+        if(city == null){
+            System.out.println("City name cannot be null.");
+            throw new NullPointerException("City name cannot be null.");
+        }
+        if(isEmpty){
+            throw new EmptyHashTableException("There are no items in an empty hash table.");
+        }
+        int hashKey = hash(city);
+        if(hashTable[hashKey] == null){
+            System.out.println("Slot of " + city + " is null.");
+            throw new ItemNotFoundException(city + " is not found.");
+        }
+        else{
+            System.out.println("This slot is not empty. Searching for the given city...");
+            try{
+                return hashTable[hashKey].getCityZipcode(city);
+            }
+            catch(ItemNotFoundException e){
+                throw new ItemNotFoundException(city + " is not found in the hash table.");
+            }
+            catch (Exception e){
+                System.out.println("HashTable caught " + e);
+                throw e;
+            }
+        }
+    }
+
+    /**
      * Compute a hash key of the provided key
      * by (1) computing an ASCII value of the key,
      * and (2) computing a reminder of the division by the size of a hash table.

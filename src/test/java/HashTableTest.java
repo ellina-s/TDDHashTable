@@ -2,7 +2,6 @@ package test.java;
 
 import main.java.*;
 import org.junit.Test;
-import sun.invoke.empty.Empty;
 
 import static org.junit.Assert.*;
 
@@ -196,5 +195,74 @@ public class HashTableTest {
         assertEquals(hashTable.hash("Almaty"), hashTable.hash("Toronto"));
         // Check that the table is not empty at this point
         assertFalse(hashTable.isEmpty());
+    }
+
+    @Test (expected = EmptyHashTableException.class)
+    public void searchingForItemInEmptyTableShouldThrowException() throws EmptyHashTableException, ItemNotFoundException, EmptyStringException, EmptyLinkedListException{
+        HashTable hashTable = new HashTable();
+        hashTable.search("city");
+    }
+
+    @Test (expected = ItemNotFoundException.class)
+    public void searchingForNotExistingNonCollidingCityInNonEmptyTableShouldThrowException() throws EmptyHashTableException, EmptyStringException,
+            DuplicateItemException, ItemNotFoundException, EmptyLinkedListException{
+        HashTable hashTable = new HashTable();
+        // Add an item to the hash table, so that the table is not empty
+        hashTable.insert("City", "zipcode");
+        // Attempt to search for another item that does not collide with the added city
+        assertEquals("zipcode", hashTable.search("capital"));
+    }
+
+    @Test
+    public void searchingForExistingItemInNonEmptyTableShouldReturnItsZipcode() throws EmptyStringException,
+            DuplicateItemException, EmptyHashTableException, ItemNotFoundException, EmptyLinkedListException{
+        HashTable hashTable = new HashTable();
+        // Add an item to the hash table, so that the table is not empty
+        String city = "Singapore";
+        String zipcode = "S573824";
+        hashTable.insert(city, zipcode);
+        // Search for the city that has been added to the hash table
+        assertEquals(zipcode, hashTable.search(city));
+    }
+
+    @Test (expected = ItemNotFoundException.class)
+    public void searchingForCollidingNotExistingItemShouldThrowException() throws EmptyStringException,
+            DuplicateItemException, EmptyHashTableException, ItemNotFoundException, EmptyLinkedListException{
+        HashTable hashTable = new HashTable();
+        // Insert a city
+        String key1 = "Almaty";
+        String zipcode1 = "A506791";
+        hashTable.insert(key1, zipcode1);
+        // Search for another city whose hash key collides with the added city, e.g. Toronto
+        assertEquals("zipcode", hashTable.search("Toronto"));
+    }
+
+    @Test (expected = EmptyStringException.class)
+    public void searchingForEmptyStringShouldRaiseException() throws EmptyHashTableException, ItemNotFoundException, EmptyStringException, EmptyLinkedListException{
+        HashTable hashTable = new HashTable();
+        hashTable.search("");
+    }
+
+    @Test (expected = NullPointerException.class)
+    public void searchingForNullStringShouldRaiseException() throws EmptyHashTableException, ItemNotFoundException, EmptyStringException, EmptyLinkedListException{
+        HashTable hashTable = new HashTable();
+        hashTable.search(null);
+    }
+
+    @Test
+    public void searchingForCollidingExistingItemShouldReturnItsZipcode() throws EmptyStringException,
+            DuplicateItemException, EmptyHashTableException, ItemNotFoundException, EmptyLinkedListException, EmptyLinkedListException{
+        HashTable hashTable = new HashTable();
+        // Insert a city
+        String key1 = "Almaty";
+        String zipcode1 = "A506791";
+        hashTable.insert(key1, zipcode1);
+        // Insert another city with the same hash key as Almaty, e.g. Toronto
+        String key2 = "Toronto";
+        String zipcode2 = "T3K8V1";
+        hashTable.insert(key2, zipcode2);
+        // Search for the cities
+        assertEquals(zipcode1, hashTable.search(key1));
+        assertEquals(zipcode2, hashTable.search(key2));
     }
 }

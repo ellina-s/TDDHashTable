@@ -1,4 +1,6 @@
-package main.java;
+package main.java.exceptions.linkedlist;
+
+import main.java.exceptions.linkedlist.LinkedListException;
 
 /**
  * Custom exception for the ZipcodeLinkedList class.

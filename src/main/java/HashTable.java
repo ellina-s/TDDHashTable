@@ -1,5 +1,11 @@
 package main.java;
 
+import main.java.exceptions.hashtable.DuplicateItemException;
+import main.java.exceptions.hashtable.EmptyHashTableException;
+import main.java.exceptions.linkedlist.EmptyLinkedListException;
+import main.java.exceptions.linkedlist.EmptyStringException;
+import main.java.exceptions.linkedlist.ItemNotFoundException;
+
 /**
  * An implementation of a hash table class that holds city zipcodes.
  * The class is implemented via Test-Driven Development.
@@ -59,7 +65,7 @@ public class HashTable {
      * @throws EmptyStringException
      * @throws NullPointerException
      */
-    public void insert(String key, String value) throws EmptyStringException, NullPointerException, DuplicateItemException{
+    public void insert(String key, String value) throws EmptyStringException, NullPointerException, DuplicateItemException {
         if(key == "" || value == ""){
             throw new EmptyStringException("Key and value cannot be empty.");
         }
@@ -96,7 +102,7 @@ public class HashTable {
      * @throws ItemNotFoundException is thrown if the city is not found.
      * @throws EmptyStringException is thrown is the city parameter is empty.
      */
-    public String search(String city) throws EmptyHashTableException, ItemNotFoundException, EmptyStringException, EmptyLinkedListException{
+    public String search(String city) throws EmptyHashTableException, ItemNotFoundException, EmptyStringException, EmptyLinkedListException {
         if(city == ""){
             throw new EmptyStringException("City name cannot be empty.");
         }

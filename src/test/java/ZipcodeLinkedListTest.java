@@ -1,6 +1,10 @@
 package test.java;
 
 import main.java.*;
+import main.java.exceptions.linkedlist.EmptyLinkedListException;
+import main.java.exceptions.linkedlist.EmptyStringException;
+import main.java.exceptions.linkedlist.InvalidIndexException;
+import main.java.exceptions.linkedlist.ItemNotFoundException;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -40,7 +44,7 @@ public class ZipcodeLinkedListTest {
     }
 
     @Test
-    public void addingOneElementShouldIncreaseCountByOne() throws EmptyStringException{
+    public void addingOneElementShouldIncreaseCountByOne() throws EmptyStringException {
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         // Count should be zero for a new empty linked list
         assertEquals(0, list.count);

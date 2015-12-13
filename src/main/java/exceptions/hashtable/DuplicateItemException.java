@@ -1,4 +1,6 @@
-package main.java;
+package main.java.exceptions.hashtable;
+
+import main.java.exceptions.hashtable.HashTableException;
 
 /**
  * Custom exception for the HashTable class.

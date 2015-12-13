@@ -1,5 +1,10 @@
 package main.java;
 
+import main.java.exceptions.linkedlist.EmptyLinkedListException;
+import main.java.exceptions.linkedlist.EmptyStringException;
+import main.java.exceptions.linkedlist.InvalidIndexException;
+import main.java.exceptions.linkedlist.ItemNotFoundException;
+
 /**
  * An implementation of a linked list class that holds zipcodes.
  * The class is implemented via TDD.
@@ -65,7 +70,7 @@ public class ZipcodeLinkedList {
      * @param key key of the node
      * @param value value of the node
      */
-    public void addNode(String key, String value) throws EmptyStringException{
+    public void addNode(String key, String value) throws EmptyStringException {
         if(key == null && value == null){
             System.out.print("Key and value cannot be null.");
             throw new NullPointerException("Key and value of a node cannot be null.");
@@ -115,7 +120,7 @@ public class ZipcodeLinkedList {
      * @param index index (from 1 to the size of the Linked List) of the node to be retrieved
      * @return city name and zipcode in a String array, at indexes 0 and 1 respectively
      */
-    public String[] getNodeAtIndex(int index) throws EmptyLinkedListException, InvalidIndexException{
+    public String[] getNodeAtIndex(int index) throws EmptyLinkedListException, InvalidIndexException {
         if(isEmpty() == true){
             throw new EmptyLinkedListException("There are no nodes in an empty linked list.");
         }

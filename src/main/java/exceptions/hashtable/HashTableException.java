@@ -1,4 +1,4 @@
-package main.java;
+package main.java.exceptions.hashtable;
 
 /**
  * Custom parent Exception class for the HashTable class.

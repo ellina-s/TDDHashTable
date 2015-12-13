@@ -1,6 +1,12 @@
 package test.java;
 
 import main.java.*;
+import main.java.exceptions.hashtable.DuplicateItemException;
+import main.java.exceptions.hashtable.EmptyHashTableException;
+import main.java.exceptions.linkedlist.EmptyLinkedListException;
+import main.java.exceptions.linkedlist.EmptyStringException;
+import main.java.exceptions.linkedlist.InvalidIndexException;
+import main.java.exceptions.linkedlist.ItemNotFoundException;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -45,7 +51,7 @@ public class HashTableTest {
     }
 
     @Test (expected = EmptyStringException.class)
-    public void insertingEmptyKeyAndValueShouldThrowException() throws EmptyStringException, DuplicateItemException{
+    public void insertingEmptyKeyAndValueShouldThrowException() throws EmptyStringException, DuplicateItemException {
         HashTable hashTable = new HashTable();
         hashTable.insert("", "");
     }

@@ -29,6 +29,15 @@ public class HashTableTest {
     static final int ASCII_LOWERCASE_C = 99;
     static final int ASCII_LOWERCASE_O = 111;
 
+    static final String CITY_ALMATY = "Almaty";
+    static final String ZIPCODE_ALMATY = "A506791";
+    static final String CITY_TORONTO = "Toronto";
+    static final String ZIPCODE_TORONTO = "T3K8V1";
+    static final String CITY_TOKYO = "Tokyo";
+    static final String ZIPCODE_TOKYO = "6748J45";
+    static final String CITY_SINGAPORE = "Singapore";
+    static final String ZIPCODE_SINGAPORE = "S573824";
+
     @Test
     public void newHashTableShouldBeEmpty(){
         HashTable hashTable = new HashTable();
@@ -100,11 +109,9 @@ public class HashTableTest {
     public void insertingItemInEmptyHashTableShouldInsertTheItem() throws EmptyStringException, EmptyLinkedListException,
             InvalidIndexException,ItemNotFoundException, DuplicateItemException {
         HashTable hashTable = new HashTable();
-        String key = "Almaty";
-        String zipcode = "A5067391";
-        hashTable.insert(key, zipcode);
-        int hashKey = hashTable.hash(key);
-        assertEquals(zipcode, hashTable.hashTable[hashKey].getCityZipcode(key));
+        hashTable.insert(CITY_ALMATY, ZIPCODE_ALMATY);
+        int hashKey = hashTable.hash(CITY_ALMATY);
+        assertEquals(ZIPCODE_ALMATY, hashTable.hashTable[hashKey].getCityZipcode(CITY_ALMATY));
         hashTable.hashTable[hashKey].showContentsOfTheLinkedList();
     }
 
@@ -114,60 +121,43 @@ public class HashTableTest {
         HashTable hashTable = new HashTable();
 
         // Insert a city
-        String key1 = "Almaty";
-        String zipcode1 = "A506791";
-        hashTable.insert(key1, zipcode1);
-
+        hashTable.insert(CITY_ALMATY, ZIPCODE_ALMATY);
         // Insert another city with the same hash key as Almaty, e.g. Toronto
-        String key2 = "Toronto";
-        String zipcode2 = "T3K8V1";
-        hashTable.insert(key2, zipcode2);
-
-        int hashKey1 = hashTable.hash(key1);
-        int hashKey2 = hashTable.hash(key2);
+        hashTable.insert(CITY_TORONTO, ZIPCODE_TORONTO);
+        // Get hash keys of the cities
+        int hashKey1 = hashTable.hash(CITY_ALMATY);
+        int hashKey2 = hashTable.hash(CITY_TORONTO);
         // Check that their hash keys are the same
         assertEquals(hashKey1, hashKey2);
-
         // Check that both cities are inserted in the hash table
-        assertEquals(zipcode1, hashTable.hashTable[hashKey1].getCityZipcode(key1));
-        assertEquals(zipcode2, hashTable.hashTable[hashKey2].getCityZipcode(key2));
+        assertEquals(ZIPCODE_ALMATY, hashTable.hashTable[hashKey1].getCityZipcode(CITY_ALMATY));
+        assertEquals(ZIPCODE_TORONTO, hashTable.hashTable[hashKey2].getCityZipcode(CITY_TORONTO));
     }
 
     @Test (expected = DuplicateItemException.class)
     public void insertingTheSameItemInHashTableShouldRaiseException() throws EmptyStringException, DuplicateItemException{
         HashTable hashTable = new HashTable();
-        String key = "Almaty";
-        String zipcode = "A506791";
-        hashTable.insert(key, zipcode);
+        hashTable.insert(CITY_ALMATY, ZIPCODE_ALMATY);
         // Attempt to insert a duplicate
-        hashTable.insert(key, zipcode);
+        hashTable.insert(CITY_ALMATY, ZIPCODE_ALMATY);
     }
 
     @Test (expected = DuplicateItemException.class)
     public void insertingCollidingItemInHashTableWithDuplicatesShouldRaiseException() throws EmptyStringException, DuplicateItemException{
         HashTable hashTable = new HashTable();
-
         // Insert a city
-        String key1 = "Almaty";
-        String zipcode1 = "A506791";
-        hashTable.insert(key1, zipcode1);
-
+        hashTable.insert(CITY_ALMATY, ZIPCODE_ALMATY);
         // Insert another city with the same hash key as Almaty, e.g. Toronto
-        String key2 = "Toronto";
-        String zipcode2 = "T3K8V1";
-        hashTable.insert(key2, zipcode2);
-
+        hashTable.insert(CITY_TORONTO, ZIPCODE_TORONTO);
         // Attempt to insert a duplicate of Almaty
-        String key3 = "Almaty";
-        String zipcode3 = "A506791";
-        hashTable.insert(key3, zipcode3);
+        hashTable.insert(CITY_ALMATY, ZIPCODE_ALMATY);
     }
 
     @Test
     public void hashTableShouldIndicateItIsNotEmptyAfterAddingItemToIt() throws EmptyStringException, DuplicateItemException{
         HashTable hashTable = new HashTable();
         assertTrue(hashTable.isEmpty());
-        hashTable.insert("Toronto", "T3K8V1");
+        hashTable.insert(CITY_TORONTO, ZIPCODE_TORONTO);
         assertFalse(hashTable.isEmpty());
     }
 
@@ -176,42 +166,39 @@ public class HashTableTest {
         HashTable hashTable = new HashTable();
         assertTrue(hashTable.isEmpty());
         // Insert two items with different hash keys
-        hashTable.insert("Toronto", "T3K8V1");
+        hashTable.insert(CITY_TORONTO, ZIPCODE_TORONTO);
         assertFalse(hashTable.isEmpty());
-        hashTable.insert("Tokyo", "6748J45");
+        hashTable.insert(CITY_TOKYO, ZIPCODE_TOKYO);
         // Check that their hash keys are different (i.e. the items are in different slots)
-        assertNotEquals(hashTable.hash("Toronto"), hashTable.hash("Tokyo"));
+        assertNotEquals(hashTable.hash(CITY_TORONTO), hashTable.hash(CITY_TOKYO));
         // Check that the table is not empty at this point
         assertFalse(hashTable.isEmpty());
     }
 
     @Test
-    public void insertingCollidingItemsInTheSameSlotShouldMaintainNonEmptyStatusOfHashTable() throws EmptyStringException, DuplicateItemException{
+    public void insertingCollidingItemsInTheSameSlotShouldMaintainNonEmptyStatusOfHashTable() throws EmptyStringException,DuplicateItemException{
         HashTable hashTable = new HashTable();
         assertTrue(hashTable.isEmpty());
         // Insert a city
-        String key1 = "Almaty";
-        String zipcode1 = "A506791";
-        hashTable.insert(key1, zipcode1);
+        hashTable.insert(CITY_ALMATY, ZIPCODE_ALMATY);
         // Insert another city with the same hash key as Almaty, e.g. Toronto
-        String key2 = "Toronto";
-        String zipcode2 = "T3K8V1";
-        hashTable.insert(key2, zipcode2);
+        hashTable.insert(CITY_TORONTO, ZIPCODE_TORONTO);
         // Check that their hash keys are the same
-        assertEquals(hashTable.hash("Almaty"), hashTable.hash("Toronto"));
+        assertEquals(hashTable.hash(CITY_ALMATY), hashTable.hash(CITY_TORONTO));
         // Check that the table is not empty at this point
         assertFalse(hashTable.isEmpty());
     }
 
     @Test (expected = EmptyHashTableException.class)
-    public void searchingForItemInEmptyTableShouldThrowException() throws EmptyHashTableException, ItemNotFoundException, EmptyStringException, EmptyLinkedListException{
+    public void searchingForItemInEmptyTableShouldThrowException() throws EmptyHashTableException, ItemNotFoundException,
+            EmptyStringException, EmptyLinkedListException{
         HashTable hashTable = new HashTable();
         hashTable.search("city");
     }
 
     @Test (expected = ItemNotFoundException.class)
-    public void searchingForNotExistingNonCollidingCityInNonEmptyTableShouldThrowException() throws EmptyHashTableException, EmptyStringException,
-            DuplicateItemException, ItemNotFoundException, EmptyLinkedListException{
+    public void searchingForNotExistingNonCollidingCityInNonEmptyTableShouldThrowException() throws EmptyHashTableException,
+            EmptyStringException, DuplicateItemException, ItemNotFoundException, EmptyLinkedListException{
         HashTable hashTable = new HashTable();
         // Add an item to the hash table, so that the table is not empty
         hashTable.insert("City", "zipcode");
@@ -224,11 +211,9 @@ public class HashTableTest {
             DuplicateItemException, EmptyHashTableException, ItemNotFoundException, EmptyLinkedListException{
         HashTable hashTable = new HashTable();
         // Add an item to the hash table, so that the table is not empty
-        String city = "Singapore";
-        String zipcode = "S573824";
-        hashTable.insert(city, zipcode);
+        hashTable.insert(CITY_SINGAPORE, ZIPCODE_SINGAPORE);
         // Search for the city that has been added to the hash table
-        assertEquals(zipcode, hashTable.search(city));
+        assertEquals(ZIPCODE_SINGAPORE, hashTable.search(CITY_SINGAPORE));
     }
 
     @Test (expected = ItemNotFoundException.class)
@@ -236,39 +221,35 @@ public class HashTableTest {
             DuplicateItemException, EmptyHashTableException, ItemNotFoundException, EmptyLinkedListException{
         HashTable hashTable = new HashTable();
         // Insert a city
-        String key1 = "Almaty";
-        String zipcode1 = "A506791";
-        hashTable.insert(key1, zipcode1);
+        hashTable.insert(CITY_ALMATY, ZIPCODE_ALMATY);
         // Search for another city whose hash key collides with the added city, e.g. Toronto
-        assertEquals("zipcode", hashTable.search("Toronto"));
+        assertEquals("zipcode", hashTable.search(CITY_TORONTO));
     }
 
     @Test (expected = EmptyStringException.class)
-    public void searchingForEmptyStringShouldRaiseException() throws EmptyHashTableException, ItemNotFoundException, EmptyStringException, EmptyLinkedListException{
+    public void searchingForEmptyStringShouldRaiseException() throws EmptyHashTableException, ItemNotFoundException,
+            EmptyStringException, EmptyLinkedListException{
         HashTable hashTable = new HashTable();
         hashTable.search("");
     }
 
     @Test (expected = NullPointerException.class)
-    public void searchingForNullStringShouldRaiseException() throws EmptyHashTableException, ItemNotFoundException, EmptyStringException, EmptyLinkedListException{
+    public void searchingForNullStringShouldRaiseException() throws EmptyHashTableException, ItemNotFoundException,
+            EmptyStringException, EmptyLinkedListException{
         HashTable hashTable = new HashTable();
         hashTable.search(null);
     }
 
     @Test
     public void searchingForCollidingExistingItemShouldReturnItsZipcode() throws EmptyStringException,
-            DuplicateItemException, EmptyHashTableException, ItemNotFoundException, EmptyLinkedListException, EmptyLinkedListException{
+            DuplicateItemException, EmptyHashTableException, ItemNotFoundException, EmptyLinkedListException {
         HashTable hashTable = new HashTable();
         // Insert a city
-        String key1 = "Almaty";
-        String zipcode1 = "A506791";
-        hashTable.insert(key1, zipcode1);
+        hashTable.insert(CITY_ALMATY, ZIPCODE_ALMATY);
         // Insert another city with the same hash key as Almaty, e.g. Toronto
-        String key2 = "Toronto";
-        String zipcode2 = "T3K8V1";
-        hashTable.insert(key2, zipcode2);
+        hashTable.insert(CITY_TORONTO, ZIPCODE_TORONTO);
         // Search for the cities
-        assertEquals(zipcode1, hashTable.search(key1));
-        assertEquals(zipcode2, hashTable.search(key2));
+        assertEquals(ZIPCODE_ALMATY, hashTable.search(CITY_ALMATY));
+        assertEquals(ZIPCODE_TORONTO, hashTable.search(CITY_TORONTO));
     }
 }

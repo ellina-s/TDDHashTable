@@ -252,4 +252,154 @@ public class HashTableTest {
         assertEquals(ZIPCODE_ALMATY, hashTable.search(CITY_ALMATY));
         assertEquals(ZIPCODE_TORONTO, hashTable.search(CITY_TORONTO));
     }
+
+    @Test (expected = EmptyHashTableException.class)
+    public void deletingCityFromEmptyHashTableShouldNotBePossible() throws EmptyHashTableException, EmptyStringException,
+            ItemNotFoundException, EmptyLinkedListException{
+        HashTable hashTable = new HashTable();
+        hashTable.delete(CITY_TOKYO);
+    }
+
+    @Test (expected = EmptyStringException.class)
+    public void deletingEmptyStringShouldNotBePermitted() throws EmptyHashTableException, EmptyStringException,
+            ItemNotFoundException, EmptyLinkedListException{
+        HashTable hashTable = new HashTable();
+        hashTable.delete("");
+    }
+
+    @Test (expected = NullPointerException.class)
+    public void deletingNullStringShouldNotBePermitted() throws EmptyHashTableException, EmptyStringException,
+            ItemNotFoundException, EmptyLinkedListException{
+        HashTable hashTable = new HashTable();
+        hashTable.delete(null);
+    }
+
+    @Test (expected = ItemNotFoundException.class)
+    public void deletingNonExistingCityFromNonEmptyHashTableShouldThrowException() throws EmptyStringException,
+            DuplicateItemException, EmptyHashTableException, ItemNotFoundException, EmptyLinkedListException{
+        HashTable hashTable = new HashTable();
+        // Add a city, so that the hash table is not empty
+        hashTable.insert(CITY_TOKYO, ZIPCODE_TOKYO);
+        // Try to delete a different city
+        hashTable.delete(CITY_SINGAPORE);
+    }
+
+    @Test
+    public void deletingTheOnlyCityShouldDeleteItWithNoExceptionsThrown() throws EmptyStringException, DuplicateItemException,
+            EmptyHashTableException, ItemNotFoundException, EmptyLinkedListException{
+        HashTable hashTable = new HashTable();
+        // Add a city
+        hashTable.insert(CITY_TOKYO, ZIPCODE_TOKYO);
+        // Confirm that the city is there
+        assertEquals(ZIPCODE_TOKYO, hashTable.search(CITY_TOKYO));
+        int hashKey = hashTable.hash(CITY_TOKYO);
+        assertFalse(hashTable.hashTable[hashKey].isEmpty());
+        // Delete the city
+        hashTable.delete(CITY_TOKYO);
+        // Confirm that the city is no longer in the hash table
+        assertTrue(hashTable.hashTable[hashKey].isEmpty());
+    }
+
+    @Test (expected = ItemNotFoundException.class)
+    public void searchingForDeletedItemShouldNotFindThatItem() throws EmptyStringException, DuplicateItemException,
+            EmptyHashTableException, ItemNotFoundException, EmptyLinkedListException{
+        HashTable hashTable = new HashTable();
+        // Add a city
+        hashTable.insert(CITY_TOKYO, ZIPCODE_TOKYO);
+        // Confirm that the city is there
+        assertEquals(ZIPCODE_TOKYO, hashTable.search(CITY_TOKYO));
+        // Delete the city
+        hashTable.delete(CITY_TOKYO);
+        // Confirm that the city is not in the hash table by searching for it:
+        assertEquals(ZIPCODE_TOKYO, hashTable.search(CITY_TOKYO));
+    }
+
+    @Test (expected = ItemNotFoundException.class)
+    public void deletingCollidingItemShouldDeleteItAndShouldLeaveOtherItemsIntact() throws EmptyStringException,
+            DuplicateItemException, EmptyHashTableException, ItemNotFoundException, EmptyLinkedListException{
+        HashTable hashTable = new HashTable();
+        // Add colliding cities
+        hashTable.insert(CITY_TORONTO, ZIPCODE_TORONTO);
+        hashTable.insert(CITY_ALMATY, ZIPCODE_ALMATY);
+        // Confirm that the cities are there
+        assertEquals(ZIPCODE_TORONTO, hashTable.search(CITY_TORONTO));
+        assertEquals(ZIPCODE_ALMATY, hashTable.search(CITY_ALMATY));
+        // Delete one of the cities
+        hashTable.delete(CITY_TORONTO);
+        // Confirm that the other city is still there
+        assertEquals(ZIPCODE_ALMATY, hashTable.search(CITY_ALMATY));
+        // Confirm that the deleted city is not there. It should throw ItemNotFound exception.
+        assertEquals(ZIPCODE_TORONTO, hashTable.search(CITY_TORONTO));
+    }
+
+    @Test
+    public void deletingAllItemsInASlotShouldMakeThatSlotEmpty() throws EmptyStringException,
+            DuplicateItemException, EmptyHashTableException, ItemNotFoundException, EmptyLinkedListException{
+        HashTable hashTable = new HashTable();
+        // Add colliding cities
+        hashTable.insert(CITY_TORONTO, ZIPCODE_TORONTO);
+        hashTable.insert(CITY_ALMATY, ZIPCODE_ALMATY);
+        // Confirm that the cities are there
+        assertEquals(ZIPCODE_TORONTO, hashTable.search(CITY_TORONTO));
+        assertEquals(ZIPCODE_ALMATY, hashTable.search(CITY_ALMATY));
+        // Delete both cities
+        hashTable.delete(CITY_TORONTO);
+        hashTable.delete(CITY_ALMATY);
+        // Check that the hash table is empty now
+        int hashKeyAlmaty = hashTable.hash(CITY_ALMATY);
+        assertTrue(hashTable.hashTable[hashKeyAlmaty].isEmpty());
+    }
+
+    @Test (expected = ItemNotFoundException.class)
+    public void repeatedlyDeletingSameCityFromEmptySlotShouldThrowItemNotFoundException() throws EmptyStringException,
+            DuplicateItemException, EmptyHashTableException, ItemNotFoundException, EmptyLinkedListException{
+        HashTable hashTable = new HashTable();
+        // Add a city
+        hashTable.insert(CITY_TOKYO, ZIPCODE_TOKYO);
+        // Confirm that the city is there
+        assertEquals(ZIPCODE_TOKYO, hashTable.search(CITY_TOKYO));
+        // Delete the city
+        hashTable.delete(CITY_TOKYO);
+        // Confirm that the city is no longer in the hash table
+        int hashKey = hashTable.hash(CITY_TOKYO);
+        assertTrue(hashTable.hashTable[hashKey].isEmpty());
+        // Try to delete the same city again (i.e. from the same slot)
+        hashTable.delete(CITY_TOKYO);
+    }
+
+    @Test (expected = ItemNotFoundException.class)
+    public void deletingSameCityFromNonEmptySlotShouldPropagateItemNotFoundException() throws EmptyStringException,
+            DuplicateItemException, EmptyHashTableException,
+            ItemNotFoundException, EmptyLinkedListException{
+        HashTable hashTable = new HashTable();
+        // Add colliding cities
+        hashTable.insert(CITY_TORONTO, ZIPCODE_TORONTO);
+        hashTable.insert(CITY_ALMATY, ZIPCODE_ALMATY);
+        // Delete one of the cities
+        hashTable.delete(CITY_TORONTO);
+        // Try to delete the same city again (the slot still contains the other city)
+        hashTable.delete(CITY_TORONTO);
+    }
+
+    @Test (expected = ItemNotFoundException.class)
+    public void deletingCollidingCityFromEmptySlotShouldThrowItemNotFoundException() throws EmptyStringException,
+            DuplicateItemException, EmptyHashTableException, ItemNotFoundException, EmptyLinkedListException{
+        HashTable hashTable = new HashTable();
+        // Add a city
+        hashTable.insert(CITY_TORONTO, ZIPCODE_TORONTO);
+        // Delete it
+        hashTable.delete(CITY_TORONTO);
+        // Try to delete a city that goes to the same slot as Toronto:
+        hashTable.delete(CITY_ALMATY);
+    }
+
+    @Test (expected = ItemNotFoundException.class)
+    public void deletingNonExistingCollidingItemFromNonEmptySlotShouldThrowException() throws EmptyStringException,
+            DuplicateItemException, EmptyHashTableException, ItemNotFoundException, EmptyLinkedListException{
+        HashTable hashTable = new HashTable();
+        // Add a city
+        hashTable.insert(CITY_TORONTO, ZIPCODE_TORONTO);
+        // Attempt to delete a colliding item
+        hashTable.delete(CITY_ALMATY);
+    }
 }

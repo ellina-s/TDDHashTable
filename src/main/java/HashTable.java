@@ -2,6 +2,7 @@ package main.java;
 
 import main.java.exceptions.hashtable.DuplicateItemException;
 import main.java.exceptions.hashtable.EmptyHashTableException;
+import main.java.exceptions.hashtable.HashTableException;
 import main.java.exceptions.linkedlist.EmptyLinkedListException;
 import main.java.exceptions.linkedlist.EmptyStringException;
 import main.java.exceptions.linkedlist.ItemNotFoundException;
@@ -126,6 +127,11 @@ public class HashTable {
             catch(ItemNotFoundException e){
                 throw new ItemNotFoundException(city + " is not found in the hash table.");
             }
+            catch(EmptyLinkedListException e){
+                /* Re-throw this exception as ItemNotFoundException to hide hash table's implementation
+                and to emphasize the fact the city is not found. */
+                throw new ItemNotFoundException(city + " is not found in the hash table.");
+            }
             catch (Exception e){
                 System.out.println("HashTable caught " + e);
                 throw e;
@@ -143,5 +149,48 @@ public class HashTable {
      */
     public int hash(String key){
         return convertToAscii(key) % size;
+    }
+
+    /**
+     * Delete a given city from a hash table, if the city exists in the hash table.
+     * If such city is not found in the hash table, then throw ItemNotFound exception.
+     * @param city is a name of the city to be deleted.
+     * @throws EmptyHashTableException is thrown if a hash table is empty.
+     * @throws EmptyStringException is thrown is the city parameter is empty.
+     * @throws ItemNotFoundException is thrown if the city is not found.
+     * @throws EmptyLinkedListException is caught and re-thrown as ItemNotFoundException.
+     */
+    public void delete (String city) throws EmptyHashTableException, EmptyStringException, ItemNotFoundException, EmptyLinkedListException{
+        if(city == ""){
+            throw new EmptyStringException("City name cannot be empty.");
+        }
+        if(city == null){
+            System.out.println("City name cannot be null.");
+            throw new NullPointerException("City name cannot be null.");
+        }
+        if(isEmpty){
+            throw new EmptyHashTableException("Cannot delete an item from an empty hash table.");
+        }
+        // Compute hash key of the given city:
+        int hashKey = hash(city);
+        if(hashTable[hashKey] == null){
+            throw new ItemNotFoundException(city + " is not found.");
+        }
+        else{
+            try{
+                hashTable[hashKey].deleteCity(city);
+            }
+            catch(ItemNotFoundException e){
+                throw new ItemNotFoundException(city + " is not found and cannot be deleted.");
+            }
+            catch (EmptyLinkedListException e){
+                /* Re-throw this exception as ItemNotFoundException to hide hash table's implementation
+                and to emphasize the fact the city is not found. */
+                throw new ItemNotFoundException(city + " is not found and cannot be deleted.");
+            }
+            catch (Exception e){
+                throw e;
+            }
+        }
     }
 }

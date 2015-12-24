@@ -34,7 +34,13 @@ public class HashTable {
      * @return True if a hash table is empty. False, otherwise.
      */
     public boolean isEmpty(){
-        return isEmpty;
+        for(int i = 0; i < size; i++){
+            if(hashTable[i] != null && hashTable[i].isEmpty() == false){
+                isEmpty = false;
+                return false;
+            }
+        }
+        return true;
     }
 
     /**

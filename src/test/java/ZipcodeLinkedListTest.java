@@ -810,4 +810,88 @@ public class ZipcodeLinkedListTest {
         list.addNode("", "");
     }
 
+    /* Tested via deleteLinkedList() */
+    @Test
+    public void addingAnItemToClearedLinkedListShouldMakeListNotEmpty() throws EmptyStringException, EmptyLinkedListException{
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        // Add some cities
+        list.addNode(CITY_NEWYORK, ZIPCODE_NEWYORK);
+        list.addNode(CITY_LONDON, ZIPCODE_LONDON);
+        assertFalse(list.isEmpty());
+        // Clear the linked list
+        list.deleteLinkedList();
+        assertTrue(list.isEmpty());
+        // Add a city
+        list.addNode(CITY_SYDNEY, ZIPCODE_SYDNEY);
+        assertFalse(list.isEmpty());
+    }
+
+    /* Tested via deleteCity() */
+    @Test
+    public void deletingAllItemsOneByOneAndThenAddingAnItemShouldMakeLinkedListNotEmpty() throws EmptyStringException,
+            EmptyLinkedListException, ItemNotFoundException{
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        // Add some cities
+        list.addNode(CITY_NEWYORK, ZIPCODE_NEWYORK);
+        list.addNode(CITY_LONDON, ZIPCODE_LONDON);
+        assertFalse(list.isEmpty());
+        // Delete cities one by one
+        list.deleteCity(CITY_LONDON);
+        list.deleteCity(CITY_NEWYORK);
+        assertTrue(list.isEmpty());
+        // Add a city
+        list.addNode(CITY_SYDNEY, ZIPCODE_SYDNEY);
+        assertFalse(list.isEmpty());
+    }
+
+    /* Tested via deleteCity() */
+    @Test
+    public void testDeletingNodesInTheOrderTheyWereInsertedAndThenAddingNewNode() throws EmptyStringException, EmptyLinkedListException, ItemNotFoundException{
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        // Add some cities
+        list.addNode(CITY_NEWYORK, ZIPCODE_NEWYORK);
+        list.addNode(CITY_LONDON, ZIPCODE_LONDON);
+        assertFalse(list.isEmpty());
+        // Delete cities one by one
+        list.deleteCity(CITY_NEWYORK);
+        list.deleteCity(CITY_LONDON);
+        assertTrue(list.isEmpty());
+        // Add a city
+        list.addNode(CITY_SYDNEY, ZIPCODE_SYDNEY);
+        assertFalse(list.isEmpty());
+    }
+
+    /* Tested via deleteNodeAtIndex() */
+    @Test
+    public void testDeletionAndAdditionOfNodesViaDeleteNodeAtIndexMethod() throws EmptyStringException, EmptyLinkedListException, InvalidIndexException{
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        // Add some cities
+        list.addNode(CITY_NEWYORK, ZIPCODE_NEWYORK);
+        list.addNode(CITY_LONDON, ZIPCODE_LONDON);
+        assertFalse(list.isEmpty());
+        // Delete cities one by one
+        list.deleteNodeAtIndex(1);
+        list.deleteNodeAtIndex(1);
+        assertTrue(list.isEmpty());
+        // Add a city
+        list.addNode(CITY_SYDNEY, ZIPCODE_SYDNEY);
+        assertFalse(list.isEmpty());
+    }
+
+    /* Tested via deleteNodeAtIndex() */
+    @Test
+    public void testAdditionOfNodesAfterApplyingDeleteNodeAtIndexMethod() throws EmptyStringException, EmptyLinkedListException, InvalidIndexException{
+        ZipcodeLinkedList list = new ZipcodeLinkedList();
+        // Add some cities
+        list.addNode(CITY_NEWYORK, ZIPCODE_NEWYORK);
+        list.addNode(CITY_LONDON, ZIPCODE_LONDON);
+        assertFalse(list.isEmpty());
+        // Delete cities one by one
+        list.deleteNodeAtIndex(2);
+        list.deleteNodeAtIndex(1);
+        assertTrue(list.isEmpty());
+        // Add a city
+        list.addNode(CITY_SYDNEY, ZIPCODE_SYDNEY);
+        assertFalse(list.isEmpty());
+    }
 }

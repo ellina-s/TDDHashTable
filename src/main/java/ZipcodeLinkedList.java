@@ -97,12 +97,12 @@ public class ZipcodeLinkedList {
             // Adjust head and tail to the first node added to the linked list.
             tail = newNode;
             head = newNode;
+            System.out.println("Added " + key);
         }
         else{
-            if(tail.next == null){
-                tail.next = newNode;
-                tail = newNode;
-            }
+            tail.next = newNode;
+            tail = newNode;
+            System.out.println("Added " + key);
         }
         count++;
     }
@@ -154,6 +154,7 @@ public class ZipcodeLinkedList {
         head = null;
         tail = null;
         count = 0;
+        System.out.println("The linked list is cleared.");
     }
 
     /**
@@ -170,6 +171,9 @@ public class ZipcodeLinkedList {
         }
         else if(1 == index){
             System.out.println("Deleting (head): " + head.key + " " + head.value);
+            if( head.key == tail.key && count == 1){
+                tail = tail.next;
+            }
             head = head.next;
             count--;
             return;
@@ -241,6 +245,9 @@ public class ZipcodeLinkedList {
 
                 if(pointer.key == head.key){
                     System.out.println("Deleting (head) " + pointer.key + " " + pointer.value);
+                    if(head.key == tail.key && count == 1){
+                        tail = tail.next;
+                    }
                     head = head.next;
                     count--;
                     return;

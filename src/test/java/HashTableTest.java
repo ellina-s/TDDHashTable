@@ -402,4 +402,87 @@ public class HashTableTest {
         // Attempt to delete a colliding item
         hashTable.delete(CITY_ALMATY);
     }
+
+    @Test
+    public void addingAnItemToHashTableShouldShowThatTheTableIsNotEmpty() throws EmptyStringException, DuplicateItemException{
+        HashTable hashTable = new HashTable();
+        assertTrue(hashTable.isEmpty());
+        hashTable.insert(CITY_TOKYO, ZIPCODE_TOKYO);
+        assertFalse(hashTable.isEmpty());
+    }
+
+    @Test
+    public void deletingAllItemsFromHashTableShouldMakeItEmpty() throws EmptyStringException, DuplicateItemException,
+            EmptyHashTableException, EmptyLinkedListException, ItemNotFoundException{
+        HashTable hashTable = new HashTable();
+        assertTrue(hashTable.isEmpty());
+        // Insert some items
+        hashTable.insert(CITY_ALMATY, ZIPCODE_ALMATY);
+        hashTable.insert(CITY_TOKYO, ZIPCODE_TOKYO);
+        hashTable.insert(CITY_TORONTO, ZIPCODE_TORONTO);
+        hashTable.insert(CITY_SINGAPORE, ZIPCODE_SINGAPORE);
+        // Check that the hash table is not empty
+        assertFalse(hashTable.isEmpty());
+        // Delete all items
+        hashTable.delete(CITY_ALMATY);
+        hashTable.delete(CITY_TOKYO);
+        hashTable.delete(CITY_TORONTO);
+        hashTable.delete(CITY_SINGAPORE);
+        // Check that the hash table is empty
+        assertTrue(hashTable.isEmpty());
+    }
+
+    @Test
+    public void deletingSomeItemsFromHashTableShouldNotMakeItEmpty() throws EmptyStringException, DuplicateItemException,
+            EmptyHashTableException, EmptyLinkedListException, ItemNotFoundException{
+        HashTable hashTable = new HashTable();
+        assertTrue(hashTable.isEmpty());
+        // Insert some items
+        hashTable.insert(CITY_ALMATY, ZIPCODE_ALMATY);
+        hashTable.insert(CITY_TOKYO, ZIPCODE_TOKYO);
+        // Delete one item
+        hashTable.delete(CITY_ALMATY);
+        // Check that the hash table is not empty
+        assertFalse(hashTable.isEmpty());
+    }
+
+    @Test
+    public void addingAnItemThatCollidesWithTheDeletedItemShouldMakeHashTableNonEmpty() throws EmptyStringException, DuplicateItemException,
+            EmptyHashTableException, EmptyLinkedListException, ItemNotFoundException{
+        HashTable hashTable = new HashTable();
+        assertTrue(hashTable.isEmpty());
+        // Insert some items
+        hashTable.insert(CITY_ALMATY, ZIPCODE_ALMATY);
+        // Check that the hash table is not empty
+        assertFalse(hashTable.isEmpty());
+        // Delete all items
+        hashTable.delete(CITY_ALMATY);
+        // Check that the hash table is empty
+        assertTrue(hashTable.isEmpty());
+        // Insert an item
+        hashTable.insert(CITY_TORONTO, ZIPCODE_TORONTO);
+        // Check that the hash table is not empty
+        assertFalse(hashTable.isEmpty());
+    }
+
+    @Test
+    public void addingAnItemThatDoesNotCollideWithTheDeletedItemShouldMakeHashTableNonEmpty() throws EmptyStringException, DuplicateItemException,
+            EmptyHashTableException, EmptyLinkedListException, ItemNotFoundException{
+        HashTable hashTable = new HashTable();
+        assertTrue(hashTable.isEmpty());
+        // Insert some items
+        hashTable.insert(CITY_ALMATY, ZIPCODE_ALMATY);
+        hashTable.insert(CITY_TOKYO, ZIPCODE_TOKYO);
+        // Check that the hash table is not empty
+        assertFalse(hashTable.isEmpty());
+        // Delete all items
+        hashTable.delete(CITY_ALMATY);
+        hashTable.delete(CITY_TOKYO);
+        // Check that the hash table is empty
+        assertTrue(hashTable.isEmpty());
+        // Insert an item
+        hashTable.insert(CITY_SINGAPORE, ZIPCODE_SINGAPORE);
+        // Check that the hash table is not empty
+        assertFalse(hashTable.isEmpty());
+    }
 }

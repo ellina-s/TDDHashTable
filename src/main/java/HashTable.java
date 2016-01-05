@@ -80,24 +80,7 @@ public class HashTable {
             System.out.println("Key and value cannot be null.");
             throw new NullPointerException("Key and value cannot be null.");
         }
-        int hashKey = hash(key);
-        if(hashTable[hashKey] == null){
-            System.out.println("This slot is null. Initializing a linked list and adding a node...");
-            hashTable[hashKey] = new ZipcodeLinkedList();
-            hashTable[hashKey].addNode(key, value);
-            if(isEmpty == true){
-                isEmpty = false;
-            }
-        }
-        else{
-            System.out.println("This slot is not empty. Checking for duplicates...");
-            if( hashTable[hashKey].checkForDuplicatesOf(key) == false){
-                hashTable[hashKey].addNode(key, value);
-            }
-            else{
-                throw new DuplicateItemException("Duplicate item is detected. Cannot insert a duplicate.");
-            }
-        }
+        insertNewItem(key, value);
         return;
     }
 
@@ -197,6 +180,59 @@ public class HashTable {
             catch (Exception e){
                 throw e;
             }
+        }
+    }
+
+    /**
+     * Insert an item that doesn't collide with other items of a hash table.
+     * This item goes into an empty slot of a hash table.
+     * @param key key of the item
+     * @param value value of the item
+     * @param hashKey hash key corresponding to the item
+     * @throws EmptyStringException
+     */
+    private void insertNonCollidingItem(String key, String value, int hashKey) throws EmptyStringException{
+        System.out.println("This slot has never been occupied. Adding an item to it...");
+        hashTable[hashKey] = new ZipcodeLinkedList();
+        hashTable[hashKey].addNode(key, value);
+        if(isEmpty == true){
+            isEmpty = false;
+        }
+    }
+
+    /**
+     * Insert a colliding item in the hash table if there are no duplicates of the given item.
+     * This item goes in a slot that is (or was) occupied by other items colliding with the given item.
+     * @param key key of the item
+     * @param value value of the item
+     * @param hashKey hash key corresponding to the item
+     * @throws EmptyStringException
+     * @throws DuplicateItemException
+     */
+    private void insertCollidingItem(String key, String value, int hashKey) throws EmptyStringException, DuplicateItemException{
+        System.out.println("This slot is or was previously occupied. Checking for duplicates...");
+        if( hashTable[hashKey].checkForDuplicatesOf(key) == false){
+            hashTable[hashKey].addNode(key, value);
+        }
+        else{
+            throw new DuplicateItemException("Duplicate item is detected. Cannot insert a duplicate.");
+        }
+    }
+
+    /**
+     * A helper method to insert a new item in the hash table
+     * @param key key of the item
+     * @param value value of the item
+     * @throws EmptyStringException
+     * @throws DuplicateItemException
+     */
+    private void insertNewItem(String key, String value) throws EmptyStringException, DuplicateItemException{
+        int hashKey = hash(key);
+        if(hashTable[hashKey] == null){
+            insertNonCollidingItem(key, value, hashKey);
+        }
+        else{
+            insertCollidingItem(key, value, hashKey);
         }
     }
 }

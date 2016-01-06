@@ -73,13 +73,7 @@ public class HashTable {
      * @throws NullPointerException
      */
     public void insert(String key, String value) throws EmptyStringException, NullPointerException, DuplicateItemException {
-        if(key == "" || value == ""){
-            throw new EmptyStringException("Key and value cannot be empty.");
-        }
-        if(key == null || value == null){
-            System.out.println("Key and value cannot be null.");
-            throw new NullPointerException("Key and value cannot be null.");
-        }
+        validateArguments(key, value);
         insertNewItem(key, value);
         return;
     }
@@ -90,48 +84,18 @@ public class HashTable {
      * @return a zipcode of the given city
      * @throws EmptyHashTableException is thrown if a hash table is empty.
      * @throws ItemNotFoundException is thrown if the city is not found.
-     * @throws EmptyStringException is thrown is the city parameter is empty.
+     * @throws EmptyStringException is thrown if the city parameter is empty.
      */
     public String search(String city) throws EmptyHashTableException, ItemNotFoundException, EmptyStringException, EmptyLinkedListException {
-        if(city == ""){
-            throw new EmptyStringException("City name cannot be empty.");
-        }
-        if(city == null){
-            System.out.println("City name cannot be null.");
-            throw new NullPointerException("City name cannot be null.");
-        }
-        if(isEmpty){
-            throw new EmptyHashTableException("There are no items in an empty hash table.");
-        }
-        int hashKey = hash(city);
-        if(hashTable[hashKey] == null){
-            System.out.println("Slot of " + city + " is null.");
-            throw new ItemNotFoundException(city + " is not found.");
-        }
-        else{
-            System.out.println("This slot is not empty. Searching for the given city...");
-            try{
-                return hashTable[hashKey].getCityZipcode(city);
-            }
-            catch(ItemNotFoundException e){
-                throw new ItemNotFoundException(city + " is not found in the hash table.");
-            }
-            catch(EmptyLinkedListException e){
-                /* Re-throw this exception as ItemNotFoundException to hide hash table's implementation
-                and to emphasize the fact the city is not found. */
-                throw new ItemNotFoundException(city + " is not found in the hash table.");
-            }
-            catch (Exception e){
-                System.out.println("HashTable caught " + e);
-                throw e;
-            }
-        }
+        validateCityArgument(city);
+        checkThatHashTableIsNotEmpty();
+        return searchForTheCity(city);
     }
 
     /**
      * Compute a hash key of the provided key
      * by (1) computing an ASCII value of the key,
-     * and (2) computing a reminder of the division by the size of a hash table.
+     * and (2) computing a reminder of dividing the ASCII value by the size of a hash table.
      * A hash key is used as an index into a hash table.
      * @param key key of an item
      * @return hash key corresponding to the given key
@@ -184,7 +148,7 @@ public class HashTable {
     }
 
     /**
-     * Insert an item that doesn't collide with other items of a hash table.
+     * Insert an item that doesn't collide with other items in a hash table.
      * This item goes into an empty slot of a hash table.
      * @param key key of the item
      * @param value value of the item
@@ -233,6 +197,85 @@ public class HashTable {
         }
         else{
             insertCollidingItem(key, value, hashKey);
+        }
+    }
+
+    /**
+     * Validate arguments to make sure they are not null or empty strings.
+     * @param key key of the item
+     * @param value value of the item
+     * @throws EmptyStringException is thrown if key or value arguments are empty.
+     */
+    private void validateArguments(String key, String value) throws EmptyStringException{
+        if(key == "" || value == ""){
+            throw new EmptyStringException("Key and value cannot be empty.");
+        }
+        if(key == null || value == null){
+            System.out.println("Key and value cannot be null.");
+            throw new NullPointerException("Key and value cannot be null.");
+        }
+    }
+
+    /**
+     * Validate the city argument to make sure it is not empty or null.
+     * @param city name of the city
+     * @throws EmptyStringException is thrown if the city string is empty.
+     */
+    private void validateCityArgument(String city) throws EmptyStringException{
+        if(city == ""){
+            throw new EmptyStringException("City name cannot be empty.");
+        }
+        if(city == null){
+            System.out.println("City name cannot be null.");
+            throw new NullPointerException("City name cannot be null.");
+        }
+    }
+
+    /**
+     * A helper method to check if the hash table is not empty.
+     * @throws EmptyHashTableException is thrown if the hash table is empty.
+     */
+    private void checkThatHashTableIsNotEmpty() throws EmptyHashTableException{
+        if(isEmpty){
+            throw new EmptyHashTableException("There are no items in an empty hash table.");
+        }
+    }
+
+    /**
+     * A helper method to search for the city.
+     * @param city name of the city
+     * @return zipcode of the city
+     * @throws ItemNotFoundException is thrown if the city is not found.
+     * @throws EmptyStringException
+     */
+    private String searchForTheCity(String city) throws ItemNotFoundException, EmptyStringException{
+        int hashKey = hash(city);
+        if(hashTable[hashKey] == null){
+            throw new ItemNotFoundException(city + " is not found.");
+        }
+        else{
+            return searchForCityZipcode(hashKey, city);
+        }
+    }
+
+    /**
+     * Search for and return the city's zipcode.
+     * @param hashKey a hash key corresponding to the city
+     * @param city name of the city
+     * @return a zipcode of the city
+     * @throws ItemNotFoundException is thrown if the city is not found.
+     * @throws EmptyStringException
+     */
+    private String searchForCityZipcode(int hashKey, String city) throws ItemNotFoundException, EmptyStringException{
+        try{
+            return hashTable[hashKey].getCityZipcode(city);
+        }
+        catch(ItemNotFoundException | EmptyLinkedListException e){
+            throw new ItemNotFoundException(city + " is not found in the hash table.");
+        }
+        catch (Exception e){
+            System.out.println("HashTable caught " + e);
+            throw e;
         }
     }
 }

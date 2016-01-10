@@ -114,37 +114,9 @@ public class HashTable {
      * @throws EmptyLinkedListException is caught and re-thrown as ItemNotFoundException.
      */
     public void delete (String city) throws EmptyHashTableException, EmptyStringException, ItemNotFoundException, EmptyLinkedListException{
-        if(city == ""){
-            throw new EmptyStringException("City name cannot be empty.");
-        }
-        if(city == null){
-            System.out.println("City name cannot be null.");
-            throw new NullPointerException("City name cannot be null.");
-        }
-        if(isEmpty){
-            throw new EmptyHashTableException("Cannot delete an item from an empty hash table.");
-        }
-        // Compute hash key of the given city:
-        int hashKey = hash(city);
-        if(hashTable[hashKey] == null){
-            throw new ItemNotFoundException(city + " is not found.");
-        }
-        else{
-            try{
-                hashTable[hashKey].deleteCity(city);
-            }
-            catch(ItemNotFoundException e){
-                throw new ItemNotFoundException(city + " is not found and cannot be deleted.");
-            }
-            catch (EmptyLinkedListException e){
-                /* Re-throw this exception as ItemNotFoundException to hide hash table's implementation
-                and to emphasize the fact the city is not found. */
-                throw new ItemNotFoundException(city + " is not found and cannot be deleted.");
-            }
-            catch (Exception e){
-                throw e;
-            }
-        }
+        validateCityArgument(city);
+        checkThatHashTableIsNotEmpty();
+        deleteCity(city);
     }
 
     /**
@@ -201,15 +173,36 @@ public class HashTable {
     }
 
     /**
-     * Validate arguments to make sure they are not null or empty strings.
+     * Validate arguments to make sure they are not null or empty.
      * @param key key of the item
      * @param value value of the item
      * @throws EmptyStringException is thrown if key or value arguments are empty.
      */
     private void validateArguments(String key, String value) throws EmptyStringException{
+        checkIfArgumentsAreEmpty(key, value);
+        checkIfArgumentsAreNull(key, value);
+    }
+
+    /**
+     * Check if arguments are empty.
+     * If either or both of them is (are) empty, then throw EmptyStringException. Otherwise, do nothing.
+     * @param key key of the item
+     * @param value value of the item
+     * @throws EmptyStringException is thrown if key or value arguments are empty.
+     */
+    private void checkIfArgumentsAreEmpty(String key, String value) throws EmptyStringException{
         if(key == "" || value == ""){
             throw new EmptyStringException("Key and value cannot be empty.");
         }
+    }
+
+    /**
+     * Check if arguments are null.
+     * If either or both of them is (are) null, throw NullPointerException. Otherwise, do nothing.
+     * @param key key of the item
+     * @param value value of the item
+     */
+    private void checkIfArgumentsAreNull(String key, String value){
         if(key == null || value == null){
             System.out.println("Key and value cannot be null.");
             throw new NullPointerException("Key and value cannot be null.");
@@ -222,9 +215,26 @@ public class HashTable {
      * @throws EmptyStringException is thrown if the city string is empty.
      */
     private void validateCityArgument(String city) throws EmptyStringException{
+        checkIfCityIsEmpty(city);
+        checkIfCityIsNull(city);
+    }
+
+    /**
+     * Check if the city argument is empty. If it is, then throw EmptyStringException. Otherwise, do nothing.
+     * @param city name of the city
+     * @throws EmptyStringException is thrown if the city string is empty.
+     */
+    private void checkIfCityIsEmpty(String city) throws EmptyStringException{
         if(city == ""){
             throw new EmptyStringException("City name cannot be empty.");
         }
+    }
+
+    /**
+     * Check if the city argument is null. If it is, then throw NullPointerException. Otherwise, do nothing.
+     * @param city name of the city
+     */
+    private void checkIfCityIsNull(String city){
         if(city == null){
             System.out.println("City name cannot be null.");
             throw new NullPointerException("City name cannot be null.");
@@ -275,6 +285,43 @@ public class HashTable {
         }
         catch (Exception e){
             System.out.println("HashTable caught " + e);
+            throw e;
+        }
+    }
+
+    /**
+     * A helper method to delete a city from a hash table.
+     * @param city name of the city
+     * @throws ItemNotFoundException is thrown if the city is not found.
+     * @throws EmptyStringException
+     */
+    private void deleteCity(String city) throws ItemNotFoundException, EmptyStringException{
+        // Compute hash key of the given city:
+        int hashKey = hash(city);
+        if(hashTable[hashKey] == null){
+            throw new ItemNotFoundException(city + " is not found.");
+        }
+        else{
+            deleteCityAtGivenHashKey(city, hashKey);
+        }
+    }
+
+    /**
+     * Delete a city from the hash table at a given hash key.
+     * @param city name of the city
+     * @param hashKey hash key corresponding to the city
+     * @throws ItemNotFoundException is thrown if the city is not found.
+     * @throws EmptyStringException
+     */
+    private void deleteCityAtGivenHashKey(String city, int hashKey) throws ItemNotFoundException, EmptyStringException{
+        try{
+            hashTable[hashKey].deleteCity(city);
+        }
+        catch(ItemNotFoundException | EmptyLinkedListException e){
+            System.out.println("HashTable caught " + e);
+            throw new ItemNotFoundException(city + " is not found and cannot be deleted.");
+        }
+        catch (Exception e){
             throw e;
         }
     }

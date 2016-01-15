@@ -2,7 +2,6 @@ package main.java;
 
 import main.java.exceptions.hashtable.DuplicateItemException;
 import main.java.exceptions.hashtable.EmptyHashTableException;
-import main.java.exceptions.hashtable.HashTableException;
 import main.java.exceptions.linkedlist.EmptyLinkedListException;
 import main.java.exceptions.linkedlist.EmptyStringException;
 import main.java.exceptions.linkedlist.ItemNotFoundException;
@@ -31,11 +30,11 @@ public class HashTable {
 
     /**
      * Check if a hash table is empty.
-     * @return True if a hash table is empty. False, otherwise.
+     * @return True if a hash table does not contain any items. False, otherwise.
      */
     public boolean isEmpty(){
         for(int i = 0; i < size; i++){
-            if(hashTable[i] != null && hashTable[i].isEmpty() == false){
+            if(slotIsNotEmptyAtIndex(i)){
                 isEmpty = false;
                 return false;
             }
@@ -75,7 +74,6 @@ public class HashTable {
     public void insert(String key, String value) throws EmptyStringException, NullPointerException, DuplicateItemException {
         validateArguments(key, value);
         insertNewItem(key, value);
-        return;
     }
 
     /**
@@ -131,7 +129,7 @@ public class HashTable {
         System.out.println("This slot has never been occupied. Adding an item to it...");
         hashTable[hashKey] = new ZipcodeLinkedList();
         hashTable[hashKey].addNode(key, value);
-        if(isEmpty == true){
+        if(isEmpty){
             isEmpty = false;
         }
     }
@@ -147,7 +145,7 @@ public class HashTable {
      */
     private void insertCollidingItem(String key, String value, int hashKey) throws EmptyStringException, DuplicateItemException{
         System.out.println("This slot is or was previously occupied. Checking for duplicates...");
-        if( hashTable[hashKey].checkForDuplicatesOf(key) == false){
+        if( !hashTable[hashKey].containsDuplicatesOf(key)){
             hashTable[hashKey].addNode(key, value);
         }
         else{
@@ -164,7 +162,7 @@ public class HashTable {
      */
     private void insertNewItem(String key, String value) throws EmptyStringException, DuplicateItemException{
         int hashKey = hash(key);
-        if(hashTable[hashKey] == null){
+        if(slotHasBeenNeverUsedAt(hashKey)){
             insertNonCollidingItem(key, value, hashKey);
         }
         else{
@@ -260,7 +258,7 @@ public class HashTable {
      */
     private String searchForTheCity(String city) throws ItemNotFoundException, EmptyStringException{
         int hashKey = hash(city);
-        if(hashTable[hashKey] == null){
+        if(slotHasBeenNeverUsedAt(hashKey)){
             throw new ItemNotFoundException(city + " is not found.");
         }
         else{
@@ -298,7 +296,7 @@ public class HashTable {
     private void deleteCity(String city) throws ItemNotFoundException, EmptyStringException{
         // Compute hash key of the given city:
         int hashKey = hash(city);
-        if(hashTable[hashKey] == null){
+        if(slotHasBeenNeverUsedAt(hashKey)){
             throw new ItemNotFoundException(city + " is not found.");
         }
         else{
@@ -324,5 +322,18 @@ public class HashTable {
         catch (Exception e){
             throw e;
         }
+    }
+
+    /**
+     * A helper method for the isEmpty() method to check if a given slot of a hash table is not empty.
+     * @param index index of a slot in a hash table
+     * @return true if the slot at the given index is not empty. False, otherwise.
+     */
+    private boolean slotIsNotEmptyAtIndex(int index){
+        return (hashTable[index] != null && !hashTable[index].isEmpty());
+    }
+
+    private boolean slotHasBeenNeverUsedAt(int hashKey){
+        return hashTable[hashKey] == null;
     }
 }

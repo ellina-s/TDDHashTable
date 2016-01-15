@@ -301,7 +301,7 @@ public class ZipcodeLinkedList {
      * @return True if the city is in the list (any first occurence in the list). Otherwise, false.
      * Return false if the linked list is empty.
      */
-    public boolean checkForDuplicatesOf(String city) throws NullPointerException, EmptyStringException{
+    public boolean containsDuplicatesOf(String city) throws NullPointerException, EmptyStringException{
         if(city == null){
             throw new NullPointerException("The name of the city cannot be null.");
         }

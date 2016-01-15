@@ -646,7 +646,7 @@ public class ZipcodeLinkedListTest {
     @Test
     public void checkingForDuplicatesInEmptyListShouldReturnFalse() throws EmptyStringException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
-        assertFalse(list.checkForDuplicatesOf(CITY_TOKYO));
+        assertFalse(list.containsDuplicatesOf(CITY_TOKYO));
     }
 
     @Test
@@ -658,8 +658,8 @@ public class ZipcodeLinkedListTest {
         list.deleteCity(CITY_TOKYO);
         list.deleteCity(CITY_LONDON);
         assertTrue(list.isEmpty());
-        assertFalse(list.checkForDuplicatesOf(CITY_TOKYO));
-        assertFalse(list.checkForDuplicatesOf(CITY_LONDON));
+        assertFalse(list.containsDuplicatesOf(CITY_TOKYO));
+        assertFalse(list.containsDuplicatesOf(CITY_LONDON));
     }
 
     @Test
@@ -669,8 +669,8 @@ public class ZipcodeLinkedListTest {
         list.addNode(CITY_LONDON, ZIPCODE_LONDON);
         list.deleteLinkedList();
         assertTrue(list.isEmpty());
-        assertFalse(list.checkForDuplicatesOf(CITY_LONDON));
-        assertFalse(list.checkForDuplicatesOf(CITY_TOKYO));
+        assertFalse(list.containsDuplicatesOf(CITY_LONDON));
+        assertFalse(list.containsDuplicatesOf(CITY_TOKYO));
     }
 
     @Test
@@ -678,8 +678,8 @@ public class ZipcodeLinkedListTest {
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         list.addNode(CITY_LONDON, ZIPCODE_LONDON);
         list.addNode(CITY_TOKYO, ZIPCODE_TOKYO);
-        assertTrue(list.checkForDuplicatesOf(CITY_LONDON));
-        assertTrue(list.checkForDuplicatesOf(CITY_TOKYO));
+        assertTrue(list.containsDuplicatesOf(CITY_LONDON));
+        assertTrue(list.containsDuplicatesOf(CITY_TOKYO));
     }
 
     @Test
@@ -687,8 +687,8 @@ public class ZipcodeLinkedListTest {
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         list.addNode(CITY_LONDON, ZIPCODE_LONDON);
         list.addNode(CITY_TOKYO, ZIPCODE_TOKYO);
-        assertFalse(list.checkForDuplicatesOf(CITY_TORONTO));
-        assertFalse(list.checkForDuplicatesOf(CITY_NEWYORK));
+        assertFalse(list.containsDuplicatesOf(CITY_TORONTO));
+        assertFalse(list.containsDuplicatesOf(CITY_NEWYORK));
     }
 
     @Test
@@ -697,27 +697,27 @@ public class ZipcodeLinkedListTest {
         list.addNode(CITY_TOKYO, ZIPCODE_TOKYO);
         list.addNode(CITY_NEWYORK, ZIPCODE_NEWYORK);
         list.addNode(CITY_LONDON, ZIPCODE_LONDON);
-        assertTrue(list.checkForDuplicatesOf(CITY_NEWYORK));
-        assertTrue(list.checkForDuplicatesOf(CITY_LONDON));
-        assertTrue(list.checkForDuplicatesOf(CITY_TOKYO));
+        assertTrue(list.containsDuplicatesOf(CITY_NEWYORK));
+        assertTrue(list.containsDuplicatesOf(CITY_LONDON));
+        assertTrue(list.containsDuplicatesOf(CITY_TOKYO));
         list.deleteCity(CITY_TOKYO);
-        assertFalse(list.checkForDuplicatesOf(CITY_TOKYO));
+        assertFalse(list.containsDuplicatesOf(CITY_TOKYO));
         list.deleteCity(CITY_LONDON);
-        assertFalse(list.checkForDuplicatesOf(CITY_LONDON));
+        assertFalse(list.containsDuplicatesOf(CITY_LONDON));
         list.deleteCity(CITY_NEWYORK);
-        assertFalse(list.checkForDuplicatesOf(CITY_NEWYORK));
+        assertFalse(list.containsDuplicatesOf(CITY_NEWYORK));
     }
 
     @Test (expected = NullPointerException.class)
     public void passingNullToDuplicatesCheckShouldRaiseException() throws EmptyStringException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
-        boolean status = list.checkForDuplicatesOf(null);
+        boolean status = list.containsDuplicatesOf(null);
     }
 
     @Test (expected = EmptyStringException.class)
     public void passingEmptyStringToDuplicatesCheckShouldRaiseException() throws EmptyStringException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
-        boolean status = list.checkForDuplicatesOf("");
+        boolean status = list.containsDuplicatesOf("");
     }
 
     @Test (expected = EmptyStringException.class)
@@ -725,7 +725,7 @@ public class ZipcodeLinkedListTest {
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         list.addNode(CITY_TOKYO, ZIPCODE_TOKYO);
         list.addNode(CITY_LONDON, ZIPCODE_LONDON);
-        boolean status = list.checkForDuplicatesOf("");
+        boolean status = list.containsDuplicatesOf("");
     }
 
     @Test (expected = NullPointerException.class)
@@ -733,7 +733,7 @@ public class ZipcodeLinkedListTest {
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         list.addNode(CITY_TOKYO, ZIPCODE_TOKYO);
         list.addNode(CITY_LONDON, ZIPCODE_LONDON);
-        boolean status = list.checkForDuplicatesOf(null);
+        boolean status = list.containsDuplicatesOf(null);
     }
 
     @Test (expected = NullPointerException.class)

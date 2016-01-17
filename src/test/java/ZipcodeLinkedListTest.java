@@ -248,7 +248,7 @@ public class ZipcodeLinkedListTest {
         list.addNode(CITY_TORONTO, ZIPCODE_TORONTO);
         list.addNode(CITY_LONDON, ZIPCODE_LONDON);
         list.addNode(CITY_MEXICO, ZIPCODE_MEXICO);
-        list.deleteLinkedList();
+        list.clearTheLinkedList();
         assertNull(list.head);
         assertNull(list.tail);
         assertEquals(0, list.count);
@@ -258,7 +258,7 @@ public class ZipcodeLinkedListTest {
     @Test (expected = EmptyLinkedListException.class)
     public void deletingEmptyListShouldThrowException() throws EmptyLinkedListException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
-        list.deleteLinkedList();
+        list.clearTheLinkedList();
     }
 
     @Test (expected = EmptyLinkedListException.class)
@@ -667,7 +667,7 @@ public class ZipcodeLinkedListTest {
         ZipcodeLinkedList list = new ZipcodeLinkedList();
         list.addNode(CITY_TOKYO, ZIPCODE_TOKYO);
         list.addNode(CITY_LONDON, ZIPCODE_LONDON);
-        list.deleteLinkedList();
+        list.clearTheLinkedList();
         assertTrue(list.isEmpty());
         assertFalse(list.containsDuplicatesOf(CITY_LONDON));
         assertFalse(list.containsDuplicatesOf(CITY_TOKYO));
@@ -810,7 +810,7 @@ public class ZipcodeLinkedListTest {
         list.addNode("", "");
     }
 
-    /* Tested via deleteLinkedList() */
+    /* Tested via clearTheLinkedList() */
     @Test
     public void addingAnItemToClearedLinkedListShouldMakeListNotEmpty() throws EmptyStringException, EmptyLinkedListException{
         ZipcodeLinkedList list = new ZipcodeLinkedList();
@@ -819,7 +819,7 @@ public class ZipcodeLinkedListTest {
         list.addNode(CITY_LONDON, ZIPCODE_LONDON);
         assertFalse(list.isEmpty());
         // Clear the linked list
-        list.deleteLinkedList();
+        list.clearTheLinkedList();
         assertTrue(list.isEmpty());
         // Add a city
         list.addNode(CITY_SYDNEY, ZIPCODE_SYDNEY);

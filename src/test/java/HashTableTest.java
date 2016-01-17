@@ -8,6 +8,7 @@ import main.java.exceptions.linkedlist.EmptyStringException;
 import main.java.exceptions.linkedlist.InvalidIndexException;
 import main.java.exceptions.linkedlist.ItemNotFoundException;
 import org.junit.Test;
+import sun.invoke.empty.Empty;
 
 import static org.junit.Assert.*;
 
@@ -484,5 +485,17 @@ public class HashTableTest {
         hashTable.insert(CITY_SINGAPORE, ZIPCODE_SINGAPORE);
         // Check that the hash table is not empty
         assertFalse(hashTable.isEmpty());
+    }
+
+    @Test (expected = ItemNotFoundException.class)
+    public void testDeletingLastAddedItemInTheSameSlot() throws EmptyStringException, DuplicateItemException, EmptyHashTableException, ItemNotFoundException, EmptyLinkedListException{
+        HashTable hashTable = new HashTable();
+        hashTable.insert(CITY_ALMATY, ZIPCODE_ALMATY);
+        hashTable.insert(CITY_TORONTO, ZIPCODE_TORONTO);
+        hashTable.delete(CITY_TORONTO);
+        // Confirm that Almaty is still there
+        assertEquals(ZIPCODE_ALMATY, hashTable.search(CITY_ALMATY));
+        // Confirm that Toronto is not there. It should throw ItemNotFound exception.
+        assertEquals(ZIPCODE_TORONTO, hashTable.search(CITY_TORONTO));
     }
 }

@@ -333,6 +333,12 @@ public class HashTable {
         return (hashTable[index] != null && !hashTable[index].isEmpty());
     }
 
+    /**
+     * Check if the slot corresponding to the given hash key has been never used
+     * by testing if the slot is null.
+     * @param hashKey a hash key used to locate the slot in the hash table
+     * @return True, if the slot is null. False, otherwise.
+     */
     private boolean slotHasBeenNeverUsedAt(int hashKey){
         return hashTable[hashKey] == null;
     }

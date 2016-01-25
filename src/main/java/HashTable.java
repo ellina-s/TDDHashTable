@@ -86,8 +86,10 @@ public class HashTable {
      */
     public String search(String city) throws EmptyHashTableException, ItemNotFoundException, EmptyStringException, EmptyLinkedListException {
         validateCityArgument(city);
-        checkThatHashTableIsNotEmpty();
-        return searchForTheCity(city);
+        validateHashTableIsNotEmpty();
+        int hashKey = hash(city);
+        validateCityExistsInHashTable(city, hashKey);
+        return searchForCityZipcode(hashKey, city);
     }
 
     /**
@@ -113,8 +115,10 @@ public class HashTable {
      */
     public void delete (String city) throws EmptyHashTableException, EmptyStringException, ItemNotFoundException, EmptyLinkedListException{
         validateCityArgument(city);
-        checkThatHashTableIsNotEmpty();
-        deleteCity(city);
+        validateHashTableIsNotEmpty();
+        int hashKey = hash(city);
+        validateCityExistsInHashTable(city, hashKey);
+        deleteCityAtGivenHashKey(city, hashKey);
     }
 
     /**
@@ -129,6 +133,13 @@ public class HashTable {
         System.out.println("This slot has never been occupied. Adding an item to it...");
         hashTable[hashKey] = new ZipcodeLinkedList();
         hashTable[hashKey].addNode(key, value);
+        updateIsEmptyFlagIfNeeded();
+    }
+
+    /**
+     * Set the isEmpty flag to false, if it was true, to indicate that a hash table is no longer empty.
+     */
+    private void updateIsEmptyFlagIfNeeded(){
         if(isEmpty){
             isEmpty = false;
         }
@@ -162,7 +173,7 @@ public class HashTable {
      */
     private void insertNewItem(String key, String value) throws EmptyStringException, DuplicateItemException{
         int hashKey = hash(key);
-        if(slotHasBeenNeverUsedAt(hashKey)){
+        if(slotHasBeenNeverUsedAtHashKey(hashKey)){
             insertNonCollidingItem(key, value, hashKey);
         }
         else{
@@ -243,26 +254,9 @@ public class HashTable {
      * A helper method to check if the hash table is not empty.
      * @throws EmptyHashTableException is thrown if the hash table is empty.
      */
-    private void checkThatHashTableIsNotEmpty() throws EmptyHashTableException{
+    private void validateHashTableIsNotEmpty() throws EmptyHashTableException{
         if(isEmpty){
             throw new EmptyHashTableException("There are no items in an empty hash table.");
-        }
-    }
-
-    /**
-     * A helper method to search for the city.
-     * @param city name of the city
-     * @return zipcode of the city
-     * @throws ItemNotFoundException is thrown if the city is not found.
-     * @throws EmptyStringException
-     */
-    private String searchForTheCity(String city) throws ItemNotFoundException, EmptyStringException{
-        int hashKey = hash(city);
-        if(slotHasBeenNeverUsedAt(hashKey)){
-            throw new ItemNotFoundException(city + " is not found.");
-        }
-        else{
-            return searchForCityZipcode(hashKey, city);
         }
     }
 
@@ -288,19 +282,12 @@ public class HashTable {
     }
 
     /**
-     * A helper method to delete a city from a hash table.
-     * @param city name of the city
+     * Validate that the city at the given hash key exists in the hash table.
      * @throws ItemNotFoundException is thrown if the city is not found.
-     * @throws EmptyStringException
      */
-    private void deleteCity(String city) throws ItemNotFoundException, EmptyStringException{
-        // Compute hash key of the given city:
-        int hashKey = hash(city);
-        if(slotHasBeenNeverUsedAt(hashKey)){
+    private void validateCityExistsInHashTable(String city, int hashKey) throws ItemNotFoundException{
+        if(slotHasBeenNeverUsedAtHashKey(hashKey)){
             throw new ItemNotFoundException(city + " is not found.");
-        }
-        else{
-            deleteCityAtGivenHashKey(city, hashKey);
         }
     }
 
@@ -339,7 +326,7 @@ public class HashTable {
      * @param hashKey a hash key used to locate the slot in the hash table
      * @return True, if the slot is null. False, otherwise.
      */
-    private boolean slotHasBeenNeverUsedAt(int hashKey){
+    private boolean slotHasBeenNeverUsedAtHashKey(int hashKey){
         return hashTable[hashKey] == null;
     }
 }

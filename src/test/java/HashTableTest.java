@@ -488,7 +488,7 @@ public class HashTableTest {
     }
 
     @Test (expected = ItemNotFoundException.class)
-    public void testDeletingLastAddedItemInTheSameSlot() throws EmptyStringException, DuplicateItemException, EmptyHashTableException, ItemNotFoundException, EmptyLinkedListException{
+    public void testDeletingLastAddedItemInTheSameSlot() throws EmptyStringException, DuplicateItemException,EmptyHashTableException, ItemNotFoundException, EmptyLinkedListException{
         HashTable hashTable = new HashTable();
         hashTable.insert(CITY_ALMATY, ZIPCODE_ALMATY);
         hashTable.insert(CITY_TORONTO, ZIPCODE_TORONTO);

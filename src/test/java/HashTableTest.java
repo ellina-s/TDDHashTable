@@ -8,7 +8,6 @@ import main.java.exceptions.linkedlist.EmptyStringException;
 import main.java.exceptions.linkedlist.InvalidIndexException;
 import main.java.exceptions.linkedlist.ItemNotFoundException;
 import org.junit.Test;
-import sun.invoke.empty.Empty;
 
 import static org.junit.Assert.*;
 
@@ -103,7 +102,7 @@ public class HashTableTest {
         int asciiEquivalent = ASCII_UPPERCASE_M + ASCII_LOWERCASE_E +ASCII_LOWERCASE_X +
                 ASCII_LOWERCASE_I + ASCII_LOWERCASE_C + ASCII_LOWERCASE_O;
         int hashKey = asciiEquivalent % NUM_SLOTS;
-        assertEquals(hashKey, hashTable.hash(key));
+        assertEquals(hashKey, hashTable.hashKeyOf(key));
     }
 
     @Test
@@ -111,7 +110,7 @@ public class HashTableTest {
             InvalidIndexException,ItemNotFoundException, DuplicateItemException {
         HashTable hashTable = new HashTable();
         hashTable.insert(CITY_ALMATY, ZIPCODE_ALMATY);
-        int hashKey = hashTable.hash(CITY_ALMATY);
+        int hashKey = hashTable.hashKeyOf(CITY_ALMATY);
         assertEquals(ZIPCODE_ALMATY, hashTable.hashTable[hashKey].getCityZipcode(CITY_ALMATY));
         hashTable.hashTable[hashKey].showContentsOfTheLinkedList();
     }
@@ -126,8 +125,8 @@ public class HashTableTest {
         // Insert another city with the same hash key as Almaty, e.g. Toronto
         hashTable.insert(CITY_TORONTO, ZIPCODE_TORONTO);
         // Get hash keys of the cities
-        int hashKey1 = hashTable.hash(CITY_ALMATY);
-        int hashKey2 = hashTable.hash(CITY_TORONTO);
+        int hashKey1 = hashTable.hashKeyOf(CITY_ALMATY);
+        int hashKey2 = hashTable.hashKeyOf(CITY_TORONTO);
         // Check that their hash keys are the same
         assertEquals(hashKey1, hashKey2);
         // Check that both cities are inserted in the hash table
@@ -171,7 +170,7 @@ public class HashTableTest {
         assertFalse(hashTable.isEmpty());
         hashTable.insert(CITY_TOKYO, ZIPCODE_TOKYO);
         // Check that their hash keys are different (i.e. the items are in different slots)
-        assertNotEquals(hashTable.hash(CITY_TORONTO), hashTable.hash(CITY_TOKYO));
+        assertNotEquals(hashTable.hashKeyOf(CITY_TORONTO), hashTable.hashKeyOf(CITY_TOKYO));
         // Check that the table is not empty at this point
         assertFalse(hashTable.isEmpty());
     }
@@ -185,7 +184,7 @@ public class HashTableTest {
         // Insert another city with the same hash key as Almaty, e.g. Toronto
         hashTable.insert(CITY_TORONTO, ZIPCODE_TORONTO);
         // Check that their hash keys are the same
-        assertEquals(hashTable.hash(CITY_ALMATY), hashTable.hash(CITY_TORONTO));
+        assertEquals(hashTable.hashKeyOf(CITY_ALMATY), hashTable.hashKeyOf(CITY_TORONTO));
         // Check that the table is not empty at this point
         assertFalse(hashTable.isEmpty());
     }
@@ -293,7 +292,7 @@ public class HashTableTest {
         hashTable.insert(CITY_TOKYO, ZIPCODE_TOKYO);
         // Confirm that the city is there
         assertEquals(ZIPCODE_TOKYO, hashTable.search(CITY_TOKYO));
-        int hashKey = hashTable.hash(CITY_TOKYO);
+        int hashKey = hashTable.hashKeyOf(CITY_TOKYO);
         assertFalse(hashTable.hashTable[hashKey].isEmpty());
         // Delete the city
         hashTable.delete(CITY_TOKYO);
@@ -347,7 +346,7 @@ public class HashTableTest {
         hashTable.delete(CITY_TORONTO);
         hashTable.delete(CITY_ALMATY);
         // Check that the hash table is empty now
-        int hashKeyAlmaty = hashTable.hash(CITY_ALMATY);
+        int hashKeyAlmaty = hashTable.hashKeyOf(CITY_ALMATY);
         assertTrue(hashTable.hashTable[hashKeyAlmaty].isEmpty());
     }
 
@@ -362,7 +361,7 @@ public class HashTableTest {
         // Delete the city
         hashTable.delete(CITY_TOKYO);
         // Confirm that the city is no longer in the hash table
-        int hashKey = hashTable.hash(CITY_TOKYO);
+        int hashKey = hashTable.hashKeyOf(CITY_TOKYO);
         assertTrue(hashTable.hashTable[hashKey].isEmpty());
         // Try to delete the same city again (i.e. from the same slot)
         hashTable.delete(CITY_TOKYO);

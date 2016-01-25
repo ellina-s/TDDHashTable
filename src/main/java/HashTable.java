@@ -85,11 +85,8 @@ public class HashTable {
      * @throws EmptyStringException is thrown if the city parameter is empty.
      */
     public String search(String city) throws EmptyHashTableException, ItemNotFoundException, EmptyStringException, EmptyLinkedListException {
-        validateCityArgument(city);
-        validateHashTableIsNotEmpty();
-        int hashKey = hash(city);
-        validateCityExistsInHashTable(city, hashKey);
-        return searchForCityZipcode(hashKey, city);
+        validateFurtherActionIsPossible(city);
+        return searchForCityZipcode(city);
     }
 
     /**
@@ -100,7 +97,7 @@ public class HashTable {
      * @param key key of an item
      * @return hash key corresponding to the given key
      */
-    public int hash(String key){
+    public int hashKeyOf(String key){
         return convertToAscii(key) % size;
     }
 
@@ -114,11 +111,20 @@ public class HashTable {
      * @throws EmptyLinkedListException is caught and re-thrown as ItemNotFoundException.
      */
     public void delete (String city) throws EmptyHashTableException, EmptyStringException, ItemNotFoundException, EmptyLinkedListException{
+        validateFurtherActionIsPossible(city);
+        deleteCityAtGivenHashKey(city);
+    }
+
+    /**
+     * Validate that further action on the given city is possible by doing 3 validations:
+     * validating the city argument, validating that the hash table is not empty,
+     * and validating that the given city exists in a hash table.
+     * @param city name of the city
+     */
+    private void validateFurtherActionIsPossible(String city) throws EmptyHashTableException, EmptyStringException, ItemNotFoundException{
         validateCityArgument(city);
         validateHashTableIsNotEmpty();
-        int hashKey = hash(city);
-        validateCityExistsInHashTable(city, hashKey);
-        deleteCityAtGivenHashKey(city, hashKey);
+        validateCityExistsInHashTable(city, hashKeyOf(city));
     }
 
     /**
@@ -172,7 +178,7 @@ public class HashTable {
      * @throws DuplicateItemException
      */
     private void insertNewItem(String key, String value) throws EmptyStringException, DuplicateItemException{
-        int hashKey = hash(key);
+        int hashKey = hashKeyOf(key);
         if(slotHasBeenNeverUsedAtHashKey(hashKey)){
             insertNonCollidingItem(key, value, hashKey);
         }
@@ -262,15 +268,14 @@ public class HashTable {
 
     /**
      * Search for and return the city's zipcode.
-     * @param hashKey a hash key corresponding to the city
      * @param city name of the city
      * @return a zipcode of the city
      * @throws ItemNotFoundException is thrown if the city is not found.
      * @throws EmptyStringException
      */
-    private String searchForCityZipcode(int hashKey, String city) throws ItemNotFoundException, EmptyStringException{
+    private String searchForCityZipcode(String city) throws ItemNotFoundException, EmptyStringException{
         try{
-            return hashTable[hashKey].getCityZipcode(city);
+            return hashTable[hashKeyOf(city)].getCityZipcode(city);
         }
         catch(ItemNotFoundException | EmptyLinkedListException e){
             throw new ItemNotFoundException(city + " is not found in the hash table.");
@@ -294,19 +299,19 @@ public class HashTable {
     /**
      * Delete a city from the hash table at a given hash key.
      * @param city name of the city
-     * @param hashKey hash key corresponding to the city
      * @throws ItemNotFoundException is thrown if the city is not found.
      * @throws EmptyStringException
      */
-    private void deleteCityAtGivenHashKey(String city, int hashKey) throws ItemNotFoundException, EmptyStringException{
+    private void deleteCityAtGivenHashKey(String city) throws ItemNotFoundException, EmptyStringException{
         try{
-            hashTable[hashKey].deleteCity(city);
+            hashTable[hashKeyOf(city)].deleteCity(city);
         }
         catch(ItemNotFoundException | EmptyLinkedListException e){
             System.out.println("HashTable caught " + e);
             throw new ItemNotFoundException(city + " is not found and cannot be deleted.");
         }
         catch (Exception e){
+            System.out.println("HashTable caught " + e);
             throw e;
         }
     }

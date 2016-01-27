@@ -162,10 +162,16 @@ public class HashTable {
      */
     private void insertCollidingItem(String key, String value, int hashKey) throws EmptyStringException, DuplicateItemException{
         System.out.println("This slot is or was previously occupied. Checking for duplicates...");
-        if( !hashTable[hashKey].containsDuplicatesOf(key)){
-            hashTable[hashKey].addNode(key, value);
-        }
-        else{
+        validateNoDuplicatesOfKeyAtHashKey(key, hashKey);
+        hashTable[hashKey].addNode(key, value);
+    }
+
+    /**
+     * Validate that there are no duplicates of the given key in the slot indicated by the given hash key.
+     * @throws DuplicateItemException is thrown if a duplicate of the given key is detected.
+     */
+    private void validateNoDuplicatesOfKeyAtHashKey(String key, int hashKey) throws DuplicateItemException, EmptyStringException{
+        if(hashTable[hashKey].containsDuplicatesOf(key)){
             throw new DuplicateItemException("Duplicate item is detected. Cannot insert a duplicate.");
         }
     }

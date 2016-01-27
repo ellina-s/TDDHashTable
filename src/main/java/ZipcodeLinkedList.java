@@ -124,9 +124,29 @@ public class ZipcodeLinkedList {
      * @return city name and zipcode in a String array, at indexes 0 and 1 respectively
      */
     public String[] getNodeAtIndex(int index) throws EmptyLinkedListException, InvalidIndexException {
-        checkIfLinkedListIsEmpty(MESSAGE_EMPTY_LINKED_LIST);
+        validateLinkedListIsNotEmpty(MESSAGE_EMPTY_LINKED_LIST);
         validateRequestedIndex(index);
         String[] data = new String[2];
+        if(index == 1){
+            data[CITY] = head.key;
+            data[ZIPCODE] = head.value;
+            return data;
+        }
+        else if(index == count){
+            data[CITY] = tail.key;
+            data[ZIPCODE] = tail.value;
+            return data;
+        }
+        Node requestedNode = getRequestedNodeAtIndex(index);
+        data[CITY] = requestedNode.key;
+        data[ZIPCODE] = requestedNode.value;
+        return data;
+    }
+
+    /**
+     * A helper method to get the node at the requested index.
+     */
+    private Node getRequestedNodeAtIndex (int index){
         Node pointer = head;
         int stop = index - 1;
         for(int i = 0; i<stop; i++){
@@ -134,9 +154,7 @@ public class ZipcodeLinkedList {
                 pointer = pointer.next;
             }
         }
-        data[CITY] = pointer.key;
-        data[ZIPCODE] = pointer.value;
-        return data;
+        return pointer;
     }
 
     /**
@@ -145,7 +163,7 @@ public class ZipcodeLinkedList {
      * @throws EmptyLinkedListException
      */
     public void clearTheLinkedList() throws EmptyLinkedListException{
-        checkIfLinkedListIsEmpty(MESSAGE_CANNOT_DELETE_EMPTY_LINKED_LIST);
+        validateLinkedListIsNotEmpty(MESSAGE_CANNOT_DELETE_EMPTY_LINKED_LIST);
         head = null;
         tail = null;
         count = 0;
@@ -158,7 +176,7 @@ public class ZipcodeLinkedList {
      * @throws EmptyLinkedListException
      */
     public void deleteNodeAtIndex(int index) throws EmptyLinkedListException, InvalidIndexException{
-        checkIfLinkedListIsEmpty(MESSAGE_CANNOT_DELETE_NODE);
+        validateLinkedListIsNotEmpty(MESSAGE_CANNOT_DELETE_NODE);
         validateRequestedIndex(index);
         if(1 == index){
             deleteHead();
@@ -208,16 +226,18 @@ public class ZipcodeLinkedList {
      * @param index an index of the node to be shown, where 1 is an index of the first node
      */
     public void showNodeAtIndex(int index) throws EmptyLinkedListException, InvalidIndexException{
-        checkIfLinkedListIsEmpty(MESSAGE_CANNOT_DISPLAY_NODE);
+        validateLinkedListIsNotEmpty(MESSAGE_CANNOT_DISPLAY_NODE);
         validateRequestedIndex(index);
-        Node pointer = head;
-        int stop = index - 1;
-        for(int i = 0; i<stop; i++){
-            if(pointer.next != null){
-                pointer = pointer.next;
-            }
+        if(index == 1){
+            System.out.println("City: " + head.key + ", Zipcode: " + head.value);
+            return;
         }
-        System.out.println("City: " + pointer.key + ", Zipcode: " + pointer.value);
+        else if(index == count){
+            System.out.println("City: " + tail.key + ", Zipcode: " + tail.value);
+            return;
+        }
+        Node requestedNode = getRequestedNodeAtIndex(index);
+        System.out.println("City: " + requestedNode.key + ", Zipcode: " + requestedNode.value);
     }
 
     /**
@@ -227,7 +247,7 @@ public class ZipcodeLinkedList {
      */
     public void deleteCity(String targetCity) throws EmptyLinkedListException, ItemNotFoundException, EmptyStringException{
         validateCityArgument(targetCity);
-        checkIfLinkedListIsEmpty(MESSAGE_CANNOT_DELETE_NODE);
+        validateLinkedListIsNotEmpty(MESSAGE_CANNOT_DELETE_NODE);
         if(targetCity.equals(head.key)){
             deleteHead();
             return;
@@ -260,7 +280,7 @@ public class ZipcodeLinkedList {
      */
     public String getCityZipcode(String city) throws EmptyLinkedListException, ItemNotFoundException, EmptyStringException{
         validateCityArgument(city);
-        checkIfLinkedListIsEmpty(MESSAGE_NO_CITIES);
+        validateLinkedListIsNotEmpty(MESSAGE_NO_CITIES);
         Node pointer = head;
         while(pointer != null){
             if(pointer.key.equals(city)){
@@ -275,7 +295,7 @@ public class ZipcodeLinkedList {
     /**
      * Check if the given city is already in the linked list.
      * @param city the name of the city
-     * @return True if the city is in the list (any first occurence in the list). Otherwise, false.
+     * @return True if the city is in the linked list (any first occurence in the list). Otherwise, false.
      * Return false if the linked list is empty.
      */
     public boolean containsDuplicatesOf(String city) throws NullPointerException, EmptyStringException{
@@ -284,18 +304,30 @@ public class ZipcodeLinkedList {
             System.out.println("There are no duplicates in an empty linked list.");
             return false;
         }
+        if(foundDuplicateOf(city)){
+            return true;
+        }
         else{
-            Node pointer = head;
-            while(pointer != null){
-                if(pointer.key.equals(city)){
-                    System.out.println("Found a duplicate: " + pointer.key);
-                    return true;
-                }
-                pointer = pointer.next;
-            }
             System.out.println("No duplicates of " + city + " are found.");
             return false;
         }
+    }
+
+    /**
+     * A helper method to find a duplicate of the given city.
+     * @param city name of the city
+     * @return True, if a duplicate of the city is found. False, if no duplicates are found.
+     */
+    private boolean foundDuplicateOf(String city){
+        Node pointer = head;
+        while(pointer != null){
+            if(pointer.key.equals(city)){
+                System.out.println("Found a duplicate: " + pointer.key);
+                return true;
+            }
+            pointer = pointer.next;
+        }
+        return false;
     }
 
     /**
@@ -303,7 +335,7 @@ public class ZipcodeLinkedList {
      * @param message a message to be passed to an EmptyLinkedListException exception.
      * @throws EmptyLinkedListException is thrown if the linked list is empty.
      */
-    private void checkIfLinkedListIsEmpty(String message) throws EmptyLinkedListException{
+    private void validateLinkedListIsNotEmpty(String message) throws EmptyLinkedListException{
         if(isEmpty()){
             throw new EmptyLinkedListException(message);
         }
@@ -326,10 +358,18 @@ public class ZipcodeLinkedList {
      * @throws EmptyStringException if the city string is empty.
      */
     private void validateCityArgument(String city) throws EmptyStringException{
+        validateCityIsNotNull(city);
+        validateCityIsNotEmpty(city);
+    }
+
+    private void validateCityIsNotNull(String city){
         if(city == null){
             System.out.println("The name of the city cannot be null.");
             throw new NullPointerException("The name of the city cannot be null.");
         }
+    }
+
+    private void validateCityIsNotEmpty(String city) throws EmptyStringException{
         if(city == ""){
             throw new EmptyStringException("Invalid argument: empty string");
         }
@@ -340,11 +380,11 @@ public class ZipcodeLinkedList {
      * key and value of a node cannot be null or empty.
      */
     private void validateArguments(String key, String value) throws EmptyStringException{
-        checkIfArgumentsAreNull(key, value);
-        checkIfArgumentsAreEmpty(key, value);
+        checkArgumentsAreNull(key, value);
+        checkArgumentsAreEmpty(key, value);
     }
 
-    private void checkIfArgumentsAreNull(String key, String value){
+    private void checkArgumentsAreNull(String key, String value){
         if(key == null && value == null){
             System.out.println("Key and value cannot be null.");
             throw new NullPointerException("Key and value of a node cannot be null.");
@@ -359,7 +399,7 @@ public class ZipcodeLinkedList {
         }
     }
 
-    private void checkIfArgumentsAreEmpty(String key, String value) throws EmptyStringException{
+    private void checkArgumentsAreEmpty(String key, String value) throws EmptyStringException{
         if(key == "" && value == ""){
             throw new EmptyStringException("Key and value of a node cannot be empty.");
         }

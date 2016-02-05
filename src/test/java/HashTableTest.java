@@ -497,4 +497,20 @@ public class HashTableTest {
         // Confirm that Toronto is not there. It should throw ItemNotFound exception.
         assertEquals(ZIPCODE_TORONTO, hashTable.search(CITY_TORONTO));
     }
+
+    @Test
+    public void showingContentsOfHashTableTest() throws EmptyStringException, DuplicateItemException {
+        HashTable hashTable = new HashTable();
+        hashTable.insert(CITY_TOKYO, ZIPCODE_TOKYO);
+        hashTable.insert(CITY_ALMATY, ZIPCODE_ALMATY);
+        hashTable.insert(CITY_TORONTO, ZIPCODE_TORONTO);
+        hashTable.insert(CITY_SINGAPORE, ZIPCODE_SINGAPORE);
+        hashTable.showContents();
+    }
+
+    @Test
+    public void showingEmptyHashTableTest(){
+        HashTable hashTable = new HashTable();
+        hashTable.showContents();
+    }
 }

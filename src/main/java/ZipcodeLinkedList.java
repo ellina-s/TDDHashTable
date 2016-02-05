@@ -71,6 +71,28 @@ public class ZipcodeLinkedList {
     }
 
     /**
+     * Show contents of a linked list in a mute mode.
+     * Similar to showContentsOfTheLinkedList(), but without extra print out statements.
+     */
+    public void mutelyShowContentsOfTheLinkedList(){
+        if(isEmpty()){
+            return;
+        }
+        mutelyShowNodesOfTheLinkedList();
+    }
+
+    /**
+     * A helper method to mutely show contents of all nodes in a linked list.
+     */
+    private void mutelyShowNodesOfTheLinkedList(){
+        Node pointer = head;
+        while(pointer != null){
+            System.out.println("City: " + pointer.key + ", Zipcode: " + pointer.value);
+            pointer = pointer.next;
+        }
+    }
+
+    /**
      * Add a node to the end of the linked list.
      * Increase the count of the nodes by one.
      * Adjust the head to point to the first element in the list.
@@ -182,24 +204,8 @@ public class ZipcodeLinkedList {
             deleteHead();
         }
         else{
-            Node pointer = head;
-            Node previous = null;
-            int stop = index - 1;
-            for(int i = 0; i<stop; i++){
-                if(pointer.next != null){
-                    previous = pointer;
-                    pointer = pointer.next;
-                }
-            }
-            System.out.println("Deleting " + pointer.key + " " + pointer.value);
-            previous.next = pointer.next;
-            count--;
-            if(pointer.next == null){
-                tail = previous;
-                System.out.println("Updating the tail. The new tail is " + tail.key + " " + tail.value);
-            }
+            deleteRequestedNodeAt(index);
         }
-
     }
 
     /**
@@ -219,6 +225,46 @@ public class ZipcodeLinkedList {
      */
     private boolean tailNeedsToBeUpdated(){
         return head.key.equals(tail.key) && count == 1;
+    }
+
+    /**
+     * A helper method to delete a node at the requested index.
+     * @param index index of the node to be deleted.
+     * Index should be >= 2. The case when Index = 1 is covered by deleteHead().
+     */
+    private void deleteRequestedNodeAt(int index){
+        Node previousNode = getNodePriorToTargetNode(index);
+        Node targetNode = previousNode.next;
+        System.out.println("Deleting " + targetNode.key + " " + targetNode.value);
+        previousNode.next = targetNode.next;
+        count--;
+        updateTailIfNeeded(targetNode, previousNode);
+    }
+
+    /**
+     * A helper method to get a node that precedes the node to be deleted.
+     * @param index index of the node to be deleted
+     */
+    private Node getNodePriorToTargetNode(int index) {
+        int stop = index - 1;
+        Node priorNode = head;
+        for(int i = 1; i<stop; i++){
+            priorNode = priorNode.next;
+        }
+        return priorNode;
+    }
+
+    /**
+     * A helper method to update the tail of the linked list, if the tail has been deleted.
+     * A node prior to the deleted node becomes a new tail.
+     * @param deletedNode
+     * @param previousToDeletedNode
+     */
+    private void updateTailIfNeeded(Node deletedNode, Node previousToDeletedNode){
+        if(deletedNode.next == null){
+            tail = previousToDeletedNode;
+            System.out.println("Updating the tail. The new tail is " + tail.key + " " + tail.value);
+        }
     }
 
     /**
@@ -252,25 +298,29 @@ public class ZipcodeLinkedList {
             deleteHead();
             return;
         }
+        deleteRequestedCityIfFound(targetCity);
+    }
 
+    /**
+     * A helper method to delete a requested city.
+     * @throws ItemNotFoundException is thrown if the city is not found.
+     */
+    private void deleteRequestedCityIfFound(String city) throws ItemNotFoundException{
         Node pointer = head;
         Node previousNode = null;
         while(pointer != null){
-            if(pointer.key.equals(targetCity)){
+            if(pointer.key.equals(city)){
                 System.out.println("Deleting " + pointer.key + " " + pointer.value);
                 previousNode.next = pointer.next;
                 count--;
 
-                if(pointer.next == null) {
-                    tail = previousNode;
-                    System.out.println("Updating the tail. The new tail is " + tail.key + " " + tail.value);
-                }
+                updateTailIfNeeded(pointer, previousNode);
                 return;
             }
             previousNode = pointer;
             pointer = pointer.next;
         }
-        throw new ItemNotFoundException(targetCity + " is not found, and cannot be deleted.");
+        throw new ItemNotFoundException(city + " is not found, and cannot be deleted.");
     }
 
     /**
@@ -380,11 +430,11 @@ public class ZipcodeLinkedList {
      * key and value of a node cannot be null or empty.
      */
     private void validateArguments(String key, String value) throws EmptyStringException{
-        checkArgumentsAreNull(key, value);
-        checkArgumentsAreEmpty(key, value);
+        validateArgumentsAreNotNull(key, value);
+        validateArgumentsAreNotEmpty(key, value);
     }
 
-    private void checkArgumentsAreNull(String key, String value){
+    private void validateArgumentsAreNotNull(String key, String value){
         if(key == null && value == null){
             System.out.println("Key and value cannot be null.");
             throw new NullPointerException("Key and value of a node cannot be null.");
@@ -399,7 +449,7 @@ public class ZipcodeLinkedList {
         }
     }
 
-    private void checkArgumentsAreEmpty(String key, String value) throws EmptyStringException{
+    private void validateArgumentsAreNotEmpty(String key, String value) throws EmptyStringException{
         if(key == "" && value == ""){
             throw new EmptyStringException("Key and value of a node cannot be empty.");
         }

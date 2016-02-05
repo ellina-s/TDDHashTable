@@ -286,10 +286,6 @@ public class HashTable {
         catch(ItemNotFoundException | EmptyLinkedListException e){
             throw new ItemNotFoundException(city + " is not found in the hash table.");
         }
-        catch (Exception e){
-            System.out.println("HashTable caught " + e);
-            throw e;
-        }
     }
 
     /**
@@ -316,10 +312,6 @@ public class HashTable {
             System.out.println("HashTable caught " + e);
             throw new ItemNotFoundException(city + " is not found and cannot be deleted.");
         }
-        catch (Exception e){
-            System.out.println("HashTable caught " + e);
-            throw e;
-        }
     }
 
     /**
@@ -339,5 +331,23 @@ public class HashTable {
      */
     private boolean slotHasBeenNeverUsedAtHashKey(int hashKey){
         return hashTable[hashKey] == null;
+    }
+
+    /**
+     * Show contents of a hash table by printing out contents of occupied slots to the console.
+     */
+    public void showContents(){
+        if(isEmpty()) {
+            System.out.println("Hash table is empty. Nothing to diplay.");
+            return;
+        }
+        System.out.println("--- START ---");
+        for(int i = 0; i < size; i++){
+            if(slotIsNotEmptyAtIndex(i)){
+                System.out.println("\nSlot number: " + i);
+                hashTable[i].mutelyShowContentsOfTheLinkedList();
+            }
+        }
+        System.out.println("--- END ---");
     }
 }

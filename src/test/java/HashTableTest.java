@@ -18,16 +18,6 @@ import static org.junit.Assert.*;
 public class HashTableTest {
 
     static final int NUM_SLOTS = 47;
-    /*
-    Reference: ASCII printable code chart, Wikipedia, 2015.
-    URL: https://en.wikipedia.org/wiki/ASCII#ASCII_printable_code_chart
-     */
-    static final int ASCII_UPPERCASE_M = 77;
-    static final int ASCII_LOWERCASE_E = 101;
-    static final int ASCII_LOWERCASE_X = 120;
-    static final int ASCII_LOWERCASE_I = 105;
-    static final int ASCII_LOWERCASE_C = 99;
-    static final int ASCII_LOWERCASE_O = 111;
 
     static final String CITY_ALMATY = "Almaty";
     static final String ZIPCODE_ALMATY = "A506791";
@@ -54,14 +44,14 @@ public class HashTableTest {
     @Test
     public void cityNameStringShouldBeCorrectlyConvertedToASCII(){
         HashTable hashTable = new HashTable();
-        int asciiEquivalentOfMexico = getAsciiEquivalentOfMexico();
+        int asciiEquivalentOfMexico = HashTableTestUtilities.getAsciiEquivalentOfMexico();
         assertEquals(asciiEquivalentOfMexico, hashTable.convertToAscii(CITY_MEXICO));
     }
 
     @Test
     public void hashFunctionTest(){
         HashTable hashTable = new HashTable();
-        int hashKeyOfMexico = getAsciiEquivalentOfMexico() % NUM_SLOTS;
+        int hashKeyOfMexico = HashTableTestUtilities.getAsciiEquivalentOfMexico() % NUM_SLOTS;
         assertEquals(hashKeyOfMexico, hashTable.hashKeyOf(CITY_MEXICO));
     }
 
@@ -79,7 +69,7 @@ public class HashTableTest {
     public void insertingCollidingNonDuplicateItemsShouldNotRaiseExceptions() throws EmptyStringException,
             EmptyLinkedListException, ItemNotFoundException, DuplicateItemException{
         HashTable hashTable = new HashTable();
-        insertTorontoAndAlmaty(hashTable);
+        HashTableTestUtilities.insertTorontoAndAlmaty(hashTable);
         // Get hash keys of colliding cities
         int hashKeyOfAlmaty = hashTable.hashKeyOf(CITY_ALMATY);
         int hashKeyOfToronto = hashTable.hashKeyOf(CITY_TORONTO);
@@ -118,7 +108,7 @@ public class HashTableTest {
         assertTrue(hashTable.isEmpty());
         // Check that the two hash keys are the same
         assertEquals(hashTable.hashKeyOf(CITY_ALMATY), hashTable.hashKeyOf(CITY_TORONTO));
-        insertTorontoAndAlmaty(hashTable);
+        HashTableTestUtilities.insertTorontoAndAlmaty(hashTable);
         // Check that the table is not empty at this point
         assertFalse(hashTable.isEmpty());
     }
@@ -137,7 +127,7 @@ public class HashTableTest {
     public void searchingForCollidingExistingItemShouldReturnItsZipcode() throws EmptyStringException,
             DuplicateItemException, EmptyHashTableException, ItemNotFoundException, EmptyLinkedListException {
         HashTable hashTable = new HashTable();
-        insertTorontoAndAlmaty(hashTable);
+        HashTableTestUtilities.insertTorontoAndAlmaty(hashTable);
         // Search for the cities
         assertEquals(ZIPCODE_ALMATY, hashTable.search(CITY_ALMATY));
         assertEquals(ZIPCODE_TORONTO, hashTable.search(CITY_TORONTO));
@@ -146,7 +136,7 @@ public class HashTableTest {
     @Test
     public void deletingTheOnlyCityShouldDeleteItWithNoExceptionsThrown() throws EmptyStringException, DuplicateItemException,
             EmptyHashTableException, ItemNotFoundException, EmptyLinkedListException{
-        HashTable hashTable = insertTokyoInHashTable();
+        HashTable hashTable = HashTableTestUtilities.insertTokyoInHashTable();
         // Confirm that the city is there
         assertEquals(ZIPCODE_TOKYO, hashTable.search(CITY_TOKYO));
         int hashKey = hashTable.hashKeyOf(CITY_TOKYO);
@@ -161,7 +151,7 @@ public class HashTableTest {
     public void deletingAllItemsInASlotShouldMakeThatSlotEmpty() throws EmptyStringException,
             DuplicateItemException, EmptyHashTableException, ItemNotFoundException, EmptyLinkedListException{
         HashTable hashTable = new HashTable();
-        insertTorontoAndAlmaty(hashTable);
+        HashTableTestUtilities.insertTorontoAndAlmaty(hashTable);
         // Confirm that the cities are there
         assertEquals(ZIPCODE_TORONTO, hashTable.search(CITY_TORONTO));
         assertEquals(ZIPCODE_ALMATY, hashTable.search(CITY_ALMATY));
@@ -186,7 +176,7 @@ public class HashTableTest {
             EmptyHashTableException, EmptyLinkedListException, ItemNotFoundException{
         HashTable hashTable = new HashTable();
         assertTrue(hashTable.isEmpty());
-        insertFourCities(hashTable);
+        HashTableTestUtilities.insertFourCities(hashTable);
         // Check that the hash table is not empty
         assertFalse(hashTable.isEmpty());
         // Delete all items
@@ -203,7 +193,7 @@ public class HashTableTest {
             EmptyHashTableException, EmptyLinkedListException, ItemNotFoundException{
         HashTable hashTable = new HashTable();
         assertTrue(hashTable.isEmpty());
-        insertAlmatyAndTokyo(hashTable);
+        HashTableTestUtilities.insertAlmatyAndTokyo(hashTable);
         // Delete one item
         hashTable.delete(CITY_ALMATY);
         // Check that the hash table is not empty
@@ -234,7 +224,7 @@ public class HashTableTest {
             EmptyHashTableException, EmptyLinkedListException, ItemNotFoundException{
         HashTable hashTable = new HashTable();
         assertTrue(hashTable.isEmpty());
-        insertAlmatyAndTokyo(hashTable);
+        HashTableTestUtilities.insertAlmatyAndTokyo(hashTable);
         // Check that the hash table is not empty
         assertFalse(hashTable.isEmpty());
         // Delete all items
@@ -251,7 +241,7 @@ public class HashTableTest {
     @Test
     public void showingContentsOfHashTableTest() throws EmptyStringException, DuplicateItemException {
         HashTable hashTable = new HashTable();
-        insertFourCities(hashTable);
+        HashTableTestUtilities.insertFourCities(hashTable);
         hashTable.showContents();
     }
 
@@ -259,37 +249,5 @@ public class HashTableTest {
     public void showingEmptyHashTableTest(){
         HashTable hashTable = new HashTable();
         hashTable.showContents();
-    }
-
-    /*
-    Helper methods for the unit tests above.
-     */
-
-    private void insertTorontoAndAlmaty(HashTable hashTable) throws EmptyStringException, DuplicateItemException {
-        hashTable.insert(CITY_TORONTO, ZIPCODE_TORONTO);
-        hashTable.insert(CITY_ALMATY, ZIPCODE_ALMATY);
-    }
-
-    private void insertAlmatyAndTokyo(HashTable hashTable) throws EmptyStringException, DuplicateItemException {
-        hashTable.insert(CITY_ALMATY, ZIPCODE_ALMATY);
-        hashTable.insert(CITY_TOKYO, ZIPCODE_TOKYO);
-    }
-
-    private void insertFourCities(HashTable hashTable) throws EmptyStringException, DuplicateItemException {
-        hashTable.insert(CITY_ALMATY, ZIPCODE_ALMATY);
-        hashTable.insert(CITY_TOKYO, ZIPCODE_TOKYO);
-        hashTable.insert(CITY_TORONTO, ZIPCODE_TORONTO);
-        hashTable.insert(CITY_SINGAPORE, ZIPCODE_SINGAPORE);
-    }
-
-    private int getAsciiEquivalentOfMexico(){
-        return ASCII_UPPERCASE_M + ASCII_LOWERCASE_E +ASCII_LOWERCASE_X +
-                ASCII_LOWERCASE_I + ASCII_LOWERCASE_C + ASCII_LOWERCASE_O;
-    }
-
-    private HashTable insertTokyoInHashTable() throws EmptyStringException, DuplicateItemException {
-        HashTable hashTable = new HashTable();
-        hashTable.insert(CITY_TOKYO, ZIPCODE_TOKYO);
-        return hashTable;
     }
 }

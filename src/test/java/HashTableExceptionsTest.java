@@ -74,7 +74,7 @@ public class HashTableExceptionsTest {
     @Test (expected = DuplicateItemException.class)
     public void insertingADuplicateCollidingItemShouldRaiseException() throws EmptyStringException, DuplicateItemException{
         HashTable hashTable = new HashTable();
-        insertTorontoAndAlmaty(hashTable);
+        HashTableTestUtilities.insertTorontoAndAlmaty(hashTable);
         // Attempt to insert a duplicate of Almaty
         hashTable.insert(CITY_ALMATY, ZIPCODE_ALMATY);
     }
@@ -154,7 +154,7 @@ public class HashTableExceptionsTest {
     @Test (expected = ItemNotFoundException.class)
     public void searchingForDeletedItemShouldNotFindThatItem() throws EmptyStringException, DuplicateItemException,
             EmptyHashTableException, ItemNotFoundException, EmptyLinkedListException{
-        HashTable hashTable = insertTokyoInHashTable();
+        HashTable hashTable = HashTableTestUtilities.insertTokyoInHashTable();
         // Confirm that the city is there
         assertEquals(ZIPCODE_TOKYO, hashTable.search(CITY_TOKYO));
         // Delete the city
@@ -167,7 +167,7 @@ public class HashTableExceptionsTest {
     public void deletingCollidingItemShouldDeleteItAndShouldLeaveOtherItemsIntact() throws EmptyStringException,
             DuplicateItemException, EmptyHashTableException, ItemNotFoundException, EmptyLinkedListException{
         HashTable hashTable = new HashTable();
-        insertTorontoAndAlmaty(hashTable);
+        HashTableTestUtilities.insertTorontoAndAlmaty(hashTable);
         // Confirm that the cities are there
         assertEquals(ZIPCODE_TORONTO, hashTable.search(CITY_TORONTO));
         assertEquals(ZIPCODE_ALMATY, hashTable.search(CITY_ALMATY));
@@ -182,7 +182,7 @@ public class HashTableExceptionsTest {
     @Test (expected = ItemNotFoundException.class)
     public void repeatedlyDeletingSameCityFromEmptySlotShouldThrowItemNotFoundException() throws EmptyStringException,
             DuplicateItemException, EmptyHashTableException, ItemNotFoundException, EmptyLinkedListException{
-        HashTable hashTable = insertTokyoInHashTable();
+        HashTable hashTable = HashTableTestUtilities.insertTokyoInHashTable();
         // Confirm that the city is there
         assertEquals(ZIPCODE_TOKYO, hashTable.search(CITY_TOKYO));
         // Delete the city
@@ -199,7 +199,7 @@ public class HashTableExceptionsTest {
             DuplicateItemException, EmptyHashTableException,
             ItemNotFoundException, EmptyLinkedListException{
         HashTable hashTable = new HashTable();
-        insertTorontoAndAlmaty(hashTable);
+        HashTableTestUtilities.insertTorontoAndAlmaty(hashTable);
         // Delete one of the cities
         hashTable.delete(CITY_TORONTO);
         // Try to delete the same city again (the slot still contains the other city)
@@ -231,26 +231,11 @@ public class HashTableExceptionsTest {
     @Test (expected = ItemNotFoundException.class)
     public void testDeletingLastAddedItemInTheSameSlot() throws EmptyStringException, DuplicateItemException,EmptyHashTableException, ItemNotFoundException, EmptyLinkedListException{
         HashTable hashTable = new HashTable();
-        insertTorontoAndAlmaty(hashTable);
+        HashTableTestUtilities.insertTorontoAndAlmaty(hashTable);
         hashTable.delete(CITY_ALMATY);
         // Confirm that Toronto is still there
         assertEquals(ZIPCODE_TORONTO, hashTable.search(CITY_TORONTO));
         // Confirm that Almaty is not there. It should throw ItemNotFound exception.
         assertEquals(ZIPCODE_ALMATY, hashTable.search(CITY_ALMATY));
-    }
-
-    /*
-    Helper methods.
-     */
-
-    private void insertTorontoAndAlmaty(HashTable hashTable) throws EmptyStringException, DuplicateItemException {
-        hashTable.insert(CITY_TORONTO, ZIPCODE_TORONTO);
-        hashTable.insert(CITY_ALMATY, ZIPCODE_ALMATY);
-    }
-
-    private HashTable insertTokyoInHashTable() throws EmptyStringException, DuplicateItemException {
-        HashTable hashTable = new HashTable();
-        hashTable.insert(CITY_TOKYO, ZIPCODE_TOKYO);
-        return hashTable;
     }
 }

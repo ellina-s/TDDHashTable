@@ -16,6 +16,8 @@ import static org.junit.Assert.*;
 /**
  * Test-Driven Development (TDD) style unit tests for the HashTable class.
  * Testing Framework: JUnit
+ *
+ * Note: Tests are organized in classes by methods they test.
  */
 @RunWith(Enclosed.class)
 public class HashTableTest {

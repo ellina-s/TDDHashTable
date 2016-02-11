@@ -1,4 +1,4 @@
-package test.java;
+package test.java.HashTableTests;
 
 import main.java.HashTable;
 import main.java.exceptions.hashtable.DuplicateItemException;

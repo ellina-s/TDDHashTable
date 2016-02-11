@@ -1,4 +1,4 @@
-package test.java;
+package test.java.ZipcodeLinkedListTests;
 
 import main.java.*;
 import main.java.exceptions.linkedlist.EmptyLinkedListException;

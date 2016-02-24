@@ -1,8 +1,7 @@
-# Zipcodes
+# TDD Hash Table
 
-Zipcodes is a Java project implemented in a Test-Driven Development (TDD) fashion. The project is focused on gaining hands-on experience in TDD.
-The name comes from an idea to use zipcodes of various cities of the world as a data source for the application.
-The application can be easily generalized to process other data sources (e.g. areas of national parks, phone numbers, passwords).
+TDD Hash Table is a Java project that implements hash tables from scratch using Test-Driven Development (TDD). The purpose of the project is to gain hands-on experience in TDD, as well as to review some data structures such as hash tables and linked lists.
+For this project, I chose cities and their zipcodes as a type of data to be handled by the application. Other examples of data that could be used are phone numbers, passwords, unique website visitors, etc.
 
 The project uses and implements hash tables and chaining (with linked lists) as a mechanism for handling collisions. Testing is implemented with JUnit.
 

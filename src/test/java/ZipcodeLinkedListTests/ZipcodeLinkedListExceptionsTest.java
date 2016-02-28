@@ -1,5 +1,6 @@
 package test.java.ZipcodeLinkedListTests;
 
+import main.java.DataNode;
 import main.java.ZipcodeLinkedList;
 import main.java.exceptions.linkedlist.EmptyLinkedListException;
 import main.java.exceptions.linkedlist.EmptyStringException;
@@ -30,61 +31,60 @@ public class ZipcodeLinkedListExceptionsTest {
     static final String CITY_NEWYORK = "New York";
     static final String ZIPCODE_NEWYORK = "NY16462";
     static final String CITY_TORONTO = "Toronto";
-    static final String ZIPCODE_TORONTO = "T4G5W6";
 
     public static class GetNodeAtIndexTest {
 
         @Test (expected = EmptyLinkedListException.class)
         public void gettingNodeFromEmptyLinkedListThrowsExceptionCaseA() throws EmptyLinkedListException, InvalidIndexException{
             ZipcodeLinkedList list = new ZipcodeLinkedList();
-            String[] location = list.getNodeAtIndex(1);
+            DataNode location = list.getNodeAtIndex(1);
         }
 
         @Test (expected = EmptyLinkedListException.class)
         public void gettingNodeFromEmptyLinkedListThrowsExceptionCaseB() throws EmptyLinkedListException, InvalidIndexException{
             ZipcodeLinkedList list = new ZipcodeLinkedList();
-            String[] location = list.getNodeAtIndex(0);
+            DataNode location = list.getNodeAtIndex(0);
         }
 
         @Test (expected = EmptyLinkedListException.class)
         public void gettingNodeFromEmptyLinkedListThrowsExceptionCaseC() throws EmptyLinkedListException, InvalidIndexException{
             ZipcodeLinkedList list = new ZipcodeLinkedList();
-            String[] location = list.getNodeAtIndex(-1);
+            DataNode location = list.getNodeAtIndex(-1);
         }
 
         @Test (expected = InvalidIndexException.class)
         public void zeroIndexShouldThrowException() throws InvalidIndexException, EmptyLinkedListException, EmptyStringException{
             ZipcodeLinkedList list = new ZipcodeLinkedList();
             list.addNode(CITY_MEXICO, ZIPCODE_MEXICO);
-            String[] data = list.getNodeAtIndex(0);
+            DataNode data = list.getNodeAtIndex(0);
         }
 
         @Test (expected = InvalidIndexException.class)
         public void indexLargerThanSizeOfLinkedListShouldThrowException() throws InvalidIndexException, EmptyLinkedListException, EmptyStringException{
             ZipcodeLinkedList list = new ZipcodeLinkedList();
             list.addNode(CITY_MEXICO, ZIPCODE_MEXICO);
-            String[] data = list.getNodeAtIndex(2);
+            DataNode data = list.getNodeAtIndex(2);
         }
 
         @Test (expected = InvalidIndexException.class)
         public void indexMuchLargerThanSizeOfLinkedListShouldThrowException() throws InvalidIndexException, EmptyLinkedListException, EmptyStringException{
             ZipcodeLinkedList list = new ZipcodeLinkedList();
             list.addNode(CITY_MEXICO, ZIPCODE_MEXICO);
-            String[] data = list.getNodeAtIndex(574169820);
+            DataNode data = list.getNodeAtIndex(574169820);
         }
 
         @Test (expected = InvalidIndexException.class)
         public void negativeIndexShouldThrowException() throws InvalidIndexException, EmptyLinkedListException, EmptyStringException{
             ZipcodeLinkedList list = new ZipcodeLinkedList();
             list.addNode(CITY_LONDON, ZIPCODE_LONDON);
-            String[] data = list.getNodeAtIndex(-1);
+            DataNode data = list.getNodeAtIndex(-1);
         }
 
         @Test (expected = InvalidIndexException.class)
         public void largeNegativeIndexShouldThrowException() throws InvalidIndexException, EmptyLinkedListException, EmptyStringException{
             ZipcodeLinkedList list = new ZipcodeLinkedList();
             list.addNode(CITY_LONDON, ZIPCODE_LONDON);
-            String[] data = list.getNodeAtIndex(-9846858);
+            DataNode data = list.getNodeAtIndex(-9846858);
         }
     }
 

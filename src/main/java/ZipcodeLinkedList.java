@@ -16,9 +16,6 @@ public class ZipcodeLinkedList {
     public Node tail;
     public int count;
 
-    private static final int CITY = 0;
-    private static final int ZIPCODE = 1;
-
     static final String MESSAGE_EMPTY_LINKED_LIST = "There are no nodes in an empty linked list.";
     static final String MESSAGE_CANNOT_DELETE_EMPTY_LINKED_LIST = "Cannot delete an empty linked list.";
     static final String MESSAGE_CANNOT_DELETE_NODE = "Cannot delete a node from an empty linked list.";
@@ -145,23 +142,31 @@ public class ZipcodeLinkedList {
      * @param index index (from 1 to the size of the Linked List) of the node to be retrieved
      * @return city name and zipcode in a String array, at indexes 0 and 1 respectively
      */
-    public String[] getNodeAtIndex(int index) throws EmptyLinkedListException, InvalidIndexException {
+    public DataNode getNodeAtIndex(int index) throws EmptyLinkedListException, InvalidIndexException {
         validateLinkedListIsNotEmpty(MESSAGE_EMPTY_LINKED_LIST);
         validateRequestedIndex(index);
-        String[] data = new String[2];
+        return nodeAtIndex(index);
+    }
+
+    /**
+     * A helper method to get a node at the specified index.
+     * @param index of the node to be retrieved
+     * @return a DataNode that contains key and value of a linked list's node specified by the index.
+     * If index = 1, return the head's data. If index = count, return the tail's data.
+     * Otherwise, return data of the node at the given index.
+     */
+    private DataNode nodeAtIndex(int index) {
+        DataNode data = new DataNode();
         if(index == 1){
-            data[CITY] = head.key;
-            data[ZIPCODE] = head.value;
-            return data;
+            data.populateWith(head.key, head.value);
         }
         else if(index == count){
-            data[CITY] = tail.key;
-            data[ZIPCODE] = tail.value;
-            return data;
+            data.populateWith(tail.key, tail.value);
         }
-        Node requestedNode = getRequestedNodeAtIndex(index);
-        data[CITY] = requestedNode.key;
-        data[ZIPCODE] = requestedNode.value;
+        else{
+            Node requestedNode = getRequestedNodeAtIndex(index);
+            data.populateWith(requestedNode.key, requestedNode.value);
+        }
         return data;
     }
 
@@ -213,10 +218,25 @@ public class ZipcodeLinkedList {
      */
     private void deleteHead(){
         System.out.println("Deleting (head): " + head.key + " " + head.value);
+        updateTailIfDeletingTheOnlyNode();
+        head = head.next;
+        decreaseCount();
+    }
+
+    /**
+     * Update tail if needed (i.e. if deleting the head, which happens to be the only node
+     * in a linked list. In that case, tail should be updated as well).
+     */
+    private void updateTailIfDeletingTheOnlyNode(){
         if(tailNeedsToBeUpdated()){
             tail = tail.next;
         }
-        head = head.next;
+    }
+
+    /**
+     * Decrease count by 1.
+     */
+    private void decreaseCount(){
         count--;
     }
 
@@ -237,7 +257,7 @@ public class ZipcodeLinkedList {
         Node targetNode = previousNode.next;
         System.out.println("Deleting " + targetNode.key + " " + targetNode.value);
         previousNode.next = targetNode.next;
-        count--;
+        decreaseCount();
         updateTailIfNeeded(targetNode, previousNode);
     }
 
@@ -257,8 +277,6 @@ public class ZipcodeLinkedList {
     /**
      * A helper method to update the tail of the linked list, if the tail has been deleted.
      * A node prior to the deleted node becomes a new tail.
-     * @param deletedNode
-     * @param previousToDeletedNode
      */
     private void updateTailIfNeeded(Node deletedNode, Node previousToDeletedNode){
         if(deletedNode.next == null){
@@ -302,25 +320,33 @@ public class ZipcodeLinkedList {
     }
 
     /**
-     * A helper method to delete a requested city.
+     * A helper method to delete a requested city if it's found.
      * @throws ItemNotFoundException is thrown if the city is not found.
      */
     private void deleteRequestedCityIfFound(String city) throws ItemNotFoundException{
-        Node pointer = head;
+        Node targetNode = head;
         Node previousNode = null;
-        while(pointer != null){
-            if(pointer.key.equals(city)){
-                System.out.println("Deleting " + pointer.key + " " + pointer.value);
-                previousNode.next = pointer.next;
-                count--;
-
-                updateTailIfNeeded(pointer, previousNode);
+        while(targetNode != null){
+            if(targetNode.key.equals(city)){
+                deleteCorrespondingCityNode(targetNode, previousNode);
                 return;
             }
-            previousNode = pointer;
-            pointer = pointer.next;
+            previousNode = targetNode;
+            targetNode = targetNode.next;
         }
         throw new ItemNotFoundException(city + " is not found, and cannot be deleted.");
+    }
+
+    /**
+     * A helper method to delete a target node that corresponds to a city identified by deleteRequestedCityIfFound().
+     * @param targetNode a node to be deleted
+     * @param previousNode a node prior to the target node
+     */
+    public void deleteCorrespondingCityNode(Node targetNode, Node previousNode){
+        System.out.println("Deleting " + targetNode.key + " " + targetNode.value);
+        previousNode.next = targetNode.next;
+        decreaseCount();
+        updateTailIfNeeded(targetNode, previousNode);
     }
 
     /**
@@ -331,6 +357,16 @@ public class ZipcodeLinkedList {
     public String getCityZipcode(String city) throws EmptyLinkedListException, ItemNotFoundException, EmptyStringException{
         validateCityArgument(city);
         validateLinkedListIsNotEmpty(MESSAGE_NO_CITIES);
+        return zipcodeOfCityIfFound(city);
+    }
+
+    /**
+     * A helper method to get a zipcode of a given city
+     * @param city name of the city
+     * @return zipcode of the city
+     * @throws ItemNotFoundException is thrown if the city is not found
+     */
+    private String zipcodeOfCityIfFound(String city) throws ItemNotFoundException {
         Node pointer = head;
         while(pointer != null){
             if(pointer.key.equals(city)){

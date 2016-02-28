@@ -20,9 +20,6 @@ import static org.junit.Assert.*;
 @RunWith(Enclosed.class)
 public class ZipcodeLinkedListTest {
 
-    static final int CITY = 0;
-    static final int ZIPCODE = 1;
-
     static final String CITY_MEXICO = "Mexico";
     static final String ZIPCODE_MEXICO = "M58RP8D";
     static final String CITY_TOKYO = "Tokyo";
@@ -202,57 +199,57 @@ public class ZipcodeLinkedListTest {
             ZipcodeLinkedList list = new ZipcodeLinkedList();
             ZipcodeLinkedListTestUtilities.insertNewYorkLondonMexicoTokyo(list);
 
-            String[] mexico = list.getNodeAtIndex(3);
-            assertEquals(CITY_MEXICO, mexico[CITY]);
-            assertEquals(ZIPCODE_MEXICO, mexico[ZIPCODE]);
+            DataNode mexico = list.getNodeAtIndex(3);
+            assertEquals(CITY_MEXICO, mexico.getKey());
+            assertEquals(ZIPCODE_MEXICO, mexico.getValue());
 
-            String[] newYork = list.getNodeAtIndex(1);
-            assertEquals(CITY_NEWYORK, newYork[CITY]);
-            assertEquals(ZIPCODE_NEWYORK, newYork[ZIPCODE]);
+            DataNode newYork = list.getNodeAtIndex(1);
+            assertEquals(CITY_NEWYORK, newYork.getKey());
+            assertEquals(ZIPCODE_NEWYORK, newYork.getValue());
 
-            String[] tokyo = list.getNodeAtIndex(4);
-            assertEquals(CITY_TOKYO, tokyo[CITY]);
-            assertEquals(ZIPCODE_TOKYO, tokyo[ZIPCODE]);
+            DataNode tokyo = list.getNodeAtIndex(4);
+            assertEquals(CITY_TOKYO, tokyo.getKey());
+            assertEquals(ZIPCODE_TOKYO, tokyo.getValue());
 
-            String[] london = list.getNodeAtIndex(2);
-            assertEquals(CITY_LONDON, london[CITY]);
-            assertEquals(ZIPCODE_LONDON, london[ZIPCODE]);
+            DataNode london = list.getNodeAtIndex(2);
+            assertEquals(CITY_LONDON, london.getKey());
+            assertEquals(ZIPCODE_LONDON, london.getValue());
         }
 
         @Test
         public void retrievingHeadByIndexTest() throws EmptyStringException, EmptyLinkedListException, InvalidIndexException{
             ZipcodeLinkedList list = new ZipcodeLinkedList();
             list.addNode(CITY_TOKYO, ZIPCODE_TOKYO);
-            String[] retrievedHead = list.getNodeAtIndex(1);
-            assertEquals(list.head.key, retrievedHead[CITY]);
-            assertEquals(list.head.value, retrievedHead[ZIPCODE]);
+            DataNode retrievedHead = list.getNodeAtIndex(1);
+            assertEquals(list.head.key, retrievedHead.getKey());
+            assertEquals(list.head.value, retrievedHead.getValue());
         }
 
         @Test
         public void retrievingTailByIndexTest() throws EmptyStringException, EmptyLinkedListException, InvalidIndexException{
             ZipcodeLinkedList list = new ZipcodeLinkedList();
             ZipcodeLinkedListTestUtilities.insertTokyoLondon(list);
-            String[] retrievedTail = list.getNodeAtIndex(2);
-            assertEquals(list.tail.key, retrievedTail[CITY]);
-            assertEquals(list.tail.value, retrievedTail[ZIPCODE]);
+            DataNode retrievedTail = list.getNodeAtIndex(2);
+            assertEquals(list.tail.key, retrievedTail.getKey());
+            assertEquals(list.tail.value, retrievedTail.getValue());
         }
 
         @Test
         public void retrievingTailByIndexTest2() throws EmptyStringException, EmptyLinkedListException, InvalidIndexException{
             ZipcodeLinkedList list = new ZipcodeLinkedList();
             list.addNode(CITY_LONDON, ZIPCODE_LONDON);
-            String[] retrievedTail = list.getNodeAtIndex(1);
-            assertEquals(list.tail.key, retrievedTail[CITY]);
-            assertEquals(list.tail.value, retrievedTail[ZIPCODE]);
+            DataNode retrievedTail = list.getNodeAtIndex(1);
+            assertEquals(list.tail.key, retrievedTail.getKey());
+            assertEquals(list.tail.value, retrievedTail.getValue());
         }
 
         @Test
         public void retrievingMiddleNodeByIndexTest() throws EmptyLinkedListException, InvalidIndexException, EmptyStringException{
             ZipcodeLinkedList list = new ZipcodeLinkedList();
             ZipcodeLinkedListTestUtilities.insertTokyoNewYorkLondon(list);
-            String[] retrievedNode = list.getNodeAtIndex(2);
-            assertEquals(CITY_NEWYORK, retrievedNode[CITY]);
-            assertEquals(ZIPCODE_NEWYORK, retrievedNode[ZIPCODE]);
+            DataNode retrievedNode = list.getNodeAtIndex(2);
+            assertEquals(CITY_NEWYORK, retrievedNode.getKey());
+            assertEquals(ZIPCODE_NEWYORK, retrievedNode.getValue());
         }
     }
 
@@ -441,12 +438,12 @@ public class ZipcodeLinkedListTest {
         public void gettingZipcodesOfCitiesFromLinkedListShouldRetrieveThoseZipcodes() throws EmptyLinkedListException, ItemNotFoundException, EmptyStringException{
             ZipcodeLinkedList list = new ZipcodeLinkedList();
             ZipcodeLinkedListTestUtilities.insertTokyoNewYorkLondon(list);
-            String zipcodeLondon = list.getCityZipcode(CITY_LONDON);
-            assertEquals(ZIPCODE_LONDON, zipcodeLondon);
-            String zipcodeNewYork = list.getCityZipcode(CITY_NEWYORK);
-            assertEquals(ZIPCODE_NEWYORK, zipcodeNewYork);
-            String zipcodeTokyo = list.getCityZipcode(CITY_TOKYO);
-            assertEquals(ZIPCODE_TOKYO, zipcodeTokyo);
+            String londonZipcode = list.getCityZipcode(CITY_LONDON);
+            assertEquals(ZIPCODE_LONDON, londonZipcode);
+            String newYorkZipcode = list.getCityZipcode(CITY_NEWYORK);
+            assertEquals(ZIPCODE_NEWYORK, newYorkZipcode);
+            String tokyoZipcode = list.getCityZipcode(CITY_TOKYO);
+            assertEquals(ZIPCODE_TOKYO, tokyoZipcode);
         }
     }
 

@@ -42,7 +42,7 @@ public class ZipcodeLinkedListTest {
         @Test
         public void emptyListShouldHaveZeroCount(){
             ZipcodeLinkedList list = new ZipcodeLinkedList();
-            assertEquals(0, list.count);
+            assertEquals(0, list.getCount());
         }
 
         @Test
@@ -77,7 +77,7 @@ public class ZipcodeLinkedListTest {
             list.clearTheLinkedList();
             assertNull(list.head);
             assertNull(list.tail);
-            assertEquals(0, list.count);
+            assertEquals(0, list.getCount());
             assertEquals(true, list.isEmpty());
         }
     }
@@ -128,14 +128,14 @@ public class ZipcodeLinkedListTest {
         public void addingOneElementShouldIncreaseCountByOne() throws EmptyStringException {
             ZipcodeLinkedList list = new ZipcodeLinkedList();
             // Count should be zero for a new empty linked list
-            assertEquals(0, list.count);
+            assertEquals(0, list.getCount());
             list.addNode(CITY_TOKYO, ZIPCODE_TOKYO);
             // Count should be 1 after adding a node to the linked list
-            assertEquals(1, list.count);
+            assertEquals(1, list.getCount());
             // Add two more nodes
             ZipcodeLinkedListTestUtilities.insertNewYorkLondon(list);
             // Count should be 3
-            assertEquals(3, list.count);
+            assertEquals(3, list.getCount());
         }
 
         @Test
@@ -152,7 +152,7 @@ public class ZipcodeLinkedListTest {
             assertEquals(ZIPCODE_MEXICO, list.head.value);
             assertEquals(CITY_MEXICO, list.tail.key);
             assertEquals(ZIPCODE_MEXICO, list.tail.value);
-            assertEquals(1, list.count);
+            assertEquals(1, list.getCount());
         }
 
         @Test
@@ -160,7 +160,7 @@ public class ZipcodeLinkedListTest {
             ZipcodeLinkedList list = new ZipcodeLinkedList();
             ZipcodeLinkedListTestUtilities.insertTokyoLondon(list);
 
-            assertEquals(2, list.count);
+            assertEquals(2, list.getCount());
             assertNotNull(list.head);
             assertNotNull(list.tail);
             assertNull(list.tail.next);
@@ -177,7 +177,7 @@ public class ZipcodeLinkedListTest {
             ZipcodeLinkedList list = new ZipcodeLinkedList();
             ZipcodeLinkedListTestUtilities.insertTokyoNewYorkLondon(list);
 
-            assertEquals(3, list.count);
+            assertEquals(3, list.getCount());
             assertNotNull(list.head);
             assertNotNull(list.tail);
             assertNull(list.tail.next);
@@ -333,22 +333,22 @@ public class ZipcodeLinkedListTest {
             ZipcodeLinkedList list = new ZipcodeLinkedList();
             ZipcodeLinkedListTestUtilities.insertNewYorkLondonMexicoTokyo(list);
 
-            assertEquals(4, list.count);
+            assertEquals(4, list.getCount());
             assertFalse(list.isEmpty());
             list.deleteNodeAtIndex(4);
-            assertEquals(3, list.count);
+            assertEquals(3, list.getCount());
             assertFalse(list.isEmpty());
 
             list.deleteNodeAtIndex(1);
-            assertEquals(2, list.count);
+            assertEquals(2, list.getCount());
             assertFalse(list.isEmpty());
 
             list.deleteNodeAtIndex(2);
-            assertEquals(1, list.count);
+            assertEquals(1, list.getCount());
             assertFalse(list.isEmpty());
 
             list.deleteNodeAtIndex(1);
-            assertEquals(0, list.count);
+            assertEquals(0, list.getCount());
             assertTrue(list.isEmpty());
         }
     }
@@ -415,19 +415,19 @@ public class ZipcodeLinkedListTest {
         public void deletingNodeByCityShouldDecreaseCountByOne() throws EmptyLinkedListException, ItemNotFoundException, EmptyStringException{
             ZipcodeLinkedList list = new ZipcodeLinkedList();
             ZipcodeLinkedListTestUtilities.insertTokyoTorontoLondon(list);
-            assertEquals(3, list.count);
+            assertEquals(3, list.getCount());
             assertFalse(list.isEmpty());
 
             list.deleteCity(CITY_TOKYO);
-            assertEquals(2, list.count);
+            assertEquals(2, list.getCount());
             assertFalse(list.isEmpty());
 
             list.deleteCity(CITY_TORONTO);
-            assertEquals(1, list.count);
+            assertEquals(1, list.getCount());
             assertFalse(list.isEmpty());
 
             list.deleteCity(CITY_LONDON);
-            assertEquals(0, list.count);
+            assertEquals(0, list.getCount());
             assertTrue(list.isEmpty());
         }
     }

@@ -196,14 +196,14 @@ public class HashTableExceptionsTest {
 
         @Test (expected = ItemNotFoundException.class)
         public void repeatedlyDeletingSameCityFromEmptySlotShouldThrowItemNotFoundException() throws EmptyStringException,
-                DuplicateItemException, EmptyHashTableException, ItemNotFoundException, EmptyLinkedListException{
+                DuplicateItemException, EmptyHashTableException, ItemNotFoundException, EmptyLinkedListException, HashTableUtilException {
             HashTable hashTable = HashTableTestUtilities.insertTokyoInHashTable();
             // Confirm that the city is there
             assertEquals(ZIPCODE_TOKYO, hashTable.search(CITY_TOKYO));
             // Delete the city
             hashTable.delete(CITY_TOKYO);
             // Confirm that the city is no longer in the hash table
-            int hashKey = hashTable.hashKeyOf(CITY_TOKYO);
+            int hashKey = HashTableTestUtilities.getHashKeyOf(CITY_TOKYO, hashTable);
             assertTrue(hashTable.hashTable[hashKey].isEmpty());
             // Try to delete the same city again (i.e. from the same slot)
             hashTable.delete(CITY_TOKYO);

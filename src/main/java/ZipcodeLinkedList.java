@@ -14,7 +14,7 @@ public class ZipcodeLinkedList {
 
     public Node head;
     public Node tail;
-    public int count;
+    private int count;
 
     static final String MESSAGE_EMPTY_LINKED_LIST = "There are no nodes in an empty linked list.";
     static final String MESSAGE_CANNOT_DELETE_EMPTY_LINKED_LIST = "Cannot delete an empty linked list.";
@@ -40,6 +40,13 @@ public class ZipcodeLinkedList {
      */
     public boolean isEmpty(){
         return head == null;
+    }
+
+    /**
+     * Get the value of the count field.
+     */
+    public int getCount(){
+        return count;
     }
 
     /**

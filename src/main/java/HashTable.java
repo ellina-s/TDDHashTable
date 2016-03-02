@@ -55,7 +55,7 @@ public class HashTable {
      * @param key an input string
      * @return an integer sum of ASCII values of all characters in the key
      */
-    public int convertToAscii(String key){
+    private int convertToAscii(String key){
         int keyIntegerEquivalent = 0;
         int length = key.length();
         for(int i = 0; i<length; i++){
@@ -97,7 +97,7 @@ public class HashTable {
      * @param key key of an item
      * @return hash key corresponding to the given key
      */
-    public int hashKeyOf(String key){
+    private int hashKeyOf(String key){
         return convertToAscii(key) % size;
     }
 
@@ -341,13 +341,28 @@ public class HashTable {
             System.out.println("Hash table is empty. Nothing to diplay.");
             return;
         }
+        showContentsOfOccupiedSlots();
+    }
+
+    /**
+     * Show contents of hash table's slots that are occupied.
+     */
+    private void showContentsOfOccupiedSlots(){
         System.out.println("--- START ---");
         for(int i = 0; i < size; i++){
-            if(slotIsNotEmptyAtIndex(i)){
-                System.out.println("\nSlot number: " + i);
-                hashTable[i].mutelyShowContentsOfTheLinkedList();
-            }
+            showSlotContentsIfNotEmpty(i);
         }
         System.out.println("--- END ---");
+    }
+
+    /**
+     * Show contents of a slot specified by the index, if the slot is not empty.
+     * @param index of the slot in a hash table
+     */
+    private void showSlotContentsIfNotEmpty(int index){
+        if(slotIsNotEmptyAtIndex(index)){
+            System.out.println("\nSlot number: " + index);
+            hashTable[index].mutelyShowContentsOfTheLinkedList();
+        }
     }
 }

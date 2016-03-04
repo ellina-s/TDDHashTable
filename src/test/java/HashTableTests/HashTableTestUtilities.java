@@ -4,6 +4,7 @@ import main.java.HashTable;
 import main.java.exceptions.hashtable.DuplicateItemException;
 import main.java.exceptions.linkedlist.EmptyStringException;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -126,6 +127,26 @@ public class HashTableTestUtilities {
         catch(HashTableUtilException e) {
             System.out.println(e);
             throw new HashTableUtilException("Failed to retrieve a hash key for city: " + city);
+        }
+    }
+
+    /**
+     * Retrieve a private field of the given instance through reflection.
+     * @param fieldName name of the private field to be retrieved
+     * @param instance a HashTable instance that contains the field
+     * @return an Object that contains the field
+     * @throws HashTableUtilException is thrown if failed to retrieve the field.
+     */
+    public static Object getReflectedField(String fieldName, HashTable instance) throws HashTableUtilException {
+        Class hashTableClass = instance.getClass();
+        try{
+            Field field = hashTableClass.getDeclaredField(fieldName);
+            field.setAccessible(true);
+            return field.get(instance);
+        }
+        catch(NoSuchFieldException | IllegalAccessException e){
+            System.out.println(e);
+            throw new HashTableUtilException("Failed to retrieve " + fieldName);
         }
     }
 }

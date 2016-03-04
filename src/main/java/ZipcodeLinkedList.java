@@ -16,11 +16,11 @@ public class ZipcodeLinkedList {
     public Node tail;
     private int count;
 
-    static final String MESSAGE_EMPTY_LINKED_LIST = "There are no nodes in an empty linked list.";
-    static final String MESSAGE_CANNOT_DELETE_EMPTY_LINKED_LIST = "Cannot delete an empty linked list.";
-    static final String MESSAGE_CANNOT_DELETE_NODE = "Cannot delete a node from an empty linked list.";
-    static final String MESSAGE_CANNOT_DISPLAY_NODE = "Cannot display a node from an empty linked list.";
-    static final String MESSAGE_NO_CITIES = "There are no cities in an empty linked list.";
+    private static final String MESSAGE_EMPTY_LINKED_LIST = "There are no nodes in an empty linked list.";
+    private static final String MESSAGE_CANNOT_DELETE_EMPTY_LINKED_LIST = "Cannot delete an empty linked list.";
+    private static final String MESSAGE_CANNOT_DELETE_NODE = "Cannot delete a node from an empty linked list.";
+    private static final String MESSAGE_CANNOT_DISPLAY_NODE = "Cannot display a node from an empty linked list.";
+    private static final String MESSAGE_NO_CITIES = "There are no cities in an empty linked list.";
 
     /**
      * Constructor
@@ -349,7 +349,7 @@ public class ZipcodeLinkedList {
      * @param targetNode a node to be deleted
      * @param previousNode a node prior to the target node
      */
-    public void deleteCorrespondingCityNode(Node targetNode, Node previousNode){
+    private void deleteCorrespondingCityNode(Node targetNode, Node previousNode){
         System.out.println("Deleting " + targetNode.key + " " + targetNode.value);
         previousNode.next = targetNode.next;
         decreaseCount();
@@ -507,7 +507,7 @@ public class ZipcodeLinkedList {
     /**
      * A class for a node of a linked list
      */
-    public class Node{
+    private class Node{
 
         public String key;
         public String value;

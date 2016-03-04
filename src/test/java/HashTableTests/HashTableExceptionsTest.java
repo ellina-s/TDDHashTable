@@ -1,6 +1,7 @@
 package test.java.HashTableTests;
 
 import main.java.HashTable;
+import main.java.ZipcodeLinkedList;
 import main.java.exceptions.hashtable.DuplicateItemException;
 import main.java.exceptions.hashtable.EmptyHashTableException;
 import main.java.exceptions.linkedlist.EmptyLinkedListException;
@@ -9,6 +10,8 @@ import main.java.exceptions.linkedlist.ItemNotFoundException;
 import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
+
+import java.lang.reflect.Field;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -204,7 +207,8 @@ public class HashTableExceptionsTest {
             hashTable.delete(CITY_TOKYO);
             // Confirm that the city is no longer in the hash table
             int hashKey = HashTableTestUtilities.getHashKeyOf(CITY_TOKYO, hashTable);
-            assertTrue(hashTable.hashTable[hashKey].isEmpty());
+            ZipcodeLinkedList[] hashTableSlotAt = (ZipcodeLinkedList[]) HashTableTestUtilities.getReflectedField("hashTable", hashTable);
+            assertTrue(hashTableSlotAt[hashKey].isEmpty());
             // Try to delete the same city again (i.e. from the same slot)
             hashTable.delete(CITY_TOKYO);
         }

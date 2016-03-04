@@ -11,9 +11,6 @@ import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
 import static org.junit.Assert.*;
 
 /**
@@ -37,8 +34,9 @@ public class HashTableTest {
     static final String ZIPCODE_SINGAPORE = "S573824";
     static final String CITY_MEXICO = "Mexico";
 
-    static final String CONVERT_TO_ASCII_METHOD_NAME = "convertToAscii";
-    static final String HASH_KEY_METHOD_NAME = "hashKeyOf";
+    private static final String CONVERT_TO_ASCII_METHOD_NAME = "convertToAscii";
+    private static final String HASH_KEY_METHOD_NAME = "hashKeyOf";
+    private static final String HASH_TABLE_SLOTS_FIELD_NAME = "hashTable";
 
     public static class NewHashTableTest {
 
@@ -89,9 +87,9 @@ public class HashTableTest {
                 InvalidIndexException,ItemNotFoundException, DuplicateItemException, HashTableUtilException {
             HashTable hashTable = new HashTable();
             hashTable.insert(CITY_ALMATY, ZIPCODE_ALMATY);
-            int hashKey = getHashKeyOfAlmaty(hashTable);
-            assertEquals(ZIPCODE_ALMATY, hashTable.hashTable[hashKey].getCityZipcode(CITY_ALMATY));
-            hashTable.hashTable[hashKey].showContentsOfTheLinkedList();
+            ZipcodeLinkedList hashTableSlot = getHashTableSlotFor(CITY_ALMATY, hashTable);
+            assertEquals(ZIPCODE_ALMATY, hashTableSlot.getCityZipcode(CITY_ALMATY));
+            hashTableSlot.showContentsOfTheLinkedList();
         }
 
         @Test
@@ -99,14 +97,17 @@ public class HashTableTest {
                 EmptyLinkedListException, ItemNotFoundException, DuplicateItemException, HashTableUtilException{
             HashTable hashTable = new HashTable();
             HashTableTestUtilities.insertTorontoAndAlmaty(hashTable);
-            // Get hash keys of colliding cities
-            int hashKeyOfAlmaty = getHashKeyOfAlmaty(hashTable);
-            int hashKeyOfToronto = getHashKeyOfToronto(hashTable);
-            // Check that their hash keys are the same
-            assertEquals(hashKeyOfAlmaty, hashKeyOfToronto);
+
+            // Check that the hash keys of these two colliding cities are the same
+            assertEquals(getHashKeyOfAlmaty(hashTable), getHashKeyOfToronto(hashTable));
+
+            // Get hash table slots of the cities
+            ZipcodeLinkedList almatyHashTableSlot = getHashTableSlotFor(CITY_ALMATY, hashTable);
+            ZipcodeLinkedList torontoHashTableSlot = getHashTableSlotFor(CITY_TORONTO, hashTable);
+
             // Check that both cities are inserted in the hash table
-            assertEquals(ZIPCODE_ALMATY, hashTable.hashTable[hashKeyOfAlmaty].getCityZipcode(CITY_ALMATY));
-            assertEquals(ZIPCODE_TORONTO, hashTable.hashTable[hashKeyOfToronto].getCityZipcode(CITY_TORONTO));
+            assertEquals(ZIPCODE_ALMATY, almatyHashTableSlot.getCityZipcode(CITY_ALMATY));
+            assertEquals(ZIPCODE_TORONTO, torontoHashTableSlot.getCityZipcode(CITY_TORONTO));
         }
 
         @Test
@@ -155,12 +156,13 @@ public class HashTableTest {
             HashTable hashTable = HashTableTestUtilities.insertTokyoInHashTable();
             // Confirm that the city is there
             assertEquals(ZIPCODE_TOKYO, hashTable.search(CITY_TOKYO));
-            int hashKey = getHashKeyOfTokyo(hashTable);
-            assertFalse(hashTable.hashTable[hashKey].isEmpty());
+
+            ZipcodeLinkedList tokyoSlot = getHashTableSlotFor(CITY_TOKYO, hashTable);
+            assertFalse(tokyoSlot.isEmpty());
             // Delete the city
             hashTable.delete(CITY_TOKYO);
             // Confirm that the city is no longer in the hash table
-            assertTrue(hashTable.hashTable[hashKey].isEmpty());
+            assertTrue(tokyoSlot.isEmpty());
         }
 
         @Test
@@ -175,8 +177,8 @@ public class HashTableTest {
             hashTable.delete(CITY_TORONTO);
             hashTable.delete(CITY_ALMATY);
             // Check that the hash table is empty now
-            int hashKeyAlmaty = getHashKeyOfAlmaty(hashTable);
-            assertTrue(hashTable.hashTable[hashKeyAlmaty].isEmpty());
+            ZipcodeLinkedList almatySlot = getHashTableSlotFor(CITY_ALMATY, hashTable);
+            assertTrue(almatySlot.isEmpty());
         }
 
         @Test
@@ -298,5 +300,17 @@ public class HashTableTest {
 
     private static int getHashKeyOfTokyo(HashTable instance) throws HashTableUtilException {
         return HashTableTestUtilities.getHashKeyOf(CITY_TOKYO, instance);
+    }
+
+    /* Get underlying hash table slots for the given instance */
+    private static ZipcodeLinkedList[] getHashTableSlots(HashTable instance) throws HashTableUtilException {
+        return (ZipcodeLinkedList[]) HashTableTestUtilities.getReflectedField(HASH_TABLE_SLOTS_FIELD_NAME, instance);
+    }
+
+    /* Get a hash table slot for the given city in the given hash table instance */
+    private static ZipcodeLinkedList getHashTableSlotFor(String city, HashTable instance) throws HashTableUtilException {
+        int hashKey = HashTableTestUtilities.getHashKeyOf(city, instance);
+        ZipcodeLinkedList[] hashTableSlots = getHashTableSlots(instance);
+        return hashTableSlots[hashKey];
     }
 }

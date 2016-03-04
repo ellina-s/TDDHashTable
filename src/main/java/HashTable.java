@@ -15,7 +15,7 @@ public class HashTable {
 
     private int size;
     private boolean isEmpty;
-    public ZipcodeLinkedList[] hashTable;
+    private ZipcodeLinkedList[] hashTable;
 
     private static final int NUM_SLOTS = 47;
 

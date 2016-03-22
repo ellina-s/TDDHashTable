@@ -23,11 +23,4 @@ The project uses and implements hash tables and chaining (with linked lists) as 
 				- ItemNotFoundException.java
 				- LinkedListException.java
 	- **/test/java**
-		- **/HashTableTests**
-			- HashTableExceptionsTest.java - units tests for exceptions thrown by the HashTable methods
-			- HashTableTest.java - unit tests for the rest of the HashTable class
-			- HashTableTestUtilities.java - helper methods for the HashTable unit tests
-		- **/ZipcodeLinkedListTests**
-			- ZipcodeLinkedListExceptionsTest.java - unit tests for exceptions thrown by the ZipcodeLinkedList class
-			- ZipcodeLinkedListTest.java - unit tests for ZipcodeLinkedList methods
-			- ZipcodeLinkedListTestUtilities.java - helper methods used by the ZipcodeLinkedList unit tests
+		- See the README file in the /test/java directory.

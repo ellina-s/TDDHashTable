@@ -145,13 +145,13 @@ public class ZipcodeLinkedListTest {
 
             assertNotNull(list.head);
             assertNotNull(list.tail);
-            assertNull(list.head.next);
-            assertNull(list.tail.next);
+            assertNull(list.head.getNext());
+            assertNull(list.tail.getNext());
 
-            assertEquals(CITY_MEXICO, list.head.key);
-            assertEquals(ZIPCODE_MEXICO, list.head.value);
-            assertEquals(CITY_MEXICO, list.tail.key);
-            assertEquals(ZIPCODE_MEXICO, list.tail.value);
+            assertEquals(CITY_MEXICO, list.head.getKey());
+            assertEquals(ZIPCODE_MEXICO, list.head.getValue());
+            assertEquals(CITY_MEXICO, list.tail.getKey());
+            assertEquals(ZIPCODE_MEXICO, list.tail.getValue());
             assertEquals(1, list.getCount());
         }
 
@@ -163,13 +163,13 @@ public class ZipcodeLinkedListTest {
             assertEquals(2, list.getCount());
             assertNotNull(list.head);
             assertNotNull(list.tail);
-            assertNull(list.tail.next);
-            assertNull(list.head.next.next);
+            assertNull(list.tail.getNext());
+            assertNull(list.head.getNext().getNext());
 
-            assertEquals(CITY_TOKYO, list.head.key);
-            assertEquals(ZIPCODE_TOKYO, list.head.value);
-            assertEquals(CITY_LONDON, list.tail.key);
-            assertEquals(ZIPCODE_LONDON, list.tail.value);
+            assertEquals(CITY_TOKYO, list.head.getKey());
+            assertEquals(ZIPCODE_TOKYO, list.head.getValue());
+            assertEquals(CITY_LONDON, list.tail.getKey());
+            assertEquals(ZIPCODE_LONDON, list.tail.getValue());
         }
 
         @Test
@@ -180,15 +180,15 @@ public class ZipcodeLinkedListTest {
             assertEquals(3, list.getCount());
             assertNotNull(list.head);
             assertNotNull(list.tail);
-            assertNull(list.tail.next);
-            assertNull(list.head.next.next.next);
+            assertNull(list.tail.getNext());
+            assertNull(list.head.getNext().getNext().getNext());
 
-            assertEquals(CITY_TOKYO, list.head.key);
-            assertEquals(ZIPCODE_TOKYO, list.head.value);
-            assertEquals(CITY_NEWYORK, list.head.next.key);
-            assertEquals(ZIPCODE_NEWYORK, list.head.next.value);
-            assertEquals(CITY_LONDON, list.tail.key);
-            assertEquals(ZIPCODE_LONDON, list.tail.value);
+            assertEquals(CITY_TOKYO, list.head.getKey());
+            assertEquals(ZIPCODE_TOKYO, list.head.getValue());
+            assertEquals(CITY_NEWYORK, list.head.getNext().getKey());
+            assertEquals(ZIPCODE_NEWYORK, list.head.getNext().getValue());
+            assertEquals(CITY_LONDON, list.tail.getKey());
+            assertEquals(ZIPCODE_LONDON, list.tail.getValue());
         }
     }
 
@@ -221,8 +221,8 @@ public class ZipcodeLinkedListTest {
             ZipcodeLinkedList list = new ZipcodeLinkedList();
             list.addNode(CITY_TOKYO, ZIPCODE_TOKYO);
             DataNode retrievedHead = list.getNodeAtIndex(1);
-            assertEquals(list.head.key, retrievedHead.getKey());
-            assertEquals(list.head.value, retrievedHead.getValue());
+            assertEquals(list.head.getKey(), retrievedHead.getKey());
+            assertEquals(list.head.getValue(), retrievedHead.getValue());
         }
 
         @Test
@@ -230,8 +230,8 @@ public class ZipcodeLinkedListTest {
             ZipcodeLinkedList list = new ZipcodeLinkedList();
             ZipcodeLinkedListTestUtilities.insertTokyoLondon(list);
             DataNode retrievedTail = list.getNodeAtIndex(2);
-            assertEquals(list.tail.key, retrievedTail.getKey());
-            assertEquals(list.tail.value, retrievedTail.getValue());
+            assertEquals(list.tail.getKey(), retrievedTail.getKey());
+            assertEquals(list.tail.getValue(), retrievedTail.getValue());
         }
 
         @Test
@@ -239,8 +239,8 @@ public class ZipcodeLinkedListTest {
             ZipcodeLinkedList list = new ZipcodeLinkedList();
             list.addNode(CITY_LONDON, ZIPCODE_LONDON);
             DataNode retrievedTail = list.getNodeAtIndex(1);
-            assertEquals(list.tail.key, retrievedTail.getKey());
-            assertEquals(list.tail.value, retrievedTail.getValue());
+            assertEquals(list.tail.getKey(), retrievedTail.getKey());
+            assertEquals(list.tail.getValue(), retrievedTail.getValue());
         }
 
         @Test
@@ -259,17 +259,17 @@ public class ZipcodeLinkedListTest {
         public void deletingHeadNodeShouldUpdateHead() throws EmptyLinkedListException, InvalidIndexException, EmptyStringException{
             ZipcodeLinkedList list = new ZipcodeLinkedList();
             ZipcodeLinkedListTestUtilities.insertNewYorkLondonMexicoTokyo(list);
-            assertEquals(CITY_NEWYORK, list.head.key);
-            assertEquals(ZIPCODE_NEWYORK, list.head.value);
+            assertEquals(CITY_NEWYORK, list.head.getKey());
+            assertEquals(ZIPCODE_NEWYORK, list.head.getValue());
             list.deleteNodeAtIndex(1); // delete New York
-            assertEquals(CITY_LONDON, list.head.key);
-            assertEquals(ZIPCODE_LONDON, list.head.value);
+            assertEquals(CITY_LONDON, list.head.getKey());
+            assertEquals(ZIPCODE_LONDON, list.head.getValue());
             list.deleteNodeAtIndex(1); // delete London
-            assertEquals(CITY_MEXICO, list.head.key);
-            assertEquals(ZIPCODE_MEXICO, list.head.value);
+            assertEquals(CITY_MEXICO, list.head.getKey());
+            assertEquals(ZIPCODE_MEXICO, list.head.getValue());
             list.deleteNodeAtIndex(1); // delete Mexico
-            assertEquals(CITY_TOKYO, list.head.key);
-            assertEquals(ZIPCODE_TOKYO, list.head.value);
+            assertEquals(CITY_TOKYO, list.head.getKey());
+            assertEquals(ZIPCODE_TOKYO, list.head.getValue());
             list.deleteNodeAtIndex(1); // delete Tokyo
             assertNull(list.head);
         }
@@ -278,54 +278,54 @@ public class ZipcodeLinkedListTest {
         public void deletingANodeBetweenOtherNodesShouldMaintainNodesOrder() throws EmptyLinkedListException, InvalidIndexException, EmptyStringException{
             ZipcodeLinkedList list = new ZipcodeLinkedList();
             ZipcodeLinkedListTestUtilities.insertNewYorkLondonMexicoTokyo(list);
-            assertEquals(CITY_LONDON, list.head.next.key);
-            assertEquals(ZIPCODE_LONDON, list.head.next.value);
+            assertEquals(CITY_LONDON, list.head.getNext().getKey());
+            assertEquals(ZIPCODE_LONDON, list.head.getNext().getValue());
 
             list.deleteNodeAtIndex(2); // Delete London
-            assertEquals(CITY_NEWYORK, list.head.key);
-            assertEquals(ZIPCODE_NEWYORK, list.head.value);
-            assertEquals(CITY_MEXICO, list.head.next.key);
-            assertEquals(ZIPCODE_MEXICO, list.head.next.value);
-            assertEquals(CITY_TOKYO, list.head.next.next.key);
-            assertEquals(ZIPCODE_TOKYO, list.head.next.next.value);
-            assertEquals(CITY_TOKYO, list.tail.key);
-            assertEquals(ZIPCODE_TOKYO, list.tail.value);
+            assertEquals(CITY_NEWYORK, list.head.getKey());
+            assertEquals(ZIPCODE_NEWYORK, list.head.getValue());
+            assertEquals(CITY_MEXICO, list.head.getNext().getKey());
+            assertEquals(ZIPCODE_MEXICO, list.head.getNext().getValue());
+            assertEquals(CITY_TOKYO, list.head.getNext().getNext().getKey());
+            assertEquals(ZIPCODE_TOKYO, list.head.getNext().getNext().getValue());
+            assertEquals(CITY_TOKYO, list.tail.getKey());
+            assertEquals(ZIPCODE_TOKYO, list.tail.getValue());
 
             list.deleteNodeAtIndex(2); // Delete Mexico
-            assertEquals(CITY_NEWYORK, list.head.key);
-            assertEquals(ZIPCODE_NEWYORK, list.head.value);
-            assertEquals(CITY_TOKYO, list.head.next.key);
-            assertEquals(ZIPCODE_TOKYO, list.head.next.value);
-            assertEquals(CITY_TOKYO, list.tail.key);
-            assertEquals(ZIPCODE_TOKYO, list.tail.value);
+            assertEquals(CITY_NEWYORK, list.head.getKey());
+            assertEquals(ZIPCODE_NEWYORK, list.head.getValue());
+            assertEquals(CITY_TOKYO, list.head.getNext().getKey());
+            assertEquals(ZIPCODE_TOKYO, list.head.getNext().getValue());
+            assertEquals(CITY_TOKYO, list.tail.getKey());
+            assertEquals(ZIPCODE_TOKYO, list.tail.getValue());
 
             list.deleteNodeAtIndex(2); // Delete Tokyo
-            assertEquals(CITY_NEWYORK, list.head.key);
-            assertEquals(ZIPCODE_NEWYORK, list.head.value);
-            assertEquals(CITY_NEWYORK, list.tail.key);
-            assertEquals(ZIPCODE_NEWYORK, list.tail.value);
-            assertNull(list.head.next);
+            assertEquals(CITY_NEWYORK, list.head.getKey());
+            assertEquals(ZIPCODE_NEWYORK, list.head.getValue());
+            assertEquals(CITY_NEWYORK, list.tail.getKey());
+            assertEquals(ZIPCODE_NEWYORK, list.tail.getValue());
+            assertNull(list.head.getNext());
         }
 
         @Test
         public void deletingTailShouldRemapTail() throws EmptyLinkedListException, InvalidIndexException, EmptyStringException{
             ZipcodeLinkedList list = new ZipcodeLinkedList();
             ZipcodeLinkedListTestUtilities.insertTokyoNewYorkLondon(list);
-            assertEquals(CITY_LONDON, list.tail.key);
-            assertEquals(ZIPCODE_LONDON, list.tail.value);
+            assertEquals(CITY_LONDON, list.tail.getKey());
+            assertEquals(ZIPCODE_LONDON, list.tail.getValue());
 
             list.deleteNodeAtIndex(3); // Delete London
-            assertEquals(CITY_TOKYO, list.head.key);
-            assertEquals(ZIPCODE_TOKYO, list.head.value);
-            assertEquals(CITY_NEWYORK, list.tail.key);
-            assertEquals(ZIPCODE_NEWYORK, list.tail.value);
+            assertEquals(CITY_TOKYO, list.head.getKey());
+            assertEquals(ZIPCODE_TOKYO, list.head.getValue());
+            assertEquals(CITY_NEWYORK, list.tail.getKey());
+            assertEquals(ZIPCODE_NEWYORK, list.tail.getValue());
 
             list.deleteNodeAtIndex(2); // Delete New York
-            assertEquals(CITY_TOKYO, list.head.key);
-            assertEquals(ZIPCODE_TOKYO, list.head.value);
-            assertNull(list.head.next);
-            assertEquals(CITY_TOKYO, list.tail.key);
-            assertEquals(ZIPCODE_TOKYO, list.tail.value);
+            assertEquals(CITY_TOKYO, list.head.getKey());
+            assertEquals(ZIPCODE_TOKYO, list.head.getValue());
+            assertNull(list.head.getNext());
+            assertEquals(CITY_TOKYO, list.tail.getKey());
+            assertEquals(ZIPCODE_TOKYO, list.tail.getValue());
         }
 
         @Test
@@ -360,11 +360,11 @@ public class ZipcodeLinkedListTest {
             ZipcodeLinkedList list = new ZipcodeLinkedList();
             ZipcodeLinkedListTestUtilities.insertTokyoTorontoLondon(list);
             list.deleteCity(CITY_TOKYO);
-            assertEquals(CITY_TORONTO, list.head.key);
-            assertEquals(ZIPCODE_TORONTO, list.head.value);
+            assertEquals(CITY_TORONTO, list.head.getKey());
+            assertEquals(ZIPCODE_TORONTO, list.head.getValue());
             list.deleteCity(CITY_TORONTO);
-            assertEquals(CITY_LONDON, list.head.key);
-            assertEquals(ZIPCODE_LONDON, list.head.value);
+            assertEquals(CITY_LONDON, list.head.getKey());
+            assertEquals(ZIPCODE_LONDON, list.head.getValue());
         }
 
         @Test
@@ -373,15 +373,15 @@ public class ZipcodeLinkedListTest {
             ZipcodeLinkedListTestUtilities.insertTokyoTorontoLondon(list);
 
             list.deleteCity(CITY_TORONTO);
-            assertEquals(CITY_TOKYO, list.head.key);
-            assertEquals(ZIPCODE_TOKYO, list.head.value);
-            assertEquals(CITY_LONDON, list.head.next.key);
-            assertEquals(ZIPCODE_LONDON, list.head.next.value);
+            assertEquals(CITY_TOKYO, list.head.getKey());
+            assertEquals(ZIPCODE_TOKYO, list.head.getValue());
+            assertEquals(CITY_LONDON, list.head.getNext().getKey());
+            assertEquals(ZIPCODE_LONDON, list.head.getNext().getValue());
 
             list.deleteCity(CITY_LONDON);
-            assertEquals(CITY_TOKYO, list.head.key);
-            assertEquals(ZIPCODE_TOKYO, list.head.value);
-            assertNull(list.head.next);
+            assertEquals(CITY_TOKYO, list.head.getKey());
+            assertEquals(ZIPCODE_TOKYO, list.head.getValue());
+            assertNull(list.head.getNext());
 
             list.deleteCity(CITY_TOKYO);
             assertNull(list.head);
@@ -392,23 +392,23 @@ public class ZipcodeLinkedListTest {
             ZipcodeLinkedList list = new ZipcodeLinkedList();
             ZipcodeLinkedListTestUtilities.insertTokyoTorontoLondon(list);
 
-            assertEquals(CITY_LONDON, list.tail.key);
-            assertEquals(ZIPCODE_LONDON, list.tail.value);
+            assertEquals(CITY_LONDON, list.tail.getKey());
+            assertEquals(ZIPCODE_LONDON, list.tail.getValue());
 
             list.deleteCity(CITY_LONDON);
-            assertEquals(CITY_TORONTO, list.tail.key);
-            assertEquals(ZIPCODE_TORONTO, list.tail.value);
-            assertNull(list.tail.next);
-            assertEquals(CITY_TORONTO, list.head.next.key);
-            assertEquals(ZIPCODE_TORONTO, list.head.next.value);
+            assertEquals(CITY_TORONTO, list.tail.getKey());
+            assertEquals(ZIPCODE_TORONTO, list.tail.getValue());
+            assertNull(list.tail.getNext());
+            assertEquals(CITY_TORONTO, list.head.getNext().getKey());
+            assertEquals(ZIPCODE_TORONTO, list.head.getNext().getValue());
 
             list.deleteCity(CITY_TORONTO);
-            assertEquals(CITY_TOKYO, list.tail.key);
-            assertEquals(ZIPCODE_TOKYO, list.tail.value);
-            assertNull(list.tail.next);
-            assertNull(list.head.next);
-            assertEquals(CITY_TOKYO, list.head.key);
-            assertEquals(ZIPCODE_TOKYO, list.head.value);
+            assertEquals(CITY_TOKYO, list.tail.getKey());
+            assertEquals(ZIPCODE_TOKYO, list.tail.getValue());
+            assertNull(list.tail.getNext());
+            assertNull(list.head.getNext());
+            assertEquals(CITY_TOKYO, list.head.getKey());
+            assertEquals(ZIPCODE_TOKYO, list.head.getValue());
         }
 
         @Test

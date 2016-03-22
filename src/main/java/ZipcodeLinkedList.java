@@ -505,13 +505,13 @@ public class ZipcodeLinkedList {
     }
 
     /**
-     * A class for a node of a linked list
+     * A class for a linked list's node
      */
-    private class Node{
+    public class Node{
 
-        public String key;
-        public String value;
-        public Node next;
+        private String key;
+        private String value;
+        private Node next;
 
         /**
          * Constructor for the Node
@@ -520,6 +520,18 @@ public class ZipcodeLinkedList {
             this.key = key;
             this.value = value;
             this.next = next;
+        }
+
+        public String getKey() {
+            return key;
+        }
+
+        public String getValue() {
+            return value;
+        }
+
+        public Node getNext() {
+            return next;
         }
     }
 }

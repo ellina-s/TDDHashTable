@@ -83,7 +83,6 @@ public class HashTableTestUtilities {
             return method.invoke(instance, callParameters);
         }
         catch(IllegalAccessException | InvocationTargetException e) {
-            System.out.println(e);
             throw new HashTableUtilException("Failed to execute " + methodName);
         }
     }
@@ -107,7 +106,6 @@ public class HashTableTestUtilities {
             return hashTableClass.getDeclaredMethod(methodName, methodParameter);
         }
         catch(NoSuchMethodException e){
-            System.out.println(e);
             throw new HashTableUtilException("Failed to reflect " + methodName);
         }
     }
@@ -125,7 +123,6 @@ public class HashTableTestUtilities {
             return hashValue.intValue();
         }
         catch(HashTableUtilException e) {
-            System.out.println(e);
             throw new HashTableUtilException("Failed to retrieve a hash key for city: " + city);
         }
     }
@@ -145,7 +142,6 @@ public class HashTableTestUtilities {
             return field.get(instance);
         }
         catch(NoSuchFieldException | IllegalAccessException e){
-            System.out.println(e);
             throw new HashTableUtilException("Failed to retrieve " + fieldName);
         }
     }

@@ -135,8 +135,8 @@ public class HashTableExceptionsTest {
             hashTable.search(null);
         }
 
-        @Test (expected = ItemNotFoundException.class)
-        public void searchingForDeletedItemShouldNotFindThatItem() throws EmptyStringException, DuplicateItemException,
+        @Test (expected = EmptyHashTableException.class)
+        public void searchingForDeletedItemShouldFail() throws EmptyStringException, DuplicateItemException,
                 EmptyHashTableException, ItemNotFoundException, EmptyLinkedListException{
             HashTable hashTable = HashTableTestUtilities.insertTokyoInHashTable();
             // Confirm that the city is there
@@ -197,8 +197,8 @@ public class HashTableExceptionsTest {
             assertEquals(ZIPCODE_TORONTO, hashTable.search(CITY_TORONTO));
         }
 
-        @Test (expected = ItemNotFoundException.class)
-        public void repeatedlyDeletingSameCityFromEmptySlotShouldThrowItemNotFoundException() throws EmptyStringException,
+        @Test (expected = EmptyHashTableException.class)
+        public void repeatedlyDeletingSameCityFromEmptySlotShouldFail() throws EmptyStringException,
                 DuplicateItemException, EmptyHashTableException, ItemNotFoundException, EmptyLinkedListException, HashTableUtilException {
             HashTable hashTable = HashTableTestUtilities.insertTokyoInHashTable();
             // Confirm that the city is there
@@ -225,8 +225,8 @@ public class HashTableExceptionsTest {
             hashTable.delete(CITY_TORONTO);
         }
 
-        @Test (expected = ItemNotFoundException.class)
-        public void deletingCollidingCityFromEmptySlotShouldThrowItemNotFoundException() throws EmptyStringException,
+        @Test (expected = EmptyHashTableException.class)
+        public void deletingCollidingCityFromEmptiedSlotShouldFail() throws EmptyStringException,
                 DuplicateItemException, EmptyHashTableException, ItemNotFoundException, EmptyLinkedListException{
             HashTable hashTable = new HashTable();
             // Add a city
@@ -238,7 +238,7 @@ public class HashTableExceptionsTest {
         }
 
         @Test (expected = ItemNotFoundException.class)
-        public void deletingNonExistingCollidingItemFromNonEmptySlotShouldThrowException() throws EmptyStringException,
+        public void deletingNonExistingCollidingItemFromNonEmptySlotShouldFail() throws EmptyStringException,
                 DuplicateItemException, EmptyHashTableException, ItemNotFoundException, EmptyLinkedListException{
             HashTable hashTable = new HashTable();
             // Add a city

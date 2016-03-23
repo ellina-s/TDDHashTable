@@ -37,6 +37,8 @@ public class HashTableTest {
     private static final String CONVERT_TO_ASCII_METHOD_NAME = "convertToAscii";
     private static final String HASH_KEY_METHOD_NAME = "hashKeyOf";
     private static final String HASH_TABLE_SLOTS_FIELD_NAME = "hashTable";
+    private static final String DUMMY_METHOD_NAME = "dummyMethodName";
+    private static final String DUMMY_FIELD_NAME = "dummyFieldName";
 
     public static class NewHashTableTest {
 
@@ -286,6 +288,34 @@ public class HashTableTest {
             HashTable hashTable = new HashTable();
             hashTable.showContents();
         }
+    }
+
+    public static class UtilitiesTest {
+
+        @Test (expected = HashTableUtilException.class)
+        public void executingInvalidMethodNameShouldFail() throws HashTableUtilException {
+            HashTable hashTable = new HashTable();
+            Integer asciiValue = (Integer) HashTableTestUtilities.execute(DUMMY_METHOD_NAME, CITY_MEXICO, hashTable);
+            int asciiEquivalentOfMexico = HashTableTestUtilities.getAsciiEquivalentOfMexico();
+            assertEquals(asciiEquivalentOfMexico, asciiValue.intValue());
+        }
+
+        @Test
+        public void reflectingValidFieldNameShouldWork() throws HashTableUtilException {
+            HashTable hashTable = new HashTable();
+            ZipcodeLinkedList[] hashTableSlots = (ZipcodeLinkedList[]) HashTableTestUtilities.getReflectedField(HASH_TABLE_SLOTS_FIELD_NAME, hashTable);
+            int tokyoHashKey = getHashKeyOfTokyo(hashTable);
+            assertNull(hashTableSlots[tokyoHashKey]);
+        }
+
+        @Test (expected = HashTableUtilException.class)
+        public void reflectingInvalidFieldNameShouldFail() throws HashTableUtilException {
+            HashTable hashTable = new HashTable();
+            ZipcodeLinkedList[] hashTableSlots = (ZipcodeLinkedList[]) HashTableTestUtilities.getReflectedField(DUMMY_FIELD_NAME, hashTable);
+            int tokyoHashKey = getHashKeyOfTokyo(hashTable);
+            assertNull(hashTableSlots[tokyoHashKey]);
+        }
+
     }
 
     /* Helper methods to get hash keys of cities. */

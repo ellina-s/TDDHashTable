@@ -9,5 +9,6 @@ public class HashTableUtilException extends Exception {
 
     public HashTableUtilException(String message){
         super(message);
+        System.out.println(message);
     }
 }

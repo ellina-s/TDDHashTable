@@ -123,8 +123,8 @@ public class HashTable {
      */
     private void validateFurtherActionIsPossible(String city) throws EmptyHashTableException, EmptyStringException, ItemNotFoundException{
         validateCityArgument(city);
-        validateHashTableIsNotEmpty();
-        validateCityExistsInHashTable(city, hashKeyOf(city));
+        validateHashTableIsNotEmpty(city);
+        validateCitySlotWasInUse(city, hashKeyOf(city));
     }
 
     /**
@@ -266,9 +266,9 @@ public class HashTable {
      * A helper method to check if the hash table is not empty.
      * @throws EmptyHashTableException is thrown if the hash table is empty.
      */
-    private void validateHashTableIsNotEmpty() throws EmptyHashTableException{
-        if(isEmpty){
-            throw new EmptyHashTableException("There are no items in an empty hash table.");
+    private void validateHashTableIsNotEmpty(String city) throws EmptyHashTableException{
+        if(isEmpty()){
+            throw new EmptyHashTableException(city + " is not found in the empty hash table.");
         }
     }
 
@@ -289,10 +289,11 @@ public class HashTable {
     }
 
     /**
-     * Validate that the city at the given hash key exists in the hash table.
+     * Validate that the city slot at the given hash key was ever in use in the hash table
+     * either by the given city or cities colliding with it.
      * @throws ItemNotFoundException is thrown if the city is not found.
      */
-    private void validateCityExistsInHashTable(String city, int hashKey) throws ItemNotFoundException{
+    private void validateCitySlotWasInUse(String city, int hashKey) throws ItemNotFoundException{
         if(slotHasBeenNeverUsedAtHashKey(hashKey)){
             throw new ItemNotFoundException(city + " is not found.");
         }
@@ -309,7 +310,6 @@ public class HashTable {
             hashTable[hashKeyOf(city)].deleteCity(city);
         }
         catch(ItemNotFoundException | EmptyLinkedListException e){
-            System.out.println("HashTable caught " + e);
             throw new ItemNotFoundException(city + " is not found and cannot be deleted.");
         }
     }
